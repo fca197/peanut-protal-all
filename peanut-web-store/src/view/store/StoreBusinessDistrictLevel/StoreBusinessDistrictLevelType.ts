@@ -18,5 +18,5 @@ export interface StoreBusinessDistrictLevel {
 }
 
 export function queryLevelList(){
-  return postResultInfoList("/storeBusinessDistrictLevel/queryPageList",{})
+  return postResultInfoList("/storeBusinessDistrictLevel/queryList",{})
 }

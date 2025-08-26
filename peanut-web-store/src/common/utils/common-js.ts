@@ -87,6 +87,17 @@ export function postResultInfoList(url: string, data: any): Promise<any []> {
   })
 }
 
+export function postResultInfoListV2(url: string, data: any, targerData: any): Promise<any []> {
+  return request<Result<ResultPageInfo<any>>>({
+    url,
+    method: "post",
+    data
+  }).then((r) => {
+    // console.info("postResultInfoList ", url, data, r)
+    targerData.value = r.data.dataList
+  })
+}
+
 // 下载文件
 export async function downloadFilePost(reqUrl: string, reqData: any, saveFileName: string): Promise<void> {
   try {

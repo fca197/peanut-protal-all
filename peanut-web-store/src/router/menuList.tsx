@@ -36,16 +36,16 @@ const allMenuList: RouteRecordRaw[] = [
     component: Layouts,
     name: "商区配置管理",
     meta: {
-      title: "商区管理",
+      title: "商圈管理",
       elIcon: "Crop"
     },
     children: [
       {
-        name: "商区管理",
+        name: "商圈管理",
         path: "/StoreBusinessDistrict",
         component: () => import("@v/store/StoreBusinessDistrict/StoreBusinessDistrictIndex.vue"),
         meta: {
-          title: "商区管理",
+          title: "商圈管理",
           elIcon: "Crop"
         }
       },

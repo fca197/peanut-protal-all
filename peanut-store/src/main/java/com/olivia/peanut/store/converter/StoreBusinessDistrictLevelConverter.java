@@ -21,5 +21,7 @@ public interface StoreBusinessDistrictLevelConverter {
   List<StoreBusinessDistrictLevelExportQueryPageListInfoRes> queryPageListRes(List<StoreBusinessDistrictLevel> list);
 
   List<StoreBusinessDistrictLevel> importReq(List<StoreBusinessDistrictLevelImportReq> reqList);
+
+  StoreBusinessDistrictLevelDto entityToDto(StoreBusinessDistrictLevel entity);
 }
 

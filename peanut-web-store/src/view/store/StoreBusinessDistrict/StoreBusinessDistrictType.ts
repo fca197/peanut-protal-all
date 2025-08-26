@@ -13,7 +13,7 @@ export interface StoreBusinessDistrict {
   provinceName?: string | undefined
   cityName?: string | undefined
   areaName?: string | undefined
-  businessDistrictRadius?: string | undefined
+  businessDistrictRadius?: string | undefined | any
   businessDistrictLevelId?: string | undefined
   businessDistrictTypeId?: string | undefined
   centerLat?: string | undefined

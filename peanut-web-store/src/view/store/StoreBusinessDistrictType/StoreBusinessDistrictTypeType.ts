@@ -1,3 +1,5 @@
+import {postResultInfoListV2} from "@@/utils/common-js.ts";
+
 export interface StoreBusinessDistrictType {
   id?: string | undefined
   businessDistrictTypeName?: string | undefined
@@ -13,4 +15,8 @@ export interface StoreBusinessDistrictType {
   tenantId?: string | undefined
   createUserName?: string | undefined
   updateUserName?: string | undefined
+}
+
+export function queryStoreBusinessDistrictTypeList(targerData: any): Promise<any []> {
+  return postResultInfoListV2("/storeBusinessDistrictType/queryList", {}, targerData)
 }

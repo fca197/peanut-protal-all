@@ -5,6 +5,7 @@ import {getById, pinyin4jSzmV4, postNoResult} from "@/common/utils/common-js.ts"
 import {type FormInstance, FormRules} from "element-plus"
 import {queryBrandList, TBrand} from "@v/base/TBrand/TBrandType.ts";
 import {queryLevelList, StoreBusinessDistrictLevel} from "@v/store/StoreBusinessDistrictLevel/StoreBusinessDistrictLevelType.ts";
+import {queryStoreBusinessDistrictTypeList, StoreBusinessDistrictType} from "@v/store/StoreBusinessDistrictType/StoreBusinessDistrictTypeType.ts";
 
 const props = defineProps({
   saveFun: {
@@ -37,60 +38,14 @@ const checkRules = ref<FormRules>({
     {required: true, message: "请输入名称", trigger: "blur"},
     {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
   ],
-  // 描述
-  businessDistrictDesc: [
-    {required: true, message: "请输入描述", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
   // 地址
   businessDistrictAddress: [
     {required: true, message: "请输入地址", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 国家编码
-  countryCode: [
-    {required: true, message: "请输入国家编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  provinceCode: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  cityCode: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  areaCode: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 国家编码
-  countryName: [
-    {required: true, message: "请输入国家编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  provinceName: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  cityName: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  areaName: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
+    {min: 2, max: 200, message: "长度在 2 到 200 个字符", trigger: "blur"}
   ],
   // 半径
   businessDistrictRadius: [
     {required: true, message: "请输入半径", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
   ],
   // 商圈级别
   businessDistrictLevelId: [
@@ -101,18 +56,7 @@ const checkRules = ref<FormRules>({
   businessDistrictTypeId: [
     {required: true, message: "请输入商圈类别", trigger: "blur"},
     {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 纬度
-  centerLat: [
-    {required: true, message: "请输入纬度", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 经度
-  centerLng: [
-    {required: true, message: "请输入经度", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-
+  ]
 })
 
 
@@ -131,7 +75,7 @@ const addForm = ref<StoreBusinessDistrict>({
   provinceName: "",
   cityName: "",
   areaName: "",
-  businessDistrictRadius: "",
+  businessDistrictRadius: 0,
   businessDistrictLevelId: "",
   businessDistrictTypeId: "",
   centerLat: "",
@@ -140,6 +84,7 @@ const addForm = ref<StoreBusinessDistrict>({
 })
 
 const loadById = () => {
+  loadMap();
   if (!props.editId) {
     loadEntity.value = false
     return
@@ -149,6 +94,8 @@ const loadById = () => {
     addForm.value = t
     console.info(" addForm.value ", addForm.value)
     loadEntity.value = false
+    mapInstance.value.setCenter([addForm.value.centerLng, addForm.value.centerLat])
+    drawCircle()
   })
 }
 
@@ -188,26 +135,35 @@ const loadSzm = () => {
 }
 const mapCircle = ref(null)
 const mapInstance = ref(null)
+const nearPoiList = ref([])
+watch(() => addForm.value.businessDistrictLevelId, (n) => drawCircle())
 
-const drawCircle = ()=>{
-  const n =addForm.value.businessDistrictRadius
+const drawCircle = () => {
+  const n = addForm.value.businessDistrictRadius
   if (n) {
     if (mapCircle.value != null) {
       mapInstance.value.remove(mapCircle.value)
     }
+    let fillColor = "#1791fc";
+    if (addForm.value.businessDistrictLevelId) {
+      levelList.value.filter(t => t.id == addForm.value.businessDistrictLevelId)
+      .forEach((v, i) => {
+        fillColor = v.businessDistrictLevelColor
+      })
+    }
     mapCircle.value = new AMap.Circle({
       center: [addForm.value.centerLng, addForm.value.centerLat],
       radius: n, //半径
-      borderWeight: 3,
+      borderWeight: 2,
       strokeColor: "#FF33FF",
       strokeOpacity: 1,
-      strokeWeight: 6,
+      strokeWeight: 4,
       strokeOpacity: 0.2,
       fillOpacity: 0.4,
       strokeStyle: 'dashed',
       strokeDasharray: [10, 10],
       // 线样式还支持 'dashed'
-      fillColor: '#1791fc',
+      fillColor: fillColor,
       zIndex: 50,
     })
     mapInstance.value.add(mapCircle.value)
@@ -235,15 +191,17 @@ const loadMap = () => {
     });
     mapInstance.value = map;
     positionPicker.on("success", function (positionResult) {
-
+      console.log("positionResult", positionResult)
       addForm.value.businessDistrictName = "";
       addForm.value.centerLng = positionResult.position.lng
       addForm.value.centerLat = positionResult.position.lat
 
-      addForm.value.businessDistrictName = positionResult.nearestPOI
+      addForm.value.businessDistrictName = positionResult.regeocode?.pois[0].name;
       addForm.value.businessDistrictAddress = positionResult.address
       addForm.value.areaCode = positionResult.regeocode?.addressComponent.adcode
       drawCircle()
+      nearPoiList.value = positionResult.regeocode?.pois
+      pinyin4jSzmV4(addForm.value.businessDistrictName, addForm, "businessDistrictCode")
     });
     positionPicker.on("fail", function (positionResult) {
       console.info("fail", positionResult)
@@ -254,14 +212,29 @@ const loadMap = () => {
   });
 
 }
+
+const typeList = ref<StoreBusinessDistrictType[]>([])
 // 页面加载事件
 onMounted(() => {
   loadById()
-  queryBrandList().then((t) => brandList.value = t)
-  queryLevelList().then((t) => levelList.value = t)
+  queryBrandList().then((t) => {
+    brandList.value = t
+    addForm.value.brandId = brandList.value[0].id
+  })
+  queryLevelList().then((t) => {
+    levelList.value = t
+    addForm.value.businessDistrictLevelId = levelList.value[0].id
+  })
   //mapDiv
-  loadMap();
+  queryStoreBusinessDistrictTypeList(typeList).then(() => {
+    addForm.value.businessDistrictTypeId = typeList.value[0].id
+  })
 })
+const moveMap = (poi) => {
+  console.log(poi);
+  const location = poi.location;
+  mapInstance.value.setCenter([location.lng, location.lat]);
+}
 </script>
 
 <template>
@@ -284,12 +257,19 @@ onMounted(() => {
     <el-divider/>
     <el-form-item>
       <el-form-item>
-        <div id="mapDiv" style="width: 900px; height: 300px;margin-left: 30px">
-
-        </div>
+        <el-text type="warning">拖动地图选择位置</el-text>
+        <el-space wrap>
+          <el-card id="mapDiv" style="width: 600px; height: 300px;margin-left: 30px">
+          </el-card>
+          <el-card style="width: 250px;height: 300px; overflow-y: scroll">
+            <div v-for="(p,i) in nearPoiList">
+              <a style="margin-bottom: 5px; cursor: pointer" @click="moveMap(p)">{{ i + 1 }}) {{ p.name }}</a>
+            </div>
+          </el-card>
+        </el-space>
       </el-form-item>
     </el-form-item>
-    <el-form-item label="名称" prop="businessDistrictName">
+    <el-form-item label="名称" prop="businessDistrictName" style="width: 880px;">
       <el-input
           v-model="addForm.businessDistrictName"
           clearable
@@ -297,57 +277,30 @@ onMounted(() => {
           placeholder="请输入名称"
       />
     </el-form-item>
-    <el-form-item label="编码" prop="businessDistrictCode">
+    <el-form-item label="编码" prop="businessDistrictCode" style="width: 880px;">
       <el-input
           v-model="addForm.businessDistrictCode"
           clearable
           placeholder="请输入编码"
       />
     </el-form-item>
-    <el-form-item label="描述" prop="businessDistrictDesc">
+    <el-form-item label="描述" prop="businessDistrictDesc" style="width: 880px;">
       <el-input
           v-model="addForm.businessDistrictDesc"
           clearable
           placeholder="请输入描述"
       />
     </el-form-item>
-    <el-form-item label="地址" prop="businessDistrictAddress">
+    <el-form-item label="地址" prop="businessDistrictAddress" style="width: 880px;">
       <el-input
           v-model="addForm.businessDistrictAddress"
           clearable
           placeholder="请输入地址"
       />
     </el-form-item>
-    <el-form-item label="国家编码" prop="countryCode">
-      <el-input
-          v-model="addForm.countryCode"
-          clearable
-          placeholder="请输入国家编码"
-      />
-    </el-form-item>
-    <el-form-item label="城市编码" prop="provinceCode">
-      <el-input
-          v-model="addForm.provinceCode"
-          clearable
-          placeholder="请输入城市编码"
-      />
-    </el-form-item>
-    <el-form-item label="城市编码" prop="cityCode">
-      <el-input
-          v-model="addForm.cityCode"
-          clearable
-          placeholder="请输入城市编码"
-      />
-    </el-form-item>
-    <el-form-item label="城市编码" prop="areaCode">
-      <el-input
-          v-model="addForm.areaCode"
-          clearable
-          placeholder="请输入城市编码"
-      />
-    </el-form-item>
+
     <el-form-item label="半径" prop="businessDistrictRadius">
-      <el-input
+      <el-input-number
           v-model="addForm.businessDistrictRadius"
           clearable
           placeholder="请输入半径"
@@ -369,11 +322,17 @@ onMounted(() => {
       </el-select>
     </el-form-item>
     <el-form-item label="商圈类别" prop="businessDistrictTypeId">
-      <el-input
+      <el-select
           v-model="addForm.businessDistrictTypeId"
-          clearable
+          clearable style="width:178px"
           placeholder="请输入商圈类别"
-      />
+      >
+        <el-option v-for="t in typeList"
+                   :key="t.id"
+                   :value="t.id"
+                   :label="t.businessDistrictTypeName"
+        />
+      </el-select>
     </el-form-item>
     <el-form-item label="纬度" prop="centerLat">
       <el-input

@@ -29,7 +29,7 @@ public class StoreBusinessDistrict extends BaseEntity<StoreBusinessDistrict> {
    *  编码
    */
   @TableField(value = "business_district_code")
-  private Long businessDistrictCode;
+  private String businessDistrictCode;
   /***
    *  名称
    */
@@ -66,22 +66,22 @@ public class StoreBusinessDistrict extends BaseEntity<StoreBusinessDistrict> {
   @TableField(value = "area_code")
   private String areaCode;
   /***
-   *  国家编码
+   *  国家名称
    */
   @TableField(value = "country_name")
   private String countryName;
   /***
-   *  城市编码
+   *  省份名称
    */
   @TableField(value = "province_name")
   private String provinceName;
   /***
-   *  城市编码
+   *  城市名称
    */
   @TableField(value = "city_name")
   private String cityName;
   /***
-   *  城市编码
+   *  区县名称
    */
   @TableField(value = "area_name")
   private String areaName;

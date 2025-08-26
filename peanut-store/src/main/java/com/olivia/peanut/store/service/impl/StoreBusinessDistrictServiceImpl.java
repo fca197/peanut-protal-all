@@ -1,18 +1,33 @@
 package com.olivia.peanut.store.service.impl;
 
+import static com.olivia.peanut.store.converter.StoreBusinessDistrictConverter.INSTANCE;
+
+import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.olivia.peanut.base.model.Brand;
+import com.olivia.peanut.base.model.DistrictCode;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
+import com.olivia.peanut.base.service.BrandService;
+import com.olivia.peanut.base.service.DistrictCodeService;
 import com.olivia.peanut.store.api.entity.storeBusinessDistrict.*;
 import com.olivia.peanut.store.converter.StoreBusinessDistrictConverter;
+import com.olivia.peanut.store.converter.StoreBusinessDistrictLevelConverter;
 import com.olivia.peanut.store.mapper.StoreBusinessDistrictMapper;
 import com.olivia.peanut.store.model.StoreBusinessDistrict;
+import com.olivia.peanut.store.model.StoreBusinessDistrictLevel;
+import com.olivia.peanut.store.model.StoreBusinessDistrictType;
+import com.olivia.peanut.store.service.StoreBusinessDistrictLevelService;
 import com.olivia.peanut.store.service.StoreBusinessDistrictService;
+import com.olivia.peanut.store.service.StoreBusinessDistrictTypeService;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +48,15 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
   BaseTableHeaderService tableHeaderService;
   @Resource
   SetNameService setNameService;
+  @Resource
+  BrandService brandService;
+
+  @Resource
+  StoreBusinessDistrictLevelService storeBusinessDistrictLevelService;
+  @Resource
+  StoreBusinessDistrictTypeService storeBusinessDistrictTypeService;
+  @Resource
+  DistrictCodeService districtCodeService;
 
 
   public @Override StoreBusinessDistrictQueryListRes queryList(StoreBusinessDistrictQueryListReq req) {
@@ -67,12 +91,59 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
     return DynamicsPage.init(page, records);
   }
 
+  @Override
+  public void save(StoreBusinessDistrictInsertReq req) {
+    StoreBusinessDistrict reqTmp = INSTANCE.insertReq(req);
+    setDistrictCodeName(reqTmp);
+    this.save(reqTmp);
+  }
+
+  private void setDistrictCodeName(StoreBusinessDistrict storeBusinessDistrict) {
+    DistrictCode codeServiceOne = districtCodeService.getOne(new LambdaQueryWrapper<DistrictCode>().eq(DistrictCode::getCode, storeBusinessDistrict.getAreaCode()));
+    $.requireNonNullCanIgnoreException(codeServiceOne, "行政区域不存在");
+    String regex = "[.]";
+    String[] pathArr = codeServiceOne.getPath().split(regex);
+    String[] pathNameArr = codeServiceOne.getPathName().split(regex);
+    storeBusinessDistrict
+        //.setCountryCode(pathArr[0]).setCountryName(pathNameArr[0])//
+        .setProvinceCode(pathArr[0]).setProvinceName(pathNameArr[0]) //
+        .setCityCode(pathArr[1]).setCityName(pathNameArr[1])//
+        .setAreaCode(pathArr[2]).setAreaName(pathNameArr[2]);//
+  }
+
+  @Override
+  public boolean updateById(StoreBusinessDistrict entity) {
+    setDistrictCodeName(entity);
+    return super.updateById(entity);
+  }
   // 以下为私有对象封装
 
   public @Override void setName(List<? extends StoreBusinessDistrictDto> list) {
 
     //   setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);
 
+    if (CollUtil.isEmpty(list)) {
+      return;
+    }
+    Set<Long> brandIdSet = new HashSet<>();
+    Set<Long> levelIdSet = new HashSet<>();
+    Set<Long> typeIdSet = new HashSet<>();
+    list.forEach(item -> {
+      brandIdSet.add(item.getBrandId());
+      levelIdSet.add(item.getBusinessDistrictLevelId());
+      typeIdSet.add(item.getBusinessDistrictTypeId());
+    });
+    Map<Long, String> bnMap = this.brandService.listByIds(brandIdSet).stream().collect(Collectors.toMap(BaseEntity::getId, Brand::getBrandName));
+    Map<Long, StoreBusinessDistrictLevel> levelMap = this.storeBusinessDistrictLevelService.listByIds(levelIdSet).stream()
+        .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
+
+    Map<Long, String> tyMap = storeBusinessDistrictTypeService.listByIds(typeIdSet).stream()
+        .collect(Collectors.toMap(BaseEntity::getId, StoreBusinessDistrictType::getBusinessDistrictTypeName));
+    list.forEach(item -> {
+      item.setBusinessDistrictLevelInfo(StoreBusinessDistrictLevelConverter.INSTANCE.entityToDto(levelMap.get(item.getBusinessDistrictLevelId())));
+      item.setBrandName(bnMap.get(item.getBrandId()));
+      item.setBusinessDistrictTypeName(tyMap.get(item.getBusinessDistrictTypeId()));
+    });
   }
 
 
@@ -92,11 +163,6 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
         , StoreBusinessDistrict::getProvinceCode // 城市编码
         , StoreBusinessDistrict::getCityCode // 城市编码
         , StoreBusinessDistrict::getAreaCode // 城市编码
-        , StoreBusinessDistrict::getCountryName // 国家编码
-        , StoreBusinessDistrict::getProvinceName // 城市编码
-        , StoreBusinessDistrict::getCityName // 城市编码
-        , StoreBusinessDistrict::getAreaName // 城市编码
-        , StoreBusinessDistrict::getBusinessDistrictRadius // 半径
         , StoreBusinessDistrict::getBusinessDistrictLevelId // 商圈级别ID
         , StoreBusinessDistrict::getBusinessDistrictTypeId // 商圈类别ID
         , StoreBusinessDistrict::getCenterLat // 纬度

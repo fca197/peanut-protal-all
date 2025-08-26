@@ -122,61 +122,21 @@ onMounted(() => {
     <el-card class="search-wrapper" shadow="never">
       <el-form v-model="queryForm" inline>
         <el-form-item label="品牌" prop="brandId">
-          <el-input
+          <el-select
               v-model="queryForm.brandId"
               clearable
-              placeholder="请输入品牌"
-          />
+              placeholder="请选择品牌"
+              style="width:200px"
+          >
+            <el-option
+                v-for="b in brandList"
+                :key="b.id"
+                :label="b.brandName"
+                :value="b.id"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="编码" prop="businessDistrictCode">
-          <el-input
-              v-model="queryForm.businessDistrictCode"
-              clearable
-              placeholder="请输入编码"
-          />
-        </el-form-item>
-        <el-form-item label="名称" prop="businessDistrictName">
-          <el-input
-              v-model="queryForm.businessDistrictName"
-              clearable
-              placeholder="请输入名称"
-          />
-        </el-form-item>
-        <el-form-item label="国家编码" prop="countryCode">
-          <el-input
-              v-model="queryForm.countryCode"
-              clearable
-              placeholder="请输入国家编码"
-          />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="provinceCode">
-          <el-input
-              v-model="queryForm.provinceCode"
-              clearable
-              placeholder="请输入城市编码"
-          />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="cityCode">
-          <el-input
-              v-model="queryForm.cityCode"
-              clearable
-              placeholder="请输入城市编码"
-          />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="areaCode">
-          <el-input
-              v-model="queryForm.areaCode"
-              clearable
-              placeholder="请输入城市编码"
-          />
-        </el-form-item>
-        <el-form-item label="半径" prop="businessDistrictRadius">
-          <el-input
-              v-model="queryForm.businessDistrictRadius"
-              clearable
-              placeholder="请输入半径"
-          />
-        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" icon="search" @click="getDataList">
             查询
@@ -198,24 +158,29 @@ onMounted(() => {
       />
       <ElTable v-loading="loadEntity" ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
         <ElTableColumn type="selection"/>
-        <ElTableColumn label="品牌" props="brandName"/>
-        <ElTableColumn label="编码" props="businessDistrictCode"/>
-        <ElTableColumn label="名称" props="businessDistrictName"/>
-        <ElTableColumn label="描述" props="businessDistrictDesc"/>
-        <ElTableColumn label="地址" props="businessDistrictAddress"/>
-        <ElTableColumn label="国家编码" props="countryCode"/>
-        <ElTableColumn label="城市编码" props="provinceCode"/>
-        <ElTableColumn label="城市编码" props="cityCode"/>
-        <ElTableColumn label="城市编码" props="areaCode"/>
-        <ElTableColumn label="国家编码" props="countryName"/>
-        <ElTableColumn label="城市编码" props="provinceName"/>
-        <ElTableColumn label="城市编码" props="cityName"/>
-        <ElTableColumn label="城市编码" props="areaName"/>
-        <ElTableColumn label="半径" props="businessDistrictRadius"/>
-        <ElTableColumn label="商圈级别ID" props="businessDistrictLevelId"/>
-        <ElTableColumn label="商圈类别ID" props="businessDistrictTypeId"/>
-        <ElTableColumn label="纬度" props="centerLat"/>
-        <ElTableColumn label="经度" props="centerLng"/>
+        <ElTableColumn label="品牌" prop="brandName"/>
+        <ElTableColumn label="编码" prop="businessDistrictCode"/>
+        <ElTableColumn label="名称" prop="businessDistrictName"/>
+        <ElTableColumn label="描述" prop="businessDistrictDesc" show-overflow-tooltip/>
+        <ElTableColumn label="地址" prop="businessDistrictAddress" show-overflow-tooltip/>
+        <ElTableColumn label="国家" prop="countryName"/>
+        <ElTableColumn label="城市" prop="provinceName"/>
+        <ElTableColumn label="城市" prop="cityName"/>
+        <ElTableColumn label="城市" prop="areaName"/>
+        <ElTableColumn label="半径" prop="businessDistrictRadius"/>
+        <ElTableColumn label="级别" prop="businessDistrictLevelName">
+          <template #default="scope">
+            <div
+                v-if="scope.row.businessDistrictLevelInfo"
+                :style="'border-radius: 2px;height:23px; ; background-color: '+scope.row.businessDistrictLevelInfo.businessDistrictLevelColor">
+              {{ scope.row.businessDistrictLevelInfo.businessDistrictLevelName}}
+            </div>
+
+          </template>
+        </ElTableColumn>
+        <ElTableColumn label="类别" prop="businessDistrictTypeName"/>
+        <ElTableColumn label="纬度" prop="centerLat"/>
+        <ElTableColumn label="经度" prop="centerLng"/>
 
         <ElTableColumn fixed="right" label="操作" width="150px">
           <template #default="scope">
@@ -245,6 +210,5 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-
 </style>
 
