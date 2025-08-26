@@ -75,7 +75,7 @@ const addForm = ref<StoreBusinessDistrict>({
   provinceName: "",
   cityName: "",
   areaName: "",
-  businessDistrictRadius: 0,
+  businessDistrictRadius: 1000,
   businessDistrictLevelId: "",
   businessDistrictTypeId: "",
   centerLat: "",
@@ -178,7 +178,7 @@ const loadMap = () => {
   //加载PositionPicker，loadUI的路径参数为模块名中 "ui/" 之后的部分
   AMapUI.loadUI(["misc/PositionPicker"], function (PositionPicker) {
     const map = new AMap.Map("mapDiv", {
-      zoom: 16
+      zoom: 10
     })
     map.plugin(["AMap.ToolBar"], function () {
       //加载工具条
@@ -192,19 +192,25 @@ const loadMap = () => {
     mapInstance.value = map;
     positionPicker.on("success", function (positionResult) {
       console.log("positionResult", positionResult)
-      addForm.value.businessDistrictName = "";
-      addForm.value.centerLng = positionResult.position.lng
-      addForm.value.centerLat = positionResult.position.lat
+      try {
 
-      addForm.value.businessDistrictName = positionResult.regeocode?.pois[0].name;
-      addForm.value.businessDistrictAddress = positionResult.address
-      addForm.value.areaCode = positionResult.regeocode?.addressComponent.adcode
-      drawCircle()
-      nearPoiList.value = positionResult.regeocode?.pois
-      pinyin4jSzmV4(addForm.value.businessDistrictName, addForm, "businessDistrictCode")
+        addForm.value.businessDistrictName = "";
+        addForm.value.centerLng = positionResult.position.lng
+        addForm.value.centerLat = positionResult.position.lat
+
+        addForm.value.businessDistrictName = positionResult.regeocode?.pois[0].name;
+        addForm.value.businessDistrictAddress = positionResult.address
+        addForm.value.areaCode = positionResult.regeocode?.addressComponent.adcode
+        drawCircle()
+        nearPoiList.value = positionResult.regeocode?.pois
+        pinyin4jSzmV4(addForm.value.businessDistrictName, addForm, "businessDistrictCode")
+      }catch (e){
+        ElMessage.error("位置选择错误，请重新选择")
+      }
     });
     positionPicker.on("fail", function (positionResult) {
       console.info("fail", positionResult)
+      ElMessage.error("位置选择错误，请重新选择")
     });
     map.panBy(0, 1);
     positionPicker.start();

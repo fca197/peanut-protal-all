@@ -13,6 +13,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.locationtech.jts</groupId>
+      <artifactId>jts-core</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.olivia</groupId>
       <artifactId>base-model</artifactId>
     </dependency>
@@ -65,14 +69,14 @@
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-jsqlparser</artifactId>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.aliyun</groupId>-->
-<!--      <artifactId>dingtalk</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>com.dingtalk.open</groupId>-->
-<!--      <artifactId>app-stream-client</artifactId>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.aliyun</groupId>-->
+    <!--      <artifactId>dingtalk</artifactId>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.dingtalk.open</groupId>-->
+    <!--      <artifactId>app-stream-client</artifactId>-->
+    <!--    </dependency>-->
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>

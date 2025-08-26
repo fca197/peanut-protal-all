@@ -106,6 +106,7 @@ public class StoreBusinessDistrictDto extends BaseEntityDto {
   private String brandName;
   private String businessDistrictTypeName;
   private StoreBusinessDistrictLevelDto businessDistrictLevelInfo;
+
 }
 
 

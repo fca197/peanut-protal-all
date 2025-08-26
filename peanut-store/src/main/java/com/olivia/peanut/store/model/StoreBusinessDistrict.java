@@ -1,5 +1,6 @@
 package com.olivia.peanut.store.model;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.utils.BaseEntity;
@@ -17,7 +18,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName(value = "store_business_district")
+@TableName(value = "store_business_district", autoResultMap = true)
 public class StoreBusinessDistrict extends BaseEntity<StoreBusinessDistrict> {
 
   /***
@@ -111,5 +112,7 @@ public class StoreBusinessDistrict extends BaseEntity<StoreBusinessDistrict> {
   @TableField(value = "center_lng")
   private String centerLng;
 
+  @TableField(value = "location_geo", select = false, insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+  private Object locationGeo;
 }
 

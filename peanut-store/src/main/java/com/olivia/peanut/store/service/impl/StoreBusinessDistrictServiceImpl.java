@@ -4,7 +4,10 @@ import static com.olivia.peanut.store.converter.StoreBusinessDistrictConverter.I
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.base.model.Brand;
@@ -22,12 +25,16 @@ import com.olivia.peanut.store.model.StoreBusinessDistrictType;
 import com.olivia.peanut.store.service.StoreBusinessDistrictLevelService;
 import com.olivia.peanut.store.service.StoreBusinessDistrictService;
 import com.olivia.peanut.store.service.StoreBusinessDistrictTypeService;
+import com.olivia.sdk.filter.LoginUserContext;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author admin
  * @since 2025-08-24 21:01:55
  */
+@Slf4j
 @Service("storeBusinessDistrictService")
 @Transactional
 public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBusinessDistrictMapper, StoreBusinessDistrict> implements StoreBusinessDistrictService {
@@ -57,7 +65,28 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
   StoreBusinessDistrictTypeService storeBusinessDistrictTypeService;
   @Resource
   DistrictCodeService districtCodeService;
+  @Resource
+  SqlSession sqlSession;
 
+  private void updateLocationGeo(StoreBusinessDistrict req) {
+    String centerLng = req.getCenterLng();
+    String centerLat = req.getCenterLat();
+    Long id = req.getId();
+    if (StringUtils.isNotBlank(centerLng) && StringUtils.isNotBlank(centerLat)) {
+      String wkt = String.format("POINT(%s , %s)", centerLng, centerLat);
+      log.info("updateLocationGeo id:{} wkt {}", id, wkt);
+      // 构建更新条件
+      UpdateWrapper<StoreBusinessDistrict> updateWrapper = new UpdateWrapper<>();
+      updateWrapper.setSql("location_geo = " + wkt   // 修正为纬度
+          ).eq("is_delete", 0).eq("id", id)//
+          .eq("tenant_id", LoginUserContext.getLoginUser().getTenantId());
+
+      // 执行更新
+      this.update(updateWrapper);
+    } else {
+      this.update(new LambdaUpdateWrapper<StoreBusinessDistrict>().set(StoreBusinessDistrict::getLocationGeo, null).eq(BaseEntity::getId, id));
+    }
+  }
 
   public @Override StoreBusinessDistrictQueryListRes queryList(StoreBusinessDistrictQueryListReq req) {
 
@@ -68,7 +97,6 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
     ((StoreBusinessDistrictService) AopContext.currentProxy()).setName(dataList);
     return new StoreBusinessDistrictQueryListRes().setDataList(dataList);
   }
-
 
   public @Override DynamicsPage<StoreBusinessDistrictExportQueryPageListInfoRes> queryPageList(StoreBusinessDistrictExportQueryPageListReq req) {
 
@@ -85,7 +113,7 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
       records = StoreBusinessDistrictConverter.INSTANCE.queryPageListRes(this.list(q));
     }
 
-    // 类型转换，  更换枚举 等操作 
+    // 类型转换，  更换枚举 等操作
 
     ((StoreBusinessDistrictService) AopContext.currentProxy()).setName(records);
     return DynamicsPage.init(page, records);
@@ -95,7 +123,9 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
   public void save(StoreBusinessDistrictInsertReq req) {
     StoreBusinessDistrict reqTmp = INSTANCE.insertReq(req);
     setDistrictCodeName(reqTmp);
+    reqTmp.setId(IdWorker.getId());
     this.save(reqTmp);
+    updateLocationGeo(reqTmp);
   }
 
   private void setDistrictCodeName(StoreBusinessDistrict storeBusinessDistrict) {
@@ -105,16 +135,20 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
     String[] pathArr = codeServiceOne.getPath().split(regex);
     String[] pathNameArr = codeServiceOne.getPathName().split(regex);
     storeBusinessDistrict
-        //.setCountryCode(pathArr[0]).setCountryName(pathNameArr[0])//
-        .setProvinceCode(pathArr[0]).setProvinceName(pathNameArr[0]) //
-        .setCityCode(pathArr[1]).setCityName(pathNameArr[1])//
-        .setAreaCode(pathArr[2]).setAreaName(pathNameArr[2]);//
+        //.setCountryCode(pathArr[0]).setCountryName(pathNameArr[0])  //
+        .setProvinceCode(pathArr[0]).setProvinceName(pathNameArr[0])   //
+        .setCityCode(pathArr[1]).setCityName(pathNameArr[1])  //
+        .setAreaCode(pathArr[2]).setAreaName(pathNameArr[2]);  //
+
+    updateLocationGeo(storeBusinessDistrict);
   }
 
   @Override
   public boolean updateById(StoreBusinessDistrict entity) {
     setDistrictCodeName(entity);
-    return super.updateById(entity);
+    super.updateById(entity);
+    updateLocationGeo(entity);
+    return true;
   }
   // 以下为私有对象封装
 
@@ -153,22 +187,22 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, StoreBusinessDistrict.class
         // 查询条件
-        , BaseEntity::getId // id
-        , StoreBusinessDistrict::getBrandId // 品牌ID
-        , StoreBusinessDistrict::getBusinessDistrictCode // 编码
-        , StoreBusinessDistrict::getBusinessDistrictName // 名称
-        , StoreBusinessDistrict::getBusinessDistrictDesc // 描述
-        , StoreBusinessDistrict::getBusinessDistrictAddress // 地址
-        , StoreBusinessDistrict::getCountryCode // 国家编码
-        , StoreBusinessDistrict::getProvinceCode // 城市编码
-        , StoreBusinessDistrict::getCityCode // 城市编码
-        , StoreBusinessDistrict::getAreaCode // 城市编码
-        , StoreBusinessDistrict::getBusinessDistrictLevelId // 商圈级别ID
-        , StoreBusinessDistrict::getBusinessDistrictTypeId // 商圈类别ID
-        , StoreBusinessDistrict::getCenterLat // 纬度
-        , StoreBusinessDistrict::getCenterLng // 经度
-        , StoreBusinessDistrict::getCreateUserName // 创建人姓名
-        , StoreBusinessDistrict::getUpdateUserName // 修改人姓名
+        , BaseEntity::getId   // id
+        , StoreBusinessDistrict::getBrandId   // 品牌ID
+        , StoreBusinessDistrict::getBusinessDistrictCode   // 编码
+        , StoreBusinessDistrict::getBusinessDistrictName   // 名称
+        , StoreBusinessDistrict::getBusinessDistrictDesc   // 描述
+        , StoreBusinessDistrict::getBusinessDistrictAddress   // 地址
+        , StoreBusinessDistrict::getCountryCode   // 国家编码
+        , StoreBusinessDistrict::getProvinceCode   // 城市编码
+        , StoreBusinessDistrict::getCityCode   // 城市编码
+        , StoreBusinessDistrict::getAreaCode   // 城市编码
+        , StoreBusinessDistrict::getBusinessDistrictLevelId   // 商圈级别ID
+        , StoreBusinessDistrict::getBusinessDistrictTypeId   // 商圈类别ID
+        , StoreBusinessDistrict::getCenterLat   // 纬度
+        , StoreBusinessDistrict::getCenterLng   // 经度
+        , StoreBusinessDistrict::getCreateUserName   // 创建人姓名
+        , StoreBusinessDistrict::getUpdateUserName   // 修改人姓名
     );
 
     q.orderByDesc(StoreBusinessDistrict::getId);
