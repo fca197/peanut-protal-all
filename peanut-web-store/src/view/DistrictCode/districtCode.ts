@@ -7,6 +7,12 @@ export function queryDistrictCode(parentCode: string | undefined, level: number[
   });
 }
 
+export function queryDistrictCodeV2(parentCode: string | undefined, target: any) {
+  postResultInfoList("/districtCode/queryList", {
+    data: {parentCode: parentCode}
+  }).then((r) => target.value = r);
+}
+
 export interface DistrictCode {
   id?: string | undefined
   code?: string | undefined

@@ -91,6 +91,9 @@ public class StoreBusinessDistrict extends BaseEntity<StoreBusinessDistrict> {
    */
   @TableField(value = "business_district_radius")
   private Long businessDistrictRadius;
+
+  @TableField(value = "business_district_search_radius")
+  private Long businessDistrictSearchRadius;
   /***
    *  商圈级别ID
    */

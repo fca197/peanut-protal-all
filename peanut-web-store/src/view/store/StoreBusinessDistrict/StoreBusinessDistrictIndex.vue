@@ -6,6 +6,8 @@ import {ElTable} from "element-plus";
 import {HeaderInfo, postResultInfo} from "@@/utils/common-js.ts"
 import {type StoreBusinessDistrict} from "./StoreBusinessDistrictType.ts"
 import {queryBrandList, TBrand} from "@v/base/TBrand/TBrandType.ts";
+import {queryLevelList, StoreBusinessDistrictLevel} from "@v/store/StoreBusinessDistrictLevel/StoreBusinessDistrictLevelType.ts";
+import {queryStoreBusinessDistrictTypeList, StoreBusinessDistrictType} from "@v/store/StoreBusinessDistrictType/StoreBusinessDistrictTypeType.ts";
 
 const dtoUrl = ref<string>("/storeBusinessDistrict")
 const documentTitle = ref<string>("商圈")
@@ -107,6 +109,15 @@ const handleSelectionChange = (val: StoreBusinessDistrict[]) => {
   console.info("multipleSelection ", multipleSelection)
 }
 const brandList = ref<TBrand []>([])
+
+
+const typeList = ref<StoreBusinessDistrictType[]>([])
+const levelList = ref<StoreBusinessDistrictLevel[]>([])
+queryLevelList().then((t) => {
+  levelList.value = t
+})
+//mapDiv
+queryStoreBusinessDistrictTypeList(typeList)
 // 页面加载事件
 onMounted(() => {
   getDataList()
@@ -123,20 +134,62 @@ onMounted(() => {
       <el-form v-model="queryForm" inline>
         <el-form-item label="品牌" prop="brandId">
           <el-select
-              v-model="queryForm.brandId"
-              clearable
-              placeholder="请选择品牌"
-              style="width:200px"
+            v-model="queryForm.brandId"
+            clearable
+            placeholder="请选择品牌"
+            style="width:200px"
           >
             <el-option
-                v-for="b in brandList"
-                :key="b.id"
-                :label="b.brandName"
-                :value="b.id"
+              v-for="b in brandList"
+              :key="b.id"
+              :label="b.brandName"
+              :value="b.id"
             />
           </el-select>
         </el-form-item>
-
+        <el-form-item>
+          <el-input
+            v-model="queryForm.businessDistrictCode"
+            placeholder="商圈编码"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            v-model="queryForm.businessDistrictName"
+            placeholder="商圈名称"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item label="商圈级别" prop="businessDistrictLevelId">
+          <el-select
+            v-model="queryForm.businessDistrictLevelId"
+            clearable
+            placeholder="请选择商圈级别"
+            style="width:200px"
+          >
+            <el-option
+              v-for="l in levelList"
+              :label="l.businessDistrictLevelName"
+              :key="l.id"
+              :value="l.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="商圈类别" prop="businessDistrictTypeId">
+          <el-select
+            v-model="queryForm.businessDistrictTypeId"
+            clearable  style="width:200px"
+            placeholder="请选择商圈类别"
+          >
+            <el-option
+              v-for="t in typeList"
+              :key="t.id"
+              :value="t.id"
+              :label="t.businessDistrictTypeName"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="search" @click="getDataList">
             查询
@@ -147,47 +200,48 @@ onMounted(() => {
 
     <el-card shadow="never">
       <TableBar
-          :document-title="documentTitle"
-          :add-component="AddEditFormVue"
-          :refresh-list="getDataList"
-          :data-table-ref="dataTableRef"
-          :multiple-selection="multipleSelection"
-          ref="tableBarRef"
-          :data-batch-delete-url="dataBatchDeleteUrl"
-          :dialog-with="1000"
+        :document-title="documentTitle"
+        :add-component="AddEditFormVue"
+        :refresh-list="getDataList"
+        :data-table-ref="dataTableRef"
+        :multiple-selection="multipleSelection"
+        ref="tableBarRef"
+        :data-batch-delete-url="dataBatchDeleteUrl"
+        :dialog-with="800"
       />
       <ElTable v-loading="loadEntity" ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
         <ElTableColumn type="selection"/>
-        <ElTableColumn label="品牌" prop="brandName"/>
-        <ElTableColumn label="编码" prop="businessDistrictCode"/>
-        <ElTableColumn label="名称" prop="businessDistrictName"/>
-        <ElTableColumn label="描述" prop="businessDistrictDesc" show-overflow-tooltip/>
-        <ElTableColumn label="地址" prop="businessDistrictAddress" show-overflow-tooltip/>
-        <ElTableColumn label="国家" prop="countryName"/>
-        <ElTableColumn label="城市" prop="provinceName"/>
-        <ElTableColumn label="城市" prop="cityName"/>
-        <ElTableColumn label="城市" prop="areaName"/>
-        <ElTableColumn label="半径" prop="businessDistrictRadius"/>
-        <ElTableColumn label="级别" prop="businessDistrictLevelName">
+        <ElTableColumn label="品牌" prop="brandName" min-width="150"/>
+        <ElTableColumn label="编码" prop="businessDistrictCode" min-width="200"/>
+        <ElTableColumn label="名称" prop="businessDistrictName" min-width="200" show-overflow-tooltip/>
+        <ElTableColumn label="描述" prop="businessDistrictDesc" show-overflow-tooltip min-width="200"/>
+        <ElTableColumn label="地址" prop="businessDistrictAddress" show-overflow-tooltip min-width="200"/>
+        <ElTableColumn label="国家" prop="countryName" min-width="100"/>
+        <ElTableColumn label="省份" prop="provinceName" min-width="100" show-overflow-tooltip/>
+        <ElTableColumn label="城市" prop="cityName" min-width="100" show-overflow-tooltip/>
+        <ElTableColumn label="城市" prop="areaName" min-width="100" show-overflow-tooltip/>
+        <ElTableColumn label="商圈半径" prop="businessDistrictRadius" min-width="100"/>
+        <ElTableColumn label="级别" prop="businessDistrictLevelName" min-width="100">
           <template #default="scope">
             <div
-                v-if="scope.row.businessDistrictLevelInfo"
-                :style="'border-radius: 2px;height:23px; ; background-color: '+scope.row.businessDistrictLevelInfo.businessDistrictLevelColor">
-              {{ scope.row.businessDistrictLevelInfo.businessDistrictLevelName}}
+              v-if="scope.row.businessDistrictLevelInfo"
+              :style="'border-radius: 2px;height:23px; ; background-color: '+scope.row.businessDistrictLevelInfo.businessDistrictLevelColor">
+              {{ scope.row.businessDistrictLevelInfo.businessDistrictLevelName }}
             </div>
 
           </template>
         </ElTableColumn>
-        <ElTableColumn label="类别" prop="businessDistrictTypeName"/>
-        <ElTableColumn label="纬度" prop="centerLat"/>
-        <ElTableColumn label="经度" prop="centerLng"/>
-
+        <ElTableColumn label="类别" prop="businessDistrictTypeName" min-width="100"/>
+        <ElTableColumn label="纬度" prop="centerLat" min-width="100"/>
+        <ElTableColumn label="经度" prop="centerLng" min-width="100"/>
+        <ElTableColumn label="修改时间" prop="updateTime" min-width="180"/>
+        <ElTableColumn label="修改人" prop="updateUserName" min-width="100"/>
         <ElTableColumn fixed="right" label="操作" width="150px">
           <template #default="scope">
             <el-button
-                type="warning"
-                icon="edit"
-                @click="editData(scope.row)"
+              type="warning"
+              icon="edit"
+              @click="editData(scope.row)"
             >
               编辑
             </el-button>
@@ -196,13 +250,13 @@ onMounted(() => {
       </ElTable>
       <el-row class="paginationDiv">
         <el-pagination
-            background
-            v-model:current-page="currentPageNum"
-            v-model:page-size="currentPageSize"
-            layout="total, sizes, prev, pager, next"
-            :total="tableTotal"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
+          background
+          v-model:current-page="currentPageNum"
+          v-model:page-size="currentPageSize"
+          layout="total, sizes, prev, pager, next"
+          :total="tableTotal"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
       </el-row>
     </el-card>

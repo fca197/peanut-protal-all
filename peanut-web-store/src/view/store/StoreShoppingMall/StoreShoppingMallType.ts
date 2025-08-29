@@ -1,0 +1,37 @@
+export interface StoreShoppingMall {
+  id?: any
+  countryCode?: any
+  provinceCode?: any
+  cityCode?: any
+  areaCode?: any
+  countryName?: any
+  provinceName?: any
+  cityName?: any
+  areaName?: any
+  belongDistrictId?: any
+  belongDistrictIdList?: any
+  shoppingMallAddress?: any
+  shoppingMallLocationLng?: any
+  shoppingMallLocationLat?: any
+  shoppingMallName?: any
+  businessAlias?: any
+  businessKeytag?: any
+  businessOpenTimeTodayOpen?: any
+  businessOpenTimeTodayClose?: any
+  businessRating?: any
+  businessTag?: any
+  businessTel?: any
+  enterLocationLng?: any
+  enterLocationLat?: any
+  photos?: any
+  tenantId?: any
+  isDelete?: any
+  createTime?: any
+  createBy?: any
+  updateTime?: any
+  updateBy?: any
+  traceId?: any
+  versionNum?: any
+  createUserName?: any
+  updateUserName?: any
+}

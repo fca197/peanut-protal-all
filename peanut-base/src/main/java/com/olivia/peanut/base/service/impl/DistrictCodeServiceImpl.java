@@ -40,13 +40,14 @@ public class DistrictCodeServiceImpl extends MPJBaseServiceImpl<DistrictCodeMapp
   public @Override DistrictCodeQueryListRes queryList(DistrictCodeQueryListReq req) {
 
     MPJLambdaWrapper<DistrictCode> q = getWrapper(req.getData());
+    String maxParent = Optional.ofNullable(req.getData()).map(DistrictCodeDto::getParentCode).orElse(DistrictCode.MAX_PARENT_CODE);
     List<DistrictCode> list = this.list(q);
 
     List<DistrictCodeDto> dataList = list.stream().map(t -> $.copy(t, DistrictCodeDto.class)).collect(Collectors.toList());
     //  this.setName(dataList);
 
     List<DistrictCodeDto> retList = ListToTreeUtil.builder(DistrictCodeDto::getCode, DistrictCodeDto::getParentCode, DistrictCodeDto::getChildren,
-        DistrictCodeDto::setChildren, DistrictCode.MAX_PARENT_CODE).convert(dataList);
+        DistrictCodeDto::setChildren, maxParent).convert(dataList);
     return new DistrictCodeQueryListRes().setDataList(retList);
   }
 

@@ -21,7 +21,7 @@ public class HttpClientUtils {
 
   @SneakyThrows
   public static <T> T get(String url, Class<T> clazz, int timeout) {
-    log.info("get , clazz {} , url {}", url, clazz);
+    log.info("get , clazz {} , url {}", clazz, url);
     @Cleanup HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(timeout)).build();
     HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).timeout(Duration.ofSeconds(timeout)).GET().build();
     return client.send(request, HttpClientUtils.getBodyHandler(clazz)).body();

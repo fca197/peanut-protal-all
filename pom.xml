@@ -17,7 +17,7 @@
     <module>base-model</module>
     <module>peanut-sdk</module>
     <module>peanut-base</module>
-    <module>peanut-aps</module>
+<!--    <module>peanut-aps</module>-->
     <module>peanut-gateway</module>
     <module>peanut-flow</module>
     <module>peanut-task</module>

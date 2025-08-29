@@ -14,6 +14,7 @@ export interface StoreBusinessDistrict {
   cityName?: string | undefined
   areaName?: string | undefined
   businessDistrictRadius?: string | undefined | any
+  businessDistrictSearchRadius?: string | undefined | any
   businessDistrictLevelId?: string | undefined
   businessDistrictTypeId?: string | undefined
   centerLat?: string | undefined

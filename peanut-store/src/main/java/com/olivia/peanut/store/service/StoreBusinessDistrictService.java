@@ -21,6 +21,6 @@ public interface StoreBusinessDistrictService extends MPJBaseService<StoreBusine
 
   void setName(List<? extends StoreBusinessDistrictDto> storeBusinessDistrictDtoList);
 
-  void save(StoreBusinessDistrictInsertReq req);
+  void saveDto(StoreBusinessDistrictInsertReq req);
 }
 

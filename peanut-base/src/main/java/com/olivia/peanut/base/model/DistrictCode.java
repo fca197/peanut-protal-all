@@ -45,21 +45,7 @@ public class DistrictCode extends BaseEntity<DistrictCode> {
   private String path;
   @TableField(value = "level")
   private Integer level;
-  /***
-   *  经度
-   */
-  @TableField(value = "center_lng")
-  private BigDecimal centerLng;
-  /***
-   *  纬度
-   */
-  @TableField(value = "center_lat")
-  private BigDecimal centerLat;
-  /***
-   *  纬度
-   */
-  @TableField(value = "path_name")
-  private String pathName;
+
 
 
   // 子节点

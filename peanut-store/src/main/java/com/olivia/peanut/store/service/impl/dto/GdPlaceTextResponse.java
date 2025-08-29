@@ -73,8 +73,8 @@ public class GdPlaceTextResponse {
       private String keytag;
       @JsonProperty("rating")
       private String rating;
-      @JsonProperty("business_area")
-      private String businessArea;
+      @JsonProperty("alias")
+      private String businessAlias;
       @JsonProperty("parking_type")
       private String parkingType;
       @JsonProperty("tel")

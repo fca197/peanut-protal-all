@@ -26,6 +26,8 @@ public interface StoreBusinessDistrictApi {
    */
   @PostMapping("/storeBusinessDistrict/insert")
   StoreBusinessDistrictInsertRes insert(@RequestBody @Validated(InsertCheck.class) StoreBusinessDistrictInsertReq req);
+  @PostMapping("/storeBusinessDistrict/insertAll")
+  StoreBusinessDistrictInsertRes insertAll(@RequestBody @Validated(InsertCheck.class) StoreBusinessDistrictInsertReq req);
 
   /**
    * 根据ID 删除 商圈

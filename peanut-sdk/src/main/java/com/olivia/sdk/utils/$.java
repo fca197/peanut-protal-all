@@ -3,6 +3,7 @@ package com.olivia.sdk.utils;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import com.olivia.sdk.exception.CanIgnoreException;
 import com.olivia.sdk.exception.RunException;
 import java.time.Duration;
@@ -356,4 +357,18 @@ public final class $ {
   public static <T> List<T> getNoNullList(List<T> list) {
     return CollUtil.isEmpty(list) ? List.of() : list;
   }
+
+  /****
+   * 字符串转list
+   * @param strValue  自从
+   * @param separator 分隔符
+   * @return list 非空 ，非可变list
+   */
+  public static List<String> getStringList(String strValue, String separator) {
+    if (StrUtil.isBlank(strValue)) {
+      return List.of();
+    }
+    return StrUtil.split(strValue, separator, true, true).stream().distinct().sorted().toList();
+  }
+
 }

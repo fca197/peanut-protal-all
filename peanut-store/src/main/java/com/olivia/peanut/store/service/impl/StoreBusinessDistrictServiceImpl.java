@@ -120,7 +120,7 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
   }
 
   @Override
-  public void save(StoreBusinessDistrictInsertReq req) {
+  public void saveDto(StoreBusinessDistrictInsertReq req) {
     StoreBusinessDistrict reqTmp = INSTANCE.insertReq(req);
     setDistrictCodeName(reqTmp);
     reqTmp.setId(IdWorker.getId());
@@ -129,16 +129,16 @@ public class StoreBusinessDistrictServiceImpl extends MPJBaseServiceImpl<StoreBu
   }
 
   private void setDistrictCodeName(StoreBusinessDistrict storeBusinessDistrict) {
-    DistrictCode codeServiceOne = districtCodeService.getOne(new LambdaQueryWrapper<DistrictCode>().eq(DistrictCode::getCode, storeBusinessDistrict.getAreaCode()));
-    $.requireNonNullCanIgnoreException(codeServiceOne, "行政区域不存在");
-    String regex = "[.]";
-    String[] pathArr = codeServiceOne.getPath().split(regex);
-    String[] pathNameArr = codeServiceOne.getPathName().split(regex);
-    storeBusinessDistrict
-        //.setCountryCode(pathArr[0]).setCountryName(pathNameArr[0])  //
-        .setProvinceCode(pathArr[0]).setProvinceName(pathNameArr[0])   //
-        .setCityCode(pathArr[1]).setCityName(pathNameArr[1])  //
-        .setAreaCode(pathArr[2]).setAreaName(pathNameArr[2]);  //
+//    DistrictCode codeServiceOne = districtCodeService.getOne(new LambdaQueryWrapper<DistrictCode>().eq(DistrictCode::getCode, storeBusinessDistrict.getAreaCode()));
+//    $.requireNonNullCanIgnoreException(codeServiceOne, "行政区域不存在");
+//    String regex = "[.]";
+//    String[] pathArr = codeServiceOne.getPath().split(regex);
+//    String[] pathNameArr = codeServiceOne.getPathName().split(regex);
+//    storeBusinessDistrict
+//        //.setCountryCode(pathArr[0]).setCountryName(pathNameArr[0])  //
+//        .setProvinceCode(pathArr[0]).setProvinceName(pathNameArr[0])   //
+//        .setCityCode(pathArr[1]).setCityName(pathNameArr[1])  //
+//        .setAreaCode(pathArr[2]).setAreaName(pathNameArr[2]);  //
 
     updateLocationGeo(storeBusinessDistrict);
   }

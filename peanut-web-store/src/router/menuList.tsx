@@ -41,15 +41,6 @@ const allMenuList: RouteRecordRaw[] = [
     },
     children: [
       {
-        name: "商圈管理",
-        path: "/StoreBusinessDistrict",
-        component: () => import("@v/store/StoreBusinessDistrict/StoreBusinessDistrictIndex.vue"),
-        meta: {
-          title: "商圈管理",
-          elIcon: "Crop"
-        }
-      },
-      {
         name: "商区级别管理",
         path: "/StoreBusinessDistrictLevel",
         component: () => import("@v/store/StoreBusinessDistrictLevel/StoreBusinessDistrictLevelIndex.vue"),
@@ -65,6 +56,24 @@ const allMenuList: RouteRecordRaw[] = [
         meta: {
           title: "商区类别管理",
           elIcon: "Operation"
+        }
+      },
+      {
+        name: "商圈管理",
+        path: "/StoreBusinessDistrict",
+        component: () => import("@v/store/StoreBusinessDistrict/StoreBusinessDistrictIndex.vue"),
+        meta: {
+          title: "商圈管理",
+          elIcon: "Crop"
+        }
+      },
+      {
+        name: "商场管理",
+        path: "/StoreShoppingMall",
+        component: () => import("@v/store/StoreShoppingMall/StoreShoppingMallIndex.vue"),
+        meta: {
+          title: "商场管理",
+          elIcon: "OfficeBuilding"
         }
       },
     ]

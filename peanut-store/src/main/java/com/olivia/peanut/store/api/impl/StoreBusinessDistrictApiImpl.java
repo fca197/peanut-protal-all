@@ -32,8 +32,15 @@ public class StoreBusinessDistrictApiImpl implements StoreBusinessDistrictApi {
    */
   public @Override StoreBusinessDistrictInsertRes insert(StoreBusinessDistrictInsertReq req) {
 
-    this.storeBusinessDistrictService.save(req);
+    this.storeBusinessDistrictService.saveDto(req);
     return new StoreBusinessDistrictInsertRes().setCount(1);
+  }
+
+  @Override
+  public StoreBusinessDistrictInsertRes insertAll(StoreBusinessDistrictInsertReq req) {
+    StoreBusinessDistrict entity = INSTANCE.insertReq(req);
+    this.storeBusinessDistrictService.save(entity);
+    return null;
   }
 
   /****

@@ -6,6 +6,7 @@ import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -82,6 +83,9 @@ public class StoreBusinessDistrictDto extends BaseEntityDto {
    */
   @NotNull(message = "半径不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long businessDistrictRadius;
+
+  @NotNull(message = "查询半径不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  private Long businessDistrictSearchRadius;
   /***
    *  商圈级别ID
    */
@@ -96,13 +100,14 @@ public class StoreBusinessDistrictDto extends BaseEntityDto {
    *  纬度
    */
   @NotBlank(message = "纬度不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @Pattern(regexp = "^[-+]?(90(\\.0{1,6})?|(([1-8]\\d)|(\\d))(\\.\\d{1,6})?)$", message = "请输入有效的数字（支持整数、小数、正负号）")
   private String centerLat;
   /***
    *  经度
    */
   @NotBlank(message = "经度不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @Pattern(regexp = "^[-+]?(180(\\.0{1,6})?|((1[0-7]\\d)|([1-9]\\d?))(\\.\\d{1,6})?)$", message = "请输入有效的数字（支持整数、小数、正负号）")
   private String centerLng;
-
   private String brandName;
   private String businessDistrictTypeName;
   private StoreBusinessDistrictLevelDto businessDistrictLevelInfo;
