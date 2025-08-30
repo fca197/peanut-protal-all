@@ -8,6 +8,7 @@ import {type StoreBusinessDistrict} from "./StoreBusinessDistrictType.ts"
 import {queryBrandList, TBrand} from "@v/base/TBrand/TBrandType.ts";
 import {queryLevelList, StoreBusinessDistrictLevel} from "@v/store/StoreBusinessDistrictLevel/StoreBusinessDistrictLevelType.ts";
 import {queryStoreBusinessDistrictTypeList, StoreBusinessDistrictType} from "@v/store/StoreBusinessDistrictType/StoreBusinessDistrictTypeType.ts";
+import DistrictCodeForm from "@v/DistrictCode/DistrictCodeForm.vue";
 
 const dtoUrl = ref<string>("/storeBusinessDistrict")
 const documentTitle = ref<string>("商圈")
@@ -147,6 +148,8 @@ onMounted(() => {
             />
           </el-select>
         </el-form-item>
+
+        <district-code-form :form-obj="queryForm"/>
         <el-form-item>
           <el-input
             v-model="queryForm.businessDistrictCode"

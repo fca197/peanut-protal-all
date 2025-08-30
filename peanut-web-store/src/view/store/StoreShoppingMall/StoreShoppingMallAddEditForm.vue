@@ -3,7 +3,7 @@ import {onMounted, ref} from "vue"
 import {type StoreShoppingMall} from "./StoreShoppingMallType.ts"
 import {getById, postNoResult} from "@/common/utils/common-js.ts"
 import {type FormInstance, FormRules} from "element-plus"
-import {DistrictCode, queryDistrictCodeV2} from "@v/DistrictCode/districtCode.ts";
+import DistrictCodeForm from "@v/DistrictCode/DistrictCodeForm.vue";
 
 const props = defineProps({
   saveFun: {
@@ -21,56 +21,7 @@ const dtoUrl = ref<string>("/storeShoppingMall")
 const addFormRef = ref<FormInstance>()
 // 表单校验规则
 const checkRules = ref<FormRules>({
-  // 国家编码
-  countryCode: [
-    {required: true, message: "请输入国家编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  provinceCode: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  cityCode: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市编码
-  areaCode: [
-    {required: true, message: "请输入城市编码", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 国家名称
-  countryName: [
-    {required: true, message: "请输入国家名称", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 省份名称
-  provinceName: [
-    {required: true, message: "请输入省份名称", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 城市名称
-  cityName: [
-    {required: true, message: "请输入城市名称", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 区县名称
-  areaName: [
-    {required: true, message: "请输入区县名称", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 所属最新商区
-  belongDistrictId: [
-    {required: true, message: "请输入所属最新商区", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
-  // 所属商区 List<Long>
-  belongDistrictIdList: [
-    {required: true, message: "请输入所属商区 List<Long>", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
-  ],
+
   // 地址
   shoppingMallAddress: [
     {required: true, message: "请输入地址", trigger: "blur"},
@@ -109,7 +60,6 @@ const checkRules = ref<FormRules>({
   // 评分
   businessRating: [
     {required: true, message: "请输入评分", trigger: "blur"},
-    {min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur"}
   ],
   // 入口经纬度经度
   enterLocationLng: [
@@ -197,115 +147,15 @@ const cancelForm = () => {
   }
 }
 
-const countryList = ref<DistrictCode[]>([])
-const provinceList = ref<DistrictCode[]>([])
-const cityList = ref<DistrictCode[]>([])
-const areaList = ref<DistrictCode[]>([])
-
-watch(() => addForm.value.countryCode, (n) => {
-  addForm.value.countryName = countryList.value.filter(t => t.code === n)[0].name
-  provinceList.value = []
-  cityList.value = []
-  areaList.value = []
-  addForm.value.provinceCode = undefined
-  addForm.value.provinceName = undefined
-  addForm.value.cityName = undefined
-  addForm.value.cityName = undefined
-  addForm.value.areaName = undefined
-  addForm.value.areaName = undefined
-  queryDistrictCodeV2(n, provinceList)
-})
-watch(() => addForm.value.provinceCode, (n) => {
-
-  addForm.value.provinceName = provinceList.value.filter(t => t.code === n)[0].name
-  cityList.value = []
-  areaList.value = []
-  addForm.value.cityName = undefined
-  addForm.value.cityName = undefined
-  addForm.value.areaName = undefined
-  addForm.value.areaName = undefined
-  queryDistrictCodeV2(n, cityList)
-})
-watch(() => addForm.value.cityCode, (n) => {
-  addForm.value.cityName = cityList.value.filter(t => t.code === n)[0].name
-
-  areaList.value = []
-  addForm.value.areaName = undefined
-  addForm.value.areaName = undefined
-  queryDistrictCodeV2(n, areaList)
-})
-watch(() => addForm.value.areaCode, (n) => {
-  addForm.value.areaName = areaList.value.filter(t => t.code === n)[0].name
-})
 // 页面加载事件
 onMounted(() => {
   loadById()
-  queryDistrictCodeV2("000000", countryList)
-
 })
 </script>
 
 <template>
   <el-form v-loading="loadEntity" label-width="110px" :model="addForm" ref="addFormRef" :rules="checkRules">
-    <el-form-item label="国家" prop="countryCode">
-      <el-select
-        v-model="addForm.countryCode"
-        clearable
-        placeholder="请选择国家"
-      >
-        <el-option
-          v-for="dc in countryList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="省份" prop="provinceCode">
-
-      <el-select
-        v-model="addForm.provinceCode"
-        clearable filterable
-        placeholder="请选择省份"
-      >
-        <el-option
-          v-for="dc in provinceList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="城市" prop="cityCode">
-
-      <el-select
-        v-model="addForm.cityCode"
-        clearable filterable
-        placeholder="请选择城市"
-      >
-        <el-option
-          v-for="dc in cityList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="区县" prop="areaCode">
-
-      <el-select
-        v-model="addForm.areaCode"
-        clearable filterable
-        placeholder="请选择区县"
-      >
-        <el-option
-          v-for="dc in areaList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
+    <district-code-form :form-obj="addForm"/>
 
     <el-form-item label="地址" prop="shoppingMallAddress">
       <el-input
@@ -359,7 +209,7 @@ onMounted(() => {
       />
     </el-form-item>
     <el-form-item label="评分" prop="businessRating">
-      <el-input
+      <el-rate
         v-model="addForm.businessRating"
         clearable
         placeholder="请输入评分"
@@ -372,8 +222,8 @@ onMounted(() => {
         <el-button type="primary" size="small" @click="addForm.businessTel.push('')">添加</el-button>
       </div>
       <div style="width: 100%"
-        v-for="(t, index) in addForm.businessTel"
-        :key="index"
+           v-for="(t, index) in addForm.businessTel"
+           :key="index"
       >
         <el-input v-model="addForm.businessTel[index]" style="width: 70%"></el-input>
         <el-button size="small" type="danger" @click="addForm.businessTel.splice(index, 1)">删除</el-button>
@@ -391,13 +241,6 @@ onMounted(() => {
         v-model="addForm.enterLocationLat"
         clearable
         placeholder="请输入入口纬度"
-      />
-    </el-form-item>
-    <el-form-item label="图片： " prop="photos">
-      <el-input
-        v-model="addForm.photos"
-        clearable
-        placeholder="请输入图片： "
       />
     </el-form-item>
   </el-form>

@@ -6,7 +6,8 @@ import {type FormInstance, FormRules} from "element-plus"
 import {queryBrandList, TBrand} from "@v/base/TBrand/TBrandType.ts";
 import {queryLevelList, StoreBusinessDistrictLevel} from "@v/store/StoreBusinessDistrictLevel/StoreBusinessDistrictLevelType.ts";
 import {queryStoreBusinessDistrictTypeList, StoreBusinessDistrictType} from "@v/store/StoreBusinessDistrictType/StoreBusinessDistrictTypeType.ts";
-import {DistrictCode, queryDistrictCodeV2} from "@v/DistrictCode/districtCode.ts";
+import DistrictCodeForm from "@v/DistrictCode/DistrictCodeForm.vue";
+import GetLngLatTips from "@v/DistrictCode/GetLngLatTips.vue";
 
 const props = defineProps({
   saveFun: {
@@ -69,26 +70,26 @@ const checkRules = ref<FormRules>({
 
 // 添加对象
 const addForm = ref<StoreBusinessDistrict>({
-  brandId: "",
-  businessDistrictCode: "",
-  businessDistrictName: "",
-  businessDistrictDesc: "",
-  businessDistrictAddress: "",
-  countryCode: "",
-  provinceCode: "",
-  cityCode: "",
-  areaCode: "",
-  countryName: "",
-  provinceName: "",
-  cityName: "",
-  areaName: "",
+  brandId: undefined,
+  businessDistrictCode: undefined,
+  businessDistrictName: undefined,
+  businessDistrictDesc: undefined,
+  businessDistrictAddress: undefined,
+  countryCode: undefined,
+  provinceCode: undefined,
+  cityCode: undefined,
+  areaCode: undefined,
+  countryName: undefined,
+  provinceName: undefined,
+  cityName: undefined,
+  areaName: undefined,
   businessDistrictRadius: 1000,
   businessDistrictSearchRadius: 0,
-  businessDistrictLevelId: "",
-  businessDistrictTypeId: "",
-  centerLat: "",
-  centerLng: "",
-  id: ""
+  businessDistrictLevelId: undefined,
+  businessDistrictTypeId: undefined,
+  centerLat: undefined,
+  centerLng: undefined,
+  id: undefined,
 })
 
 const loadById = () => {
@@ -139,46 +140,6 @@ const loadSzm = () => {
   pinyin4jSzmV4(addForm.value.businessDistrictName, addForm, "businessDistrictCode")
 }
 
-const countryList = ref<DistrictCode[]>([])
-const provinceList = ref<DistrictCode[]>([])
-const cityList = ref<DistrictCode[]>([])
-const areaList = ref<DistrictCode[]>([])
-
-watch(() => addForm.value.countryCode, (n) => {
-  addForm.value.countryName = countryList.value.filter(t => t.code === n)[0].name
-  provinceList.value = []
-  cityList.value = []
-  areaList.value = []
-  addForm.value.provinceCode = ""
-  addForm.value.provinceName = ""
-  addForm.value.cityName = ""
-  addForm.value.cityName = ""
-  addForm.value.areaName = ""
-  addForm.value.areaName = ""
-  queryDistrictCodeV2(n, provinceList)
-})
-watch(() => addForm.value.provinceCode, (n) => {
-
-  addForm.value.provinceName = provinceList.value.filter(t => t.code === n)[0].name
-  cityList.value = []
-  areaList.value = []
-  addForm.value.cityName = ""
-  addForm.value.cityName = ""
-  addForm.value.areaName = ""
-  addForm.value.areaName = ""
-  queryDistrictCodeV2(n, cityList)
-})
-watch(() => addForm.value.cityCode, (n) => {
-  addForm.value.cityName = cityList.value.filter(t => t.code === n)[0].name
-
-  areaList.value = []
-  addForm.value.areaName = ""
-  addForm.value.areaName = ""
-  queryDistrictCodeV2(n, areaList)
-})
-watch(() => addForm.value.areaCode, (n) => {
-  addForm.value.areaName = areaList.value.filter(t => t.code === n)[0].name
-})
 const typeList = ref<StoreBusinessDistrictType[]>([])
 // 页面加载事件
 onMounted(() => {
@@ -195,7 +156,6 @@ onMounted(() => {
   queryStoreBusinessDistrictTypeList(typeList).then(() => {
     addForm.value.businessDistrictTypeId = typeList.value[0].id
   })
-  queryDistrictCodeV2("000000", countryList)
 })
 </script>
 
@@ -231,65 +191,7 @@ onMounted(() => {
         placeholder="请输入编码"
       />
     </el-form-item>
-    <el-form-item label="国家" prop="countryCode">
-      <el-select
-        v-model="addForm.countryCode"
-        clearable
-        placeholder="请选择国家"
-      >
-        <el-option
-          v-for="dc in countryList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="省份" prop="provinceCode">
-
-      <el-select
-        v-model="addForm.provinceCode"
-        clearable filterable
-        placeholder="请选择省份"
-      >
-        <el-option
-          v-for="dc in provinceList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="城市" prop="cityCode">
-
-      <el-select
-        v-model="addForm.cityCode"
-        clearable filterable
-        placeholder="请选择城市"
-      >
-        <el-option
-          v-for="dc in cityList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
-    <el-form-item label="区县" prop="areaCode">
-
-      <el-select
-        v-model="addForm.areaCode"
-        clearable  filterable
-        placeholder="请选择区县"
-      >
-        <el-option
-          v-for="dc in areaList"
-          :key="dc.code"
-          :value="dc.code"
-          :label="dc.name"
-        />
-      </el-select>
-    </el-form-item>
+    <district-code-form :form-obj="addForm"/>
 
     <el-form-item label="地址" prop="businessDistrictAddress">
       <el-input
@@ -349,11 +251,7 @@ onMounted(() => {
       </el-select>
     </el-form-item>
     <el-form-item>
-      经纬度拾取工具
-      <span style="margin-left: 10px; color: #67c23a "><a href="https://lbs.qq.com/tool/getpoint/get-point.html" target="_blank">腾讯</a></span>
-      <span style="margin-left: 10px;color: #00D3E9"><a href="https://lbs.amap.com/tools/picker" target="_blank">高德</a></span>
-      <span style="margin-left: 10px; color: #e6a23c"><a href="https://lbs.baidu.com/maptool/getpoint" target="_blank">百度</a></span>
-      <span style="margin-left: 10px; color: #3b82f6;"><a href="https://guihuayun.com/maps/getxy.php" target="_blank">全部</a></span>
+      <GetLngLatTips/>
     </el-form-item>
     <el-form-item label="纬度" prop="centerLat">
 

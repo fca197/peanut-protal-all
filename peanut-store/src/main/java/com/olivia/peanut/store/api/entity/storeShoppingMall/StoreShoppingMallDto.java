@@ -66,12 +66,12 @@ public class StoreShoppingMallDto extends BaseEntityDto {
   /***
    *  所属最新商区
    */
-  @NotNull(message = "所属最新商区不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "所属最新商区不能为空", groups = {UpdateCheck.class})
   private Long belongDistrictId;
   /***
    *  所属商区 List<Long>
    */
-  @NotNull(message = "所属商区 List<Long>不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "所属商区 List<Long>不能为空", groups = {UpdateCheck.class})
   private List<String> belongDistrictIdList;
   /***
    *  地址
@@ -112,31 +112,31 @@ public class StoreShoppingMallDto extends BaseEntityDto {
    *  评分
    */
   @NotBlank(message = "评分不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  private String businessRating;
+  private BigDecimal businessRating;
   /***
    *  标签List<String>
    */
-  @NotNull(message = "标签List<String>不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "标签List<String>不能为空", groups = {UpdateCheck.class})
   private List<String> businessTag;
   /***
    *  联系电话可多个List<String>
    */
-  @NotNull(message = "联系电话可多个List<String>不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "联系电话可多个List<String>不能为空", groups = {UpdateCheck.class})
   private List<String> businessTel;
   /***
    *  入口经纬度经度
    */
-  @NotNull(message = "入口经纬度经度不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "入口经纬度经度不能为空", groups = {UpdateCheck.class})
   private BigDecimal enterLocationLng;
   /***
    *  入口经纬度纬度
    */
-  @NotNull(message = "入口经纬度纬度不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "入口经纬度纬度不能为空", groups = {UpdateCheck.class})
   private BigDecimal enterLocationLat;
   /***
    *  图片： List<String>
    */
-  @NotNull(message = "图片： List<String>不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "图片： List<String>不能为空", groups = {UpdateCheck.class})
   private List<String> photos;
 
 }

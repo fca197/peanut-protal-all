@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {ref, onMounted} from "vue"
+import {onMounted, ref} from "vue"
 import AddEditFormVue from "./StoreShoppingMallAddEditForm.vue"
 import TableBar from "@/layouts/components/TableBar/index.vue"
 import {ElTable} from "element-plus";
 import {HeaderInfo, postResultInfo} from "@@/utils/common-js.ts"
 import {type StoreShoppingMall} from "./StoreShoppingMallType.ts"
+import DistrictCodeForm from "@v/DistrictCode/DistrictCodeForm.vue";
 
 const dtoUrl = ref<string>("/storeShoppingMall")
 const documentTitle = ref<string>("门店 商场")
@@ -72,11 +73,11 @@ const headerList = ref<HeaderInfo[]>([
   {fieldName: "businessOpenTimeTodayOpen", showName: "营业开始时间"},
   {fieldName: "businessOpenTimeTodayClose", showName: "营业结束时间"},
   {fieldName: "businessRating", showName: "评分"},
-  {fieldName: "businessTag", showName: "标签List<String>"},
-  {fieldName: "businessTel", showName: "联系电话可多个List<String>"},
+  {fieldName: "businessTag", showName: "标签"},
+  {fieldName: "businessTel", showName: "联系电话可多个"},
   {fieldName: "enterLocationLng", showName: "入口经纬度经度"},
   {fieldName: "enterLocationLat", showName: "入口经纬度纬度"},
-  {fieldName: "photos", showName: "图片： List<String>"},
+  {fieldName: "photos", showName: "图片： "},
   {fieldName: "tenantId", showName: "租户ID"},
   {fieldName: "isDelete", showName: "是否删除 0 否,1 是"},
   {fieldName: "createTime", showName: "创建时间"},
@@ -138,95 +139,13 @@ onMounted(() => {
   <div class="app-container">
     <el-card class="search-wrapper" shadow="never">
       <el-form v-model="queryForm" inline>
-        <el-form-item label="国家编码" prop="countryCode">
-          <el-input
-            v-model="queryForm.countryCode"
-            clearable
-            placeholder="请输入国家编码"
-          />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="provinceCode">
-          <el-input
-            v-model="queryForm.provinceCode"
-            clearable
-            placeholder="请输入城市编码"
-          />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="cityCode">
-          <el-input
-            v-model="queryForm.cityCode"
-            clearable
-            placeholder="请输入城市编码"
-          />
-        </el-form-item>
-        <el-form-item label="城市编码" prop="areaCode">
-          <el-input
-            v-model="queryForm.areaCode"
-            clearable
-            placeholder="请输入城市编码"
-          />
-        </el-form-item>
-        <el-form-item label="国家名称" prop="countryName">
-          <el-input
-            v-model="queryForm.countryName"
-            clearable
-            placeholder="请输入国家名称"
-          />
-        </el-form-item>
-        <el-form-item label="省份名称" prop="provinceName">
-          <el-input
-            v-model="queryForm.provinceName"
-            clearable
-            placeholder="请输入省份名称"
-          />
-        </el-form-item>
-        <el-form-item label="城市名称" prop="cityName">
-          <el-input
-            v-model="queryForm.cityName"
-            clearable
-            placeholder="请输入城市名称"
-          />
-        </el-form-item>
-        <el-form-item label="区县名称" prop="areaName">
-          <el-input
-            v-model="queryForm.areaName"
-            clearable
-            placeholder="请输入区县名称"
-          />
-        </el-form-item>
+
+        <DistrictCodeForm :form-obj="queryForm"/>
         <el-form-item label="所属最新商区" prop="belongDistrictId">
           <el-input
             v-model="queryForm.belongDistrictId"
             clearable
             placeholder="请输入所属最新商区"
-          />
-        </el-form-item>
-        <el-form-item label="所属商区 List<Long>" prop="belongDistrictIdList">
-          <el-input
-            v-model="queryForm.belongDistrictIdList"
-            clearable
-            placeholder="请输入所属商区 List<Long>"
-          />
-        </el-form-item>
-        <el-form-item label="地址" prop="shoppingMallAddress">
-          <el-input
-            v-model="queryForm.shoppingMallAddress"
-            clearable
-            placeholder="请输入地址"
-          />
-        </el-form-item>
-        <el-form-item label="经度" prop="shoppingMallLocationLng">
-          <el-input
-            v-model="queryForm.shoppingMallLocationLng"
-            clearable
-            placeholder="请输入经度"
-          />
-        </el-form-item>
-        <el-form-item label="纬度" prop="shoppingMallLocationLat">
-          <el-input
-            v-model="queryForm.shoppingMallLocationLat"
-            clearable
-            placeholder="请输入纬度"
           />
         </el-form-item>
         <el-form-item label="商场名称" prop="shoppingMallName">
@@ -250,62 +169,6 @@ onMounted(() => {
             placeholder="请输入商场别称"
           />
         </el-form-item>
-        <el-form-item label="营业开始时间" prop="businessOpenTimeTodayOpen">
-          <el-input
-            v-model="queryForm.businessOpenTimeTodayOpen"
-            clearable
-            placeholder="请输入营业开始时间"
-          />
-        </el-form-item>
-        <el-form-item label="营业结束时间" prop="businessOpenTimeTodayClose">
-          <el-input
-            v-model="queryForm.businessOpenTimeTodayClose"
-            clearable
-            placeholder="请输入营业结束时间"
-          />
-        </el-form-item>
-        <el-form-item label="评分" prop="businessRating">
-          <el-input
-            v-model="queryForm.businessRating"
-            clearable
-            placeholder="请输入评分"
-          />
-        </el-form-item>
-        <el-form-item label="标签List<String>" prop="businessTag">
-          <el-input
-            v-model="queryForm.businessTag"
-            clearable
-            placeholder="请输入标签List<String>"
-          />
-        </el-form-item>
-        <el-form-item label="联系电话可多个List<String>" prop="businessTel">
-          <el-input
-            v-model="queryForm.businessTel"
-            clearable
-            placeholder="请输入联系电话可多个List<String>"
-          />
-        </el-form-item>
-        <el-form-item label="入口经纬度经度" prop="enterLocationLng">
-          <el-input
-            v-model="queryForm.enterLocationLng"
-            clearable
-            placeholder="请输入入口经纬度经度"
-          />
-        </el-form-item>
-        <el-form-item label="入口经纬度纬度" prop="enterLocationLat">
-          <el-input
-            v-model="queryForm.enterLocationLat"
-            clearable
-            placeholder="请输入入口经纬度纬度"
-          />
-        </el-form-item>
-        <el-form-item label="图片： List<String>" prop="photos">
-          <el-input
-            v-model="queryForm.photos"
-            clearable
-            placeholder="请输入图片： List<String>"
-          />
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="search" @click="getDataList">
             查询
@@ -326,37 +189,32 @@ onMounted(() => {
       />
       <ElTable v-loading="loadEntity" ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
         <ElTableColumn type="selection"/>
-        <ElTableColumn label="ID 自增" prop="id"/>
-        <ElTableColumn label="商场名称" prop="shoppingMallName"/>
-        <ElTableColumn label="商场别称" prop="businessAlias"/>
-        <ElTableColumn label="国家名称" prop="countryName"/>
-        <ElTableColumn label="省份名称" prop="provinceName"/>
-        <ElTableColumn label="城市名称" prop="cityName"/>
-        <ElTableColumn label="区县名称" prop="areaName"/>
-        <ElTableColumn label="所属最新商区" prop="belongDistrictName"/>
-        <ElTableColumn label="所属商区 List<Long>" prop="belongDistrictIdNameList"/>
-        <ElTableColumn label="地址" prop="shoppingMallAddress"/>
-        <ElTableColumn label="经度" prop="shoppingMallLocationLng"/>
-        <ElTableColumn label="纬度" prop="shoppingMallLocationLat"/>
-        <ElTableColumn label="商场别称" prop="businessKeytag"/>
-        <ElTableColumn label="营业开始时间" prop="businessOpenTimeTodayOpen"/>
-        <ElTableColumn label="营业结束时间" prop="businessOpenTimeTodayClose"/>
-        <ElTableColumn label="评分" prop="businessRating"/>
-        <ElTableColumn label="标签List<String>" prop="businessTag"/>
-        <ElTableColumn label="联系电话可多个List<String>" prop="businessTel"/>
-        <ElTableColumn label="入口经纬度经度" prop="enterLocationLng"/>
-        <ElTableColumn label="入口经纬度纬度" prop="enterLocationLat"/>
-        <ElTableColumn label="图片： List<String>" prop="photos"/>
-        <ElTableColumn label="租户ID" prop="tenantId"/>
-        <ElTableColumn label="是否删除 0 否,1 是" prop="isDelete"/>
-        <ElTableColumn label="创建时间" prop="createTime"/>
-        <ElTableColumn label="创建人" prop="createBy"/>
-        <ElTableColumn label="修改时间" prop="updateTime"/>
-        <ElTableColumn label="修改人" prop="updateBy"/>
-        <ElTableColumn label="调用链路" prop="traceId"/>
-        <ElTableColumn label="版本号" prop="versionNum"/>
-        <ElTableColumn label="创建人姓名" prop="createUserName"/>
-        <ElTableColumn label="修改人姓名" prop="updateUserName"/>
+        <ElTableColumn label="ID 自增" prop="id" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="商场名称" prop="shoppingMallName" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="商场别称" prop="businessAlias" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="国家名称" prop="countryName" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="省份名称" prop="provinceName" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="城市名称" prop="cityName" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="区县名称" prop="areaName" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="所属最新商区" prop="belongDistrictName" show-overflow-tooltip :min-width="120"/>
+        <ElTableColumn label="所属商区" prop="belongDistrictIdNameList" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="地址" prop="shoppingMallAddress" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="经度" prop="shoppingMallLocationLng" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="纬度" prop="shoppingMallLocationLat" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="商场别称" prop="businessKeytag" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="营业时间" prop="businessOpenTimeTodayOpen" :min-width="200">
+          <template #default="scope">
+            {{ scope.row.businessOpenTimeTodayOpen }}-{{ scope.row.businessOpenTimeTodayClose }}
+          </template>
+        </ElTableColumn>
+        <ElTableColumn label="评分" prop="businessRating" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="标签" prop="businessTag" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="联系电话" prop="businessTel" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="入口经度" prop="enterLocationLng" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="入口纬度" prop="enterLocationLat" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="图片 " prop="photos" show-overflow-tooltip :min-width="100"/>
+        <ElTableColumn label="修改时间" prop="updateTime" show-overflow-tooltip :min-width="200"/>
+        <ElTableColumn label="创建人姓名" prop="createUserName" show-overflow-tooltip :min-width="100"/>
 
         <ElTableColumn fixed="right" label="操作" width="150px">
           <template #default="scope">

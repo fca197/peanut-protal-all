@@ -113,7 +113,7 @@ public class StoreShoppingMall extends BaseEntity<StoreShoppingMall> {
    *  评分
    */
   @TableField(value = "business_rating")
-  private String businessRating;
+  private BigDecimal businessRating;
   /***
    *  标签List<String>
    */
