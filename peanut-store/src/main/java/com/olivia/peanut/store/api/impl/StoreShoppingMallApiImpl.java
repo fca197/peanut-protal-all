@@ -1,34 +1,19 @@
 package com.olivia.peanut.store.api.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
+import static com.olivia.peanut.store.converter.StoreShoppingMallConverter.INSTANCE;
 
+import com.olivia.peanut.store.api.StoreShoppingMallApi;
+import com.olivia.peanut.store.api.entity.storeShoppingMall.*;
+import com.olivia.peanut.store.api.impl.listener.StoreShoppingMallImportListener;
 import com.olivia.peanut.store.model.StoreShoppingMall;
-import com.olivia.sdk.utils.$;
+import com.olivia.peanut.store.service.StoreShoppingMallService;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
-import java.util.stream.Collectors;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-import org.apache.commons.lang3.StringUtils;
-import java.util.List;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.olivia.peanut.store.api.entity.storeShoppingMall.*;
-import com.olivia.peanut.store.service.StoreShoppingMallService;
-import com.olivia.peanut.store.model.*;
-import com.baomidou.mybatisplus.core.conditions.query.*;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.springframework.web.bind.annotation.*;
-import com.olivia.peanut.store.api.StoreShoppingMallApi;
-
-import static com.olivia.peanut.store.converter.StoreShoppingMallConverter.*;
-
-import com.olivia.peanut.store.api.impl.listener.*;
-import org.springframework.web.multipart.MultipartFile;
 import jakarta.annotation.Resource;
+import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 门店 商场(StoreShoppingMall)表服务实现类
@@ -47,7 +32,7 @@ public class StoreShoppingMallApiImpl implements StoreShoppingMallApi {
    */
   public @Override StoreShoppingMallInsertRes insert(StoreShoppingMallInsertReq req) {
     StoreShoppingMall storeShoppingMall = INSTANCE.insertReq(req);
-    this.storeShoppingMallService.save(storeShoppingMall);
+    this.storeShoppingMallService.saveStoreShoppingMall(storeShoppingMall);
     return new StoreShoppingMallInsertRes().setCount(1);
   }
 
@@ -73,7 +58,9 @@ public class StoreShoppingMallApiImpl implements StoreShoppingMallApi {
    *
    */
   public @Override StoreShoppingMallUpdateByIdRes updateById(StoreShoppingMallUpdateByIdReq req) {
-    storeShoppingMallService.updateById(INSTANCE.updateReq(req));
+    StoreShoppingMall storeShoppingMall = INSTANCE.updateReq(req);
+    this.storeShoppingMallService.checkStoreShoppingMall(storeShoppingMall);
+    storeShoppingMallService.updateById(storeShoppingMall);
     return new StoreShoppingMallUpdateByIdRes();
 
   }

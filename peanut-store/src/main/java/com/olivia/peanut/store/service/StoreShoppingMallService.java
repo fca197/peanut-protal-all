@@ -1,12 +1,11 @@
 package com.olivia.peanut.store.service;
 
-import com.olivia.sdk.utils.DynamicsPage;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.olivia.peanut.store.model.StoreShoppingMall;
-import java.util.List;
 import com.github.yulichang.base.MPJBaseService;
-
 import com.olivia.peanut.store.api.entity.storeShoppingMall.*;
+import com.olivia.peanut.store.model.StoreShoppingMall;
+import com.olivia.sdk.utils.DynamicsPage;
+import java.util.List;
+import lombok.NonNull;
 
 /**
  * 门店 商场(StoreShoppingMall)表服务接口
@@ -18,9 +17,13 @@ public interface StoreShoppingMallService extends MPJBaseService<StoreShoppingMa
 
   StoreShoppingMallQueryListRes queryList(StoreShoppingMallQueryListReq req);
 
+  void checkStoreShoppingMall(@NonNull StoreShoppingMall storeShoppingMall);
+
   DynamicsPage<StoreShoppingMallExportQueryPageListInfoRes> queryPageList(StoreShoppingMallExportQueryPageListReq req);
 
 
   void setName(List<? extends StoreShoppingMallDto> storeShoppingMallDtoList);
+
+  void saveStoreShoppingMall(StoreShoppingMall storeShoppingMall);
 }
 

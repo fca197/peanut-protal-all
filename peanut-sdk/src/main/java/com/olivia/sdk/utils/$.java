@@ -145,6 +145,12 @@ public final class $ {
     }
   }
 
+  public static void assertTrueException(boolean expression, String exceptionMsg) {
+    if (!expression) {
+      throw new RuntimeException(exceptionMsg);
+    }
+  }
+
   /**
    * 校验对象不为null，否则抛出可忽略异常
    *

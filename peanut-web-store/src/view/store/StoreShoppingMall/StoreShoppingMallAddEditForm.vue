@@ -111,6 +111,7 @@ const loadById = () => {
   }
   console.info("props.editId ", props.editId)
   getById(`${dtoUrl.value}/queryByIdList`, props.editId).then((t) => {
+    t.businessRating = parseInt(t.businessRating)
     addForm.value = t
     console.info(" addForm.value ", addForm.value)
     loadEntity.value = false

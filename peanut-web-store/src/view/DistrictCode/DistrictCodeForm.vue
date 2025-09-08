@@ -16,7 +16,7 @@ const areaList = ref<DistrictCode[]>([])
 
 watch(() => props.formObj.countryCode, (n) => {
   if (n !== undefined)
-    props.formObj.countryName = countryList.value.filter(t => t.code === n)[0].name
+    props.formObj.countryName = countryList.value.filter(t => t.code === n)[0]?.name
   provinceList.value = []
   cityList.value = []
   areaList.value = []
@@ -31,7 +31,7 @@ watch(() => props.formObj.countryCode, (n) => {
 watch(() => props.formObj.provinceCode, (n) => {
 
   if (n !== undefined)
-    props.formObj.provinceName = provinceList.value.filter(t => t.code === n)[0].name
+    props.formObj.provinceName = provinceList.value.filter(t => t.code === n)[0]?.name
   cityList.value = []
   areaList.value = []
   props.formObj.cityCode = undefined
@@ -42,7 +42,7 @@ watch(() => props.formObj.provinceCode, (n) => {
 })
 watch(() => props.formObj.cityCode, (n) => {
   if (n !== undefined)
-    props.formObj.cityName = cityList.value.filter(t => t.code === n)[0].name
+    props.formObj.cityName = cityList.value?.filter(t => t.code === n)[0]?.name
 
   areaList.value = []
   props.formObj.areaCode = undefined
@@ -51,7 +51,7 @@ watch(() => props.formObj.cityCode, (n) => {
 })
 watch(() => props.formObj.areaCode, (n) => {
   if (n !== undefined)
-    props.formObj.areaName = areaList.value.filter(t => t.code === n)[0].name
+    props.formObj.areaName = areaList.value.filter(t => t.code === n)[0]?.name
 })
 onMounted(() => {
   queryDistrictCodeV2("000000", countryList)

@@ -1,32 +1,26 @@
 package com.olivia.peanut.store.service.impl;
 
-import org.springframework.aop.framework.AopContext;
+import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import jakarta.annotation.Resource;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.DynamicsPage;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.olivia.peanut.base.service.BaseTableHeaderService;
+import com.olivia.peanut.store.api.entity.storeShoppingMall.*;
+import com.olivia.peanut.store.converter.StoreShoppingMallConverter;
 import com.olivia.peanut.store.mapper.StoreShoppingMallMapper;
 import com.olivia.peanut.store.model.StoreShoppingMall;
-import com.olivia.peanut.store.converter.StoreShoppingMallConverter;
 import com.olivia.peanut.store.service.StoreShoppingMallService;
-import cn.hutool.core.collection.CollUtil;
-import com.olivia.peanut.base.service.BaseTableHeaderService;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.peanut.store.api.entity.storeShoppingMall.*;
 import com.olivia.sdk.service.SetNameService;
+import com.olivia.sdk.utils.*;
+import jakarta.annotation.Resource;
+import java.util.List;
+import java.util.Optional;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 门店 商场(StoreShoppingMall)表服务实现类
@@ -34,6 +28,7 @@ import com.olivia.sdk.service.SetNameService;
  * @author admin
  * @since 2025-08-29 15:54:26
  */
+@Slf4j
 @Service("storeShoppingMallService")
 @Transactional
 public class StoreShoppingMallServiceImpl extends MPJBaseServiceImpl<StoreShoppingMallMapper, StoreShoppingMall> implements StoreShoppingMallService {
@@ -76,6 +71,25 @@ public class StoreShoppingMallServiceImpl extends MPJBaseServiceImpl<StoreShoppi
 
     ((StoreShoppingMallService) AopContext.currentProxy()).setName(records);
     return DynamicsPage.init(page, records);
+  }
+
+  @Override
+  public void saveStoreShoppingMall(StoreShoppingMall storeShoppingMall) {
+    checkStoreShoppingMall(storeShoppingMall);
+    this.baseMapper.insert(storeShoppingMall);
+  }
+
+  public void checkStoreShoppingMall(@NonNull StoreShoppingMall storeShoppingMall) {
+    LambdaQueryWrapper<StoreShoppingMall> eq = new LambdaQueryWrapper<>(StoreShoppingMall.class).eq(StoreShoppingMall::getShoppingMallName,
+        storeShoppingMall.getShoppingMallName());
+    Optional.ofNullable(storeShoppingMall.getId()).ifPresent(v -> eq.ne(StoreShoppingMall::getId, v));
+    Optional.ofNullable(storeShoppingMall.getAreaCode()).ifPresent(v -> eq.eq(StoreShoppingMall::getAreaCode, v));
+    Optional.ofNullable(storeShoppingMall.getCityCode()).ifPresent(v -> eq.eq(StoreShoppingMall::getCityCode, v));
+    Optional.ofNullable(storeShoppingMall.getProvinceCode()).ifPresent(v -> eq.eq(StoreShoppingMall::getProvinceCode, v));
+    List<StoreShoppingMall> list = this.list(eq);
+    List<Long> idList = list.stream().map(BaseEntity::getId).toList();
+    log.info("Store Shopping Mall {} has been saved. idList:{}", storeShoppingMall.getShoppingMallName(), idList);
+    $.assertTrueException(CollUtil.isNotEmpty(idList), "区域门店已存在");
   }
 
   // 以下为私有对象封装

@@ -76,6 +76,15 @@ const allMenuList: RouteRecordRaw[] = [
           elIcon: "OfficeBuilding"
         }
       },
+      {
+        name: "门店管理",
+        path: "/StoreMallStore",
+        component: () => import("@v/store/StoreMallStore/StoreMallStoreIndex.vue"),
+        meta: {
+          title: "门店",
+          elIcon: "OfficeBuilding"
+        }
+      },
     ]
   }
 ]

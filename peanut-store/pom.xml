@@ -16,6 +16,12 @@
       <groupId>com.olivia</groupId>
       <artifactId>peanut-base</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jetbrains</groupId>
+      <artifactId>annotations</artifactId>
+      <version>24.0.1</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
