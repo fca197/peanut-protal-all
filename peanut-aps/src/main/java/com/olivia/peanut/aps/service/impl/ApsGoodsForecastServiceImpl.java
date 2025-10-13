@@ -206,7 +206,7 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
     ApsGoodsForecast goodsForecast = this.getById(id);
     List<ApsSaleConfig> apsSaleConfigList = saleConfigService.list();
     Map<Long, ApsSaleConfig> apsSaleConfigMap = apsSaleConfigList.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
-    Map<String, ApsSaleConfig> saleConfigMap = apsSaleConfigList.stream().collect(Collectors.toMap(ApsSaleConfig::getSaleCode, Function.identity(), (a, b) -> a));
+    Map<String, ApsSaleConfig> saleConfigMap = apsSaleConfigList.stream().collect(Collectors.toMap(ApsSaleConfig::getSaleCode, Function.identity(),  BiFunctionImpl.getFist()));
 //    List<ApsGoodsForecastUserGoodsData> userGoodsDataList = new ArrayList<>();
     List<String> monthList = goodsForecast.getMonthList();
     //monthList ["2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10"]
@@ -321,9 +321,9 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
     $.requireNonNullCanIgnoreException(goodsForecast, "未找到该预测数据");
     Map<String, ApsGoodsForecastUserGoodsData> goodsDataMap = this.goodsForecastUserGoodsDataService.list(
             new LambdaQueryWrapper<ApsGoodsForecastUserGoodsData>().eq(ApsGoodsForecastUserGoodsData::getForecastId, req.getId())).stream()
-        .collect(Collectors.toMap(t -> String.valueOf(t.getYear()), t -> t, (a, b) -> a));
+        .collect(Collectors.toMap(t -> String.valueOf(t.getYear()), t -> t,  BiFunctionImpl.getFist()));
 
-    Map<Long, ApsSaleConfig> apsSaleConfigMap = this.saleConfigService.list().stream().collect(Collectors.toMap(BaseEntity::getId, v -> v, (a, b) -> a));
+    Map<Long, ApsSaleConfig> apsSaleConfigMap = this.saleConfigService.list().stream().collect(Collectors.toMap(BaseEntity::getId, v -> v,  BiFunctionImpl.getFist()));
     List<String> monthListTmp = goodsForecast.getMonthList();
     List<String> monthList = CollUtil.isEmpty(monthListTmp) ? List.of() : monthListTmp;
     DynamicsPage<GetForecastDataByIdRes> dynamicsPage = new DynamicsPage<>();
@@ -347,7 +347,7 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
 
     Map<String, ApsGoodsForecastUserSaleData> forecastUserSaleDataMap = this.goodsForecastUserSaleDataService.list(
             new LambdaQueryWrapper<ApsGoodsForecastUserSaleData>().eq(ApsGoodsForecastUserSaleData::getForecastId, req.getId())).stream()
-        .collect(Collectors.toMap(t -> t.getSaleConfigId() + "-" + t.getYear(), t -> t, (a, b) -> a));
+        .collect(Collectors.toMap(t -> t.getSaleConfigId() + "-" + t.getYear(), t -> t,  BiFunctionImpl.getFist()));
 
     List<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageListInfoResList = this.goodsSaleItemService.queryPageList(
         new ApsGoodsSaleItemExportQueryPageListReq().setQueryPage(false).setData(new ApsGoodsSaleItemDto().setGoodsId(goodsForecast.getGoodsId()))).getDataList();
@@ -387,14 +387,14 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
     $.requireNonNullCanIgnoreException(goodsForecast, "未找到该预测数据");
     Map<String, ApsGoodsForecastUserGoodsData> userSaleDataMap = this.goodsForecastUserGoodsDataService.list(
             new LambdaQueryWrapper<ApsGoodsForecastUserGoodsData>().eq(ApsGoodsForecastUserGoodsData::getForecastId, req.getId())).stream()
-        .collect(Collectors.toMap(t -> String.valueOf(t.getYear()), Function.identity(), (a, b) -> a));
+        .collect(Collectors.toMap(t -> String.valueOf(t.getYear()), Function.identity(),  BiFunctionImpl.getFist()));
 
     Map<String, ApsGoodsForecastUserSaleData> forecastUserSaleDataMap = this.goodsForecastUserSaleDataService.list(
             new LambdaQueryWrapper<ApsGoodsForecastUserSaleData>().eq(ApsGoodsForecastUserSaleData::getForecastId, req.getId())).stream()
-        .collect(Collectors.toMap(t -> t.getSaleConfigCode() + "-" + t.getYear(), Function.identity(), (a, b) -> a));
+        .collect(Collectors.toMap(t -> t.getSaleConfigCode() + "-" + t.getYear(), Function.identity(),  BiFunctionImpl.getFist()));
 
     List<String> monthList = goodsForecast.getMonthList();
-    Map<Long, ApsSaleConfig> apsSaleConfigMap = this.saleConfigService.list().stream().collect(Collectors.toMap(BaseEntity::getId, v -> v, (a, b) -> a));
+    Map<Long, ApsSaleConfig> apsSaleConfigMap = this.saleConfigService.list().stream().collect(Collectors.toMap(BaseEntity::getId, v -> v,  BiFunctionImpl.getFist()));
 
     DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> apsGoodsSaleItemList = this.goodsSaleItemService.queryPageList(
         new ApsGoodsSaleItemExportQueryPageListReq().setQueryPage(false).setData(new ApsGoodsSaleItemDto().setGoodsId(goodsForecast.getGoodsId())));
@@ -527,7 +527,7 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
 
     Map<String, ApsGoodsForecastComputeSaleData> saleDataMap = this.goodsForecastComputeSaleDataService.list(
             new LambdaQueryWrapper<ApsGoodsForecastComputeSaleData>().eq(ApsGoodsForecastComputeSaleData::getForecastId, req.getId())).stream()
-        .collect(Collectors.toMap(t -> t.getSaleConfigCode() + "-" + t.getYear(), f -> f, (a, b) -> a));
+        .collect(Collectors.toMap(t -> t.getSaleConfigCode() + "-" + t.getYear(), f -> f,  BiFunctionImpl.getFist()));
     List<ComputeResultRes> retList = new ArrayList<>();
 
     saleDataMap.forEach((sd, sdv) -> {

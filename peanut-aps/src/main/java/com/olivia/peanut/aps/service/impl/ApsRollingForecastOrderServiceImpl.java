@@ -22,7 +22,7 @@ import com.olivia.peanut.aps.utils.process.ProcessUtils;
 import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathInfo;
 import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathVo;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.service.pojo.NameConfig;
 import com.olivia.sdk.service.pojo.SetNamePojo;

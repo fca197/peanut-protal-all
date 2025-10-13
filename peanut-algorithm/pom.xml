@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>peanut-algorithm</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+            <id>attach-sources</id>
+            <phase>package</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId> <!-- 采用最新稳定版本 -->
+        <version>3.2.1</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+            </manifest>
+            <manifestEntries>
+              <build-time>${maven.build.timestamp}</build-time>
+              <build-version>${project.version}</build-version>
+            </manifestEntries>
+          </archive>
+        </configuration>
+        <version>3.2.0</version>
+      </plugin>
+
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <artifactId>ortools-java</artifactId>
+      <groupId>com.google.ortools</groupId>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.aviator</groupId>
+      <artifactId>aviator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.olivia</groupId>
+      <artifactId>peanut-sdk</artifactId>
+    </dependency>
+  </dependencies>
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>jar</packaging>
+  <parent>
+    <groupId>com.olivia</groupId>
+    <artifactId>peanut-portal-all</artifactId>
+    <version>3.0.0-20251013-SNAPSHOT</version>
+  </parent>
+
+  <properties>
+    <java.version>21</java.version>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <propertiesEncoding>utf-8</propertiesEncoding>
+
+    <spring.boot.version>3.4.0</spring.boot.version>
+  </properties>
+
+  <version>3.0.0-20251013-SNAPSHOT</version>
+
+</project>

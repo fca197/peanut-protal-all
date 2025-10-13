@@ -66,8 +66,8 @@
 //      }
 //      Field[] declaredFields = clazz.getSuperclass().getDeclaredFields();
 //      Map<String, Field> fieldMap = Arrays.stream(clazz.getDeclaredFields()).collect(
-//          Collectors.toMap(Field::getName, Function.identity(), (a, b) -> a, LinkedHashMap::new));
-//      Map<String, Field> pm = Arrays.stream(declaredFields).collect(Collectors.toMap(Field::getName, Function.identity(), (a, b) -> a, LinkedHashMap::new));
+//          Collectors.toMap(Field::getName, Function.identity(),  BiFunctionImpl.getFist(), LinkedHashMap::new));
+//      Map<String, Field> pm = Arrays.stream(declaredFields).collect(Collectors.toMap(Field::getName, Function.identity(),  BiFunctionImpl.getFist(), LinkedHashMap::new));
 //
 //      Map<String, Field> allFieldMap = new LinkedHashMap<>();
 //

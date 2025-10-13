@@ -10,7 +10,7 @@ import com.olivia.peanut.aps.service.ApsGoodsForecastMainService;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;

@@ -46,7 +46,7 @@ import com.olivia.peanut.base.model.CalendarDay;
 import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.CalendarDayService;
 import com.olivia.peanut.base.service.FactoryService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
@@ -400,7 +400,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     Map<String, CalendarDay> calendarDayMap = calendarDayService.list(calendarDayLambdaQueryWrapper).stream()
         .collect(Collectors.toMap(t -> t.getDayYear() + "-" + t.getDayMonth() + "-" + t.getFactoryId(), Function.identity()));
     Map<String, ApsMakeCapacityFactory> makeCapacityFactoryMap = this.apsMakeCapacityFactoryService.list(factoryUpdateWrapper).stream()
-        .collect(Collectors.toMap(t -> t.getYear() + "-" + t.getMonth(), Function.identity(), (a, b) -> a));
+        .collect(Collectors.toMap(t -> t.getYear() + "-" + t.getMonth(), Function.identity(), BiFunctionImpl.getFist()));
 
     Map<String, List<ApsMakeCapacitySaleConfig>> makeCapacitySaleConfigMap = this.apsMakeCapacitySaleConfigService.list(configLambdaQueryWrapper).stream()
         .collect(Collectors.groupingBy(t -> t.getYear() + "-" + t.getMonth()));
@@ -508,7 +508,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
 
     MakeCapacityResult capacityResult = MakeCapacityUtils.capacity(needCapcaitylist, limitList);
 
-    final List<Limit> limitListFinal = limitList.stream().collect(Collectors.toMap(Limit::getFieldName, f -> f, (a, b) -> a)).values().stream().limit(20).toList();
+    final List<Limit> limitListFinal = limitList.stream().collect(Collectors.toMap(Limit::getFieldName, f -> f,  BiFunctionImpl.getFist())).values().stream().limit(20).toList();
 
     List<ApsSchedulingVersionCapacity> apsSchedulingVersionCapacityList = new ArrayList<>();
     AtomicLong index = new AtomicLong(1);

@@ -1,7 +1,7 @@
 package com.olivia.peanut.base.service.impl;
 
 
-import static com.olivia.sdk.util.H3Utils.UBER_H3_CORE;
+import static com.olivia.sdk.utils.H3Utils.UBER_H3_CORE;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;

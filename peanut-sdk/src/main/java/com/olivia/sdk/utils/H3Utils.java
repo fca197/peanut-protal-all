@@ -1,4 +1,4 @@
-package com.olivia.sdk.util;
+package com.olivia.sdk.utils;
 
 import com.uber.h3core.H3Core;
 import com.uber.h3core.util.LatLng;

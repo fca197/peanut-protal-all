@@ -19,7 +19,7 @@ import com.olivia.peanut.aps.service.ApsMachineWorkstationService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.List;

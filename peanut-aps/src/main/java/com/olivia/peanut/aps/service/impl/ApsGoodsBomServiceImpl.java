@@ -1,8 +1,8 @@
 package com.olivia.peanut.aps.service.impl;
 
 
-import static com.olivia.sdk.util.SetNamePojoUtils.FACTORY;
-import static com.olivia.sdk.util.SetNamePojoUtils.GOODS;
+import static com.olivia.sdk.utils.SetNamePojoUtils.FACTORY;
+import static com.olivia.sdk.utils.SetNamePojoUtils.GOODS;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

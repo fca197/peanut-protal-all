@@ -13,7 +13,7 @@ import com.olivia.peanut.aps.mapper.ApsMakeCapacityFactoryMapper;
 import com.olivia.peanut.aps.model.ApsMakeCapacityFactory;
 import com.olivia.peanut.aps.service.ApsMakeCapacityFactoryService;
 import com.olivia.peanut.base.service.FactoryService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;

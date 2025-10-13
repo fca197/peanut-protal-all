@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.olivia</groupId>
     <artifactId>peanut-portal-all</artifactId>
-    <version>3.0.0-20250821-SNAPSHOT</version>
+    <version>3.0.0-20251013-SNAPSHOT</version>
   </parent>
 
   <artifactId>peanut-flow</artifactId>

@@ -17,7 +17,7 @@ import com.olivia.peanut.aps.service.ApsRollingForecastFactoryCapacityService;
 import com.olivia.peanut.aps.service.pojo.FactoryCapacityDay;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.base.service.FactoryService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.*;
 import com.olivia.sdk.utils.model.YearMonth;

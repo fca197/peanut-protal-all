@@ -1,11 +1,10 @@
-package com.olivia.sdk.util;
+package com.olivia.sdk.utils;
 
 import static com.olivia.sdk.utils.Str.FACTORY_NAME;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.olivia.sdk.service.pojo.NameConfig;
 import com.olivia.sdk.service.pojo.SetNamePojo;
-import com.olivia.sdk.utils.Str;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 

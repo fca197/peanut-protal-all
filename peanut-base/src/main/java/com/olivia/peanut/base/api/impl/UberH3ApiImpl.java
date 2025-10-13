@@ -1,7 +1,7 @@
 package com.olivia.peanut.base.api.impl;
 
 
-import static com.olivia.sdk.util.H3Utils.UBER_H3_CORE;
+import static com.olivia.sdk.utils.H3Utils.UBER_H3_CORE;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.olivia.peanut.base.api.UberH3Api;

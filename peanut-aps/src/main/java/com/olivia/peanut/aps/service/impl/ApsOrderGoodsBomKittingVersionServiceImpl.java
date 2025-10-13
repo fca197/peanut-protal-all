@@ -9,7 +9,7 @@ import com.olivia.peanut.aps.mapper.ApsOrderGoodsBomKittingVersionMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-import com.olivia.sdk.util.SetNamePojoUtils;
+import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;

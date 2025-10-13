@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.olivia</groupId>
     <artifactId>peanut-portal-all</artifactId>
-    <version>3.0.0-20250821-SNAPSHOT</version>
+    <version>3.0.0-20251013-SNAPSHOT</version>
   </parent>
 
   <artifactId>peanut-gateway</artifactId>
@@ -16,10 +16,10 @@
       <groupId>com.olivia</groupId>
       <artifactId>peanut-aps</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.olivia</groupId>
-      <artifactId>peanut-base</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.olivia</groupId>-->
+<!--      <artifactId>peanut-base</artifactId>-->
+<!--    </dependency>-->
   </dependencies>
   <properties>
     <maven.compiler.source>21</maven.compiler.source>
