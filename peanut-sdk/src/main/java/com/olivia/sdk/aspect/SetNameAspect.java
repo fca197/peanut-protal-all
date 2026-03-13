@@ -33,7 +33,7 @@ public class SetNameAspect {
   /**
    * 定义切入点：匹配所有标注了{@link SetUserName}注解的方法
    */
-  @Pointcut("@annotation(com.olivia.com.olivia.ann.sdk.SetUserName)")
+  @Pointcut("@annotation(com.olivia.sdk.ann.SetUserName)")
   public void setUserNamePointcut() {
     // 切入点定义，无具体实现
   }

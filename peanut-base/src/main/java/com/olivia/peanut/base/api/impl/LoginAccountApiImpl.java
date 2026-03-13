@@ -2,6 +2,7 @@ package com.olivia.peanut.base.api.impl;
 
 import static java.lang.Boolean.TRUE;
 
+import ch.qos.logback.core.util.MD5Util;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -31,6 +32,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,8 +74,10 @@ public class LoginAccountApiImpl implements LoginAccountApi {
 
     LoginUserContext.setIgnoreTenantId(TRUE);
 
+    String pwd = req.getPwd();
+    pwd= MD5.create().digestHex(pwd).toUpperCase();
     LoginAccount loginAccount = loginAccountService.getOne(new LambdaQueryWrapper<LoginAccount>() //
-        .eq(LoginAccount::getLoginPhone, req.getLoginPhone()).eq(LoginAccount::getUserPwd, req.getPwd()), false);
+        .eq(LoginAccount::getLoginPhone, req.getLoginPhone()).eq(LoginAccount::getUserPwd, pwd), false);
     $.requireNonNullCanIgnoreException(loginAccount, "用户名密码错误");
     loginAccount.setUserPwd(null);
     String token = String.join("_", IdWorker.get32UUID().toUpperCase());

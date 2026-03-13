@@ -1,0 +1,39 @@
+package com.olivia.sdk.utils.deserializer;
+
+import static org.apache.commons.lang3.StringUtils.trimToEmpty;
+
+import cn.hutool.core.util.ReflectUtil;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
+import com.fasterxml.jackson.databind.introspect.AnnotatedField;
+import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
+import com.olivia.sdk.ann.FieldExt;
+import java.io.IOException;
+import java.util.Optional;
+
+public class PeanutStringDeserializer extends StringDeserializer {
+
+  public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+
+    // 1. 获取原始字符串并做基础的 trim 处理
+    String originalValue;
+    if (p.hasToken(JsonToken.VALUE_STRING)) {
+      originalValue = (p.getText());
+    } else {
+      originalValue = p.hasToken(JsonToken.START_ARRAY) ? this._deserializeFromArray(p, ctxt) : this._parseString(p, ctxt, this);
+    }
+
+    String fieldName = p.getParsingContext().getCurrentName();
+    Boolean bool = Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue)
+        .map(t -> ReflectUtil.getField(t.getClass(),fieldName)).map(t -> t.getAnnotation(FieldExt.class))
+        .map(FieldExt::autoTrim).orElse(true);
+//    ctxt.getParser()
+    return bool ? trimToEmpty(originalValue) : originalValue;
+  }
+
+  public String deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
+    return this.deserialize(p, ctxt);
+  }
+}

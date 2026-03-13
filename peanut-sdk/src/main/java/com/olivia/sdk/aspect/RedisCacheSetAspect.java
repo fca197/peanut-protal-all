@@ -31,7 +31,7 @@ public class RedisCacheSetAspect {
   /**
    * 定义切入点：匹配所有标注了{@link RedissonCacheAnn}注解的方法
    */
-  @Pointcut("@annotation(com.olivia.com.olivia.ann.sdk.RedissonCacheAnn)")
+  @Pointcut("@annotation(com.olivia.sdk.ann.RedissonCacheAnn)")
   public void redisCachePointcut() {
     // 切入点定义，无具体实现
   }

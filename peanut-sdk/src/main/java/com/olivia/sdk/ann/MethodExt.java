@@ -53,14 +53,31 @@ public @interface MethodExt {
    */
   @Getter
   enum FileSuffix {
+
+    /**
+     * Microsoft Excel 电子表格文件
+     */
     XLSX("xlsx"),
+    /**
+     * 逗号分隔值文件
+     */
     CSV("csv"),
+    /**
+     * 文本文件
+     */
     TXT("txt"),
+    /**
+     * 便携式文档格式
+     */
     PDF("pdf"),
+    /**
+     * Microsoft Word 文档
+     */
     DOCX("docx");
 
     /**
      * -- GETTER -- 获取文件后缀的字符串表示。
+     * 文件后缀的字符串表示
      */
     private final String code;
 

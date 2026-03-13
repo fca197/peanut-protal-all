@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  */
 @Slf4j
-@EnableCaching
+//@EnableCaching
 //@EnableAspectJAutoProxy
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @MapperScan(basePackages = {"com.olivia.peanut.*.mapper", "com.olivia.sdk.mapper"})

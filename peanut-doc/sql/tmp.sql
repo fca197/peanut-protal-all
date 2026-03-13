@@ -11,7 +11,7 @@ create table if not exists task_instance_history
     exception_msg    longtext comment '异常描述',
     use_time         int comment '耗时',
     tenant_id        bigint                               null comment '租户ID',
-    is_delete        tinyint(1) default 0                 null comment '是否删除 0 否,1 是',
+    is_delete        int default 0                 null comment '删除标识 0 否， 时间戳为删除时间，单位秒',
     create_time      datetime   default CURRENT_TIMESTAMP null comment '创建时间',
     create_by        bigint                               null comment '创建人',
     update_time      datetime   default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '修改时间',

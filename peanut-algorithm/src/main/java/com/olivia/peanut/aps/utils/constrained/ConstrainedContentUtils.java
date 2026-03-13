@@ -191,7 +191,7 @@ public class ConstrainedContentUtils {
             && o.compareTo(filter.getValueList().get(1)) <= 0;
         case NOT_BETWEEN -> o.compareTo(firstValue) < 0
             || o.compareTo(filter.getValueList().get(1)) > 0;
-        case IS_NULL -> StringUtils.containsAny(o, "null", "NULL", "Null", "NULL", "");
+        case IS_NULL -> StringUtils.isBlank(o) || "null".equalsIgnoreCase(StringUtils.trim(o));
       };
 
     }

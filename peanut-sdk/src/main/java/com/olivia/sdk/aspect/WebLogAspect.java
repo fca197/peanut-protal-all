@@ -66,17 +66,13 @@ public class WebLogAspect {
     HttpServletRequest request = ReqResUtils.getRequest();
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
     LoginUser loginUser = LoginUserContext.getLoginUser();
-
+    long startTime = System.currentTimeMillis();
     // 过滤并获取请求参数
     List<Object> filteredArgs = ReqResUtils.filterReqArgs(joinPoint.getArgs());
 
     // 记录请求日志
-    log.debug("请求日志 - URL: {}, 方法: {}.{}, 用户: {}, 参数: {}",
-        request.getRequestURI(),
-        methodSignature.getDeclaringType().getSimpleName(),
-        methodSignature.getMethod().getName(),
-        JSON.toJSONString(loginUser),
-        JSON.toJSONString(filteredArgs));
+    log.debug("请求日志 - URL: {}, 方法: {}.{}, 用户: {}, 参数: {}", request.getRequestURI(), methodSignature.getDeclaringType().getSimpleName(),
+        methodSignature.getMethod().getName(), JSON.toJSONString(loginUser), JSON.toJSONString(filteredArgs));
 
     // 执行目标方法
     Object result = null;
@@ -86,7 +82,7 @@ public class WebLogAspect {
       // 根据注解配置决定是否记录响应日志
       MethodExt methodExt = methodSignature.getMethod().getAnnotation(MethodExt.class);
       if (Objects.isNull(methodExt) || methodExt.printResult()) {
-        log.debug("响应日志 - 结果: {}", JSON.toJSONString(result));
+        log.debug("响应日志 - 耗时: {} ms, 结果: {}", (System.currentTimeMillis() - startTime), JSON.toJSONString(result));
       }
     }
 

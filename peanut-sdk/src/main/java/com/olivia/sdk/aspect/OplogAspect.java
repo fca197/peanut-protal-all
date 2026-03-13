@@ -38,7 +38,7 @@ public class OplogAspect {
   /**
    * 定义切入点：匹配所有标注了{@link Oplog}注解的方法
    */
-  @Pointcut("@annotation(com.olivia.com.olivia.ann.sdk.Oplog)")
+  @Pointcut("@annotation(com.olivia.sdk.ann.Oplog)")
   public void oplogPointcut() {
     // 切入点定义，无具体实现
   }

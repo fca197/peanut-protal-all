@@ -1,12 +1,19 @@
 package com.olivia.sdk.aspect;
 
-import com.olivia.sdk.utils.MDCUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
+// SDK工具类导入
+import com.olivia.sdk.utils.MDCUtils;                 // MDC（Mapped Diagnostic Context）工具类，用于分布式追踪
+
+// Lombok注解导入
+import lombok.extern.slf4j.Slf4j;                    // SLF4J日志注解，提供日志功能
+
+// AspectJ AOP框架导入
+import org.aspectj.lang.ProceedingJoinPoint;         // 环绕通知连接点，允许在方法执行前后插入逻辑
+import org.aspectj.lang.annotation.Around;          // 环绕通知注解，用于在方法执行前后执行自定义逻辑
+import org.aspectj.lang.annotation.Aspect;          // 切面注解，标识此类为AOP切面
+import org.aspectj.lang.annotation.Pointcut;         // 切入点注解，定义需要拦截的方法表达式
+
+// Spring框架导入
+import org.springframework.stereotype.Component;      // 组件注解，将此类注册为Spring容器中的Bean
 
 /**
  * 分布式追踪Span管理切面，用于自动生成和传递下一级Span ID。

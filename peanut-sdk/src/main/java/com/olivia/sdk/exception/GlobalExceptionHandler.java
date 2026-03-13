@@ -150,7 +150,7 @@ public class GlobalExceptionHandler {
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public Result<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-    log.warn("请求参数解析失败: {}", e.getMessage());
+    log.warn("请求参数解析失败: {}", e.getMessage(),e);
     return Result.fail("请求参数格式错误，请检查请求体").setErrorData(e.getMostSpecificCause().getMessage());
   }
 

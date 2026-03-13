@@ -30,7 +30,7 @@ public class RedissonLockAspect {
   /**
    * 定义切入点：匹配所有标注了{@link RedissonLockAnn}注解的方法
    */
-  @Pointcut("@annotation(com.olivia.com.olivia.ann.sdk.RedissonLockAnn)")
+  @Pointcut("@annotation(com.olivia.sdk.ann.RedissonLockAnn)")
   public void redissonLockPointcut() {
     // 切入点定义，无具体实现
   }
@@ -121,7 +121,7 @@ public class RedissonLockAspect {
     if (StringUtils.isBlank(segment)) {
       return "";
     }
-    return StringUtils.startsWith(segment, ":") ? segment : ":" + segment;
+    return segment.startsWith(":") ? segment : ":" + segment;
   }
 
   /**

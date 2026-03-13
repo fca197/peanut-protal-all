@@ -64,11 +64,11 @@
 
 | 组建名称              | 依赖版本         | 说明                                                                           |
 |-------------------|--------------|------------------------------------------------------------------------------|
-| JDK               | jdk 21       | Jdk最低版本                                                                      |
+| JDK               | jdk 25       | Jdk最低版本                                                                      |
 | Spring Boot       | 3.2.0        | springboot版本                                                                 |
 | mybatis-plus      | 3.5.8        | mybatisplus版本                                                                |
 | mybatis-plus-join | 1.4.8.1      | mybatisplus-join版本                                                           | 
-| lombok            | 1.18.22      | lombok版本                                                                     |
+| lombok            | 1.18.42      | lombok版本                                                                     |
 | uber-h3           | 4.1.1        | 经纬度转code码                                                                    |
 | hutool            | 5.8.23       | 常用工具库                                                                        |
 | drools            | 7.74.1.Final | 规则引擎                                                                         |
