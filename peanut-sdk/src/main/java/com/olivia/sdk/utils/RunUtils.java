@@ -42,7 +42,7 @@ public class RunUtils implements AutoCloseable {
    */
   @Getter
   private static final ExecutorService platformExecutor = Executors.newThreadPerTaskExecutor(
-      Thread.ofPlatform().name("platform-task-", 1).priority(Thread.NORM_PRIORITY).factory());
+      Thread.ofPlatform().name("platform-task-", 1).priority(Thread.MIN_PRIORITY).factory());
 
   /**
    * 标记未实现的功能

@@ -152,7 +152,7 @@ public final class RunnableWrapUtils {
 
       // 日志调试：确认上下文已清理（仅在DEBUG级别生效）
       if (log.isDebugEnabled()) {
-        log.debug("Thread context cleared - threadId: {}", Thread.currentThread().threadId());
+        log.debug("Thread context cleared - threadId: {} name : {}", Thread.currentThread().threadId(),Thread.currentThread().getName());
       }
       // 清理MDC上下文
       MDC.clear();
@@ -197,7 +197,7 @@ public final class RunnableWrapUtils {
       }
 
       Thread currentThread = Thread.currentThread();
-      log.debug("Thread context setup complete Task key: {} threadId: {} threadName: {} Thread group: {} Priority: {} Is virtual thread: {}", key,
+      log.debug("Thread context setup complete Task key: {} threadId: {} , threadName: {} , Thread group: {} , Priority: {} , Is virtual thread: {}", key,
           currentThread.threadId(), // JDK 19+ API，获取稳定的线程ID
           currentThread.getName(), currentThread.getThreadGroup().getName(), currentThread.getPriority(), currentThread.isVirtual() // JDK 21虚拟线程判断API
       );

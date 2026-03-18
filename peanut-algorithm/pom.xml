@@ -55,11 +55,7 @@
   </dependencies>
   <modelVersion>4.0.0</modelVersion>
   <packaging>jar</packaging>
-  <parent>
-    <groupId>com.olivia</groupId>
-    <artifactId>peanut-portal-all</artifactId>
-    <version>3.0.0-20251013-SNAPSHOT</version>
-  </parent>
+  <parent/>
 
   <properties>
     <java.version>25</java.version>

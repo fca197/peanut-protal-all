@@ -2,9 +2,9 @@ package com.olivia.peanut.base.api.impl;
 
 import static java.lang.Boolean.TRUE;
 
-import ch.qos.logback.core.util.MD5Util;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.Md5Crypt;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +74,7 @@ public class LoginAccountApiImpl implements LoginAccountApi {
     LoginUserContext.setIgnoreTenantId(TRUE);
 
     String pwd = req.getPwd();
-    pwd= MD5.create().digestHex(pwd).toUpperCase();
+    pwd = MD5.create().digestHex(pwd).toUpperCase();
     LoginAccount loginAccount = loginAccountService.getOne(new LambdaQueryWrapper<LoginAccount>() //
         .eq(LoginAccount::getLoginPhone, req.getLoginPhone()).eq(LoginAccount::getUserPwd, pwd), false);
     $.requireNonNullCanIgnoreException(loginAccount, "用户名密码错误");
@@ -83,11 +82,14 @@ public class LoginAccountApiImpl implements LoginAccountApi {
     String token = String.join("_", IdWorker.get32UUID().toUpperCase());
     String str = JSON.toJSONString(loginAccount);
     String key = peanutProperties.getRedisKey().getUserToken() + token;
-    log.info("loginPhonePwd ,loginPhone: {} token: {} loginAccount: {}", req.getLoginPhone(), key, str);
+    log.info("login Phone Pwd ,loginPhone: {} token: {} loginAccount: {}", req.getLoginPhone(), key, str);
     long seconds = LocalDateTimeUtil.between(
-            LocalDate.now().minusDays(2).atTime(LocalTime.MIN), LocalDateTime.now())
-        .getSeconds();
+            LocalDateTime.now(), LocalDate.now().plusDays(2).atTime(LocalTime.MIN))
+        .getSeconds()+ RandomUtil.randomInt(130, 900);
     stringRedisTemplate.opsForValue().set(key, str, seconds, TimeUnit.SECONDS);
+    RunUtils.asyncRun("登录成功 " + req.getLoginPhone(), () -> {
+      log.info("登录成功 {} token {} seconds :{} ", req.getLoginPhone(), token, seconds);
+    });
     return new LoginPhonePwdRes().setToken(token);
 
   }

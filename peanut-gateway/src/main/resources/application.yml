@@ -67,6 +67,7 @@ db:
   data-source-type: com.zaxxer.hikari.HikariDataSource
 
 
+
 spring:
   mail:
     # 参考 https://baijiahao.baidu.com/s?id=1695308391844521693&wfr=spider&for=pc
@@ -96,7 +97,9 @@ spring:
   banner:
     location: banner.txt
   datasource:
+
     hikari:
+#      threadFactory: com.olivia.sdk.factory.VirtualThreadFactory
       #      data-source-properties:
       #        cachePrepStmts: true
       #        prepStmtCacheSize: 250
@@ -168,6 +171,12 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml,classpath:/mapper/*/*.xml  # 指定 MyBatis Mapper XML 文件的位置
   type-aliases-package: com.olivia.peanut.*.model  # 指定实体类所在包名
+  configuration:
+    call-setters-on-nulls: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+
 
 
 logging:

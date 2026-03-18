@@ -34,11 +34,11 @@ public class WebBeanConfig implements WebMvcConfigurer {
     InterceptorRegistration interceptorRegistration = registry.addInterceptor(webHandlerInterceptor).addPathPatterns("/**");  // 拦截所有路径
 
     // 配置排除路径（白名单）
-    List<String> whiteList = peanutProperties.getUrlWhiteList();
-    if (!whiteList.isEmpty()) {
-      interceptorRegistration.excludePathPatterns(whiteList.toArray(new String[0]));
-      log.info("已配置拦截器排除路径，共 {} 条 whiteList: {}", whiteList.size(), whiteList);
-    }
+//    List<String> whiteList = peanutProperties.getUrlWhiteList();
+//    if (!whiteList.isEmpty()) {
+//      interceptorRegistration.excludePathPatterns(whiteList.toArray(new String[0]));
+//      log.info("已配置拦截器排除路径，共 {} 条 whiteList: {}", whiteList.size(), whiteList);
+//    }
 
     log.info("WebHandlerInterceptor 已注册，拦截路径: /**");
   }

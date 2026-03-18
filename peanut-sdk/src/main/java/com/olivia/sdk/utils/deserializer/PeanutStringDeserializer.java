@@ -7,12 +7,14 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
-import com.fasterxml.jackson.databind.introspect.AnnotatedField;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.olivia.sdk.ann.FieldExt;
 import java.io.IOException;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
+@Slf4j
 public class PeanutStringDeserializer extends StringDeserializer {
 
   public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
@@ -26,11 +28,18 @@ public class PeanutStringDeserializer extends StringDeserializer {
     }
 
     String fieldName = p.getParsingContext().getCurrentName();
-    Boolean bool = Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue)
-        .map(t -> ReflectUtil.getField(t.getClass(),fieldName)).map(t -> t.getAnnotation(FieldExt.class))
-        .map(FieldExt::autoTrim).orElse(true);
+    Boolean bool = Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue).map(t -> ReflectUtil.getField(t.getClass(), fieldName))
+        .map(t -> t.getAnnotation(FieldExt.class)).map(FieldExt::autoTrim).orElse(true);
+    String trimToEmpty = trimToEmpty(originalValue);
+    if (bool) {
+      if (!StringUtils.equals(trimToEmpty, originalValue)) {
+        log.debug("PeanutStringDeserializer:originalValue:{},trimToEmpty:{},class:{}.{}", originalValue, trimToEmpty, p.currentValue().getClass(), fieldName);
+      }
+      return trimToEmpty;
+    }
 //    ctxt.getParser()
-    return bool ? trimToEmpty(originalValue) : originalValue;
+
+    return originalValue;
   }
 
   public String deserializeWithType(JsonParser p, DeserializationContext ctxt, TypeDeserializer typeDeserializer) throws IOException {
