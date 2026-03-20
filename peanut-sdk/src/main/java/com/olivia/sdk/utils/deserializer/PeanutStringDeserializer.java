@@ -28,13 +28,20 @@ public class PeanutStringDeserializer extends StringDeserializer {
     }
 
     String fieldName = p.getParsingContext().getCurrentName();
-    Boolean bool = Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue).map(t -> ReflectUtil.getField(t.getClass(), fieldName))
-        .map(t -> t.getAnnotation(FieldExt.class)).map(FieldExt::autoTrim).orElse(true);
-    String trimToEmpty = trimToEmpty(originalValue);
-    if (bool) {
-      if (!StringUtils.equals(trimToEmpty, originalValue)) {
-        log.debug("PeanutStringDeserializer:originalValue:{},trimToEmpty:{},class:{}.{}", originalValue, trimToEmpty, p.currentValue().getClass(), fieldName);
+    try {
+      Boolean bool = Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue).map(t -> ReflectUtil.getField(t.getClass(), fieldName))
+          .map(t -> t.getAnnotation(FieldExt.class)).map(FieldExt::autoTrim).orElse(true);
+      String trimToEmpty = trimToEmpty(originalValue);
+      if (bool) {
+        if (!StringUtils.equals(trimToEmpty, originalValue)) {
+          log.debug("PeanutStringDeserializer:originalValue:{},trimToEmpty:{},class:{}.{}", originalValue, trimToEmpty, p.currentValue().getClass(), fieldName);
+        }
+        return trimToEmpty;
       }
+    } catch (Exception e) {
+      String trimToEmpty = trimToEmpty(originalValue);
+      log.warn("json 生成对象错误 trimToEmpty: {}, class: {} ,fieldName: {}",trimToEmpty,
+          Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue).map(Object::getClass).map(String::valueOf).orElse("类空"), fieldName);
       return trimToEmpty;
     }
 //    ctxt.getParser()
