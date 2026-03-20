@@ -3,13 +3,11 @@ package com.olivia.sdk.aspect;
 import static com.olivia.sdk.utils.FieldUtils.getField;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.olivia.sdk.ann.SetUserName;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 /**
@@ -45,23 +42,25 @@ public class SetNameAspect {
    */
   @Before("setUserNamePointcut()")
   public void doBefore(JoinPoint joinPoint) {
-    Object[] methodArgs = joinPoint.getArgs();
-    if (ArrayUtil.isEmpty(methodArgs)) {
-      log.debug("方法参数为空，无需设置用户名");
-      return;
-    }
-
-    // 获取注解信息和第一个参数对象
-    Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-    SetUserName annotation = method.getAnnotation(SetUserName.class);
-    Object firstArg = methodArgs[0];
-
-    // 处理集合类型参数
-    if (firstArg instanceof Iterable<?> dataList) {
-      processIterableData(dataList, annotation);
-    } else if (annotation.isList()) {
-      log.warn("注解指定为列表类型，但实际参数类型为: {}", firstArg.getClass().getSimpleName());
-    }
+    log.debug("忽略执行:com.olivia.sdk.ann.SetUserName");
+//
+//    Object[] methodArgs = joinPoint.getArgs();
+//    if (ArrayUtil.isEmpty(methodArgs)) {
+//      log.debug("方法参数为空，无需设置用户名");
+//      return;
+//    }
+//
+//    // 获取注解信息和第一个参数对象
+//    Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
+//    SetUserName annotation = method.getAnnotation(SetUserName.class);
+//    Object firstArg = methodArgs[0];
+//
+//    // 处理集合类型参数
+//    if (firstArg instanceof Iterable<?> dataList) {
+//      processIterableData(dataList, annotation);
+//    } else if (annotation.isList()) {
+//      log.warn("注解指定为列表类型，但实际参数类型为: {}", firstArg.getClass().getSimpleName());
+//    }
   }
 
   /**

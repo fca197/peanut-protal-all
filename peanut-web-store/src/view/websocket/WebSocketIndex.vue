@@ -34,14 +34,14 @@ const sendMessage = () => {
   }
 }
 
-onMounted(() => {
-  webSocketSubscribe("/user/" + useUserStore().token + "/userMessage", (r) => {
-    // console.log("webSocketSubscribe r ", r)
-  })
-  webSocketSubscribe("/topic/allMessage", (r) => {
-    // console.log("allMessage ", r)
-  })
-})
+// onMounted(() => {
+//   webSocketSubscribe("/user/" + useUserStore().token + "/userMessage", (r) => {
+//     // console.log("webSocketSubscribe r ", r)
+//   })
+//   webSocketSubscribe("/topic/allMessage", (r) => {
+//     // console.log("allMessage ", r)
+//   })
+// })
 </script>
 
 <template>

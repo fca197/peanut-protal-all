@@ -75,7 +75,7 @@ export const useWebSocket = () => {
     })
 
     // 激活客户端
-    stompClient.value.activate()
+    // stompClient.value.activate()
   }
 
   // 断开连接
@@ -138,7 +138,7 @@ export const useWebSocket = () => {
   // 生命周期管理
   onMounted(() => {
     console.log("onMounted used")
-    webSocketConnect()
+    // webSocketConnect()
   })
 
   onBeforeUnmount(() => {

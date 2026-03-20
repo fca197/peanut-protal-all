@@ -75,7 +75,7 @@ export const useWebSocket = () => {
     })
 
     // 激活客户端
-    stompClient.value.activate()
+    // stompClient.value.activate()
   }
 
   // 断开连接

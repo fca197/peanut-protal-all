@@ -76,6 +76,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
   public void updateFill(MetaObject metaObject) {
     // 填充更新时间
     setUpdateUserAdnTime(metaObject);
+    LocalDateTime now = LocalDateTime.now();
+    this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, now);
     // 填充追踪ID
     setTraceId(metaObject);
   }

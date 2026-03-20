@@ -45,12 +45,12 @@ watchEffect(() => {
   setWatermark(`${userName}-${loginPhone?.substring(loginPhone?.length - 4)}-${time}`)
 })
 onMounted(() => {
-  webSocketConnect()
-  setTimeout(() => {
-    webSocketSubscribe("/notice", (r) => {
-      console.info("/notice ", r)
-    },true)
-  })
+  // webSocketConnect()
+  // setTimeout(() => {
+  //   webSocketSubscribe("/notice", (r) => {
+  //     console.info("/notice ", r)
+  //   },true)
+  // })
 })
 
 onBeforeUnmount(() => {

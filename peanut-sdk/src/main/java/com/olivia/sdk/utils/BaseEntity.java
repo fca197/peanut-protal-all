@@ -28,7 +28,7 @@ public class BaseEntity<T extends BaseEntity<T>> extends Model<T> {
   /**
    * 逻辑删除标识：0-未删除，1-已删除 由MyBatis-Plus自动维护，查询时会过滤已删除数据
    */
-  @TableLogic
+  @TableLogic(value = "0",delval = "UNIX_TIMESTAMP()")
   @TableField(fill = FieldFill.INSERT, value = "is_delete")
   @JsonIgnore
   private Integer isDelete = 0;
