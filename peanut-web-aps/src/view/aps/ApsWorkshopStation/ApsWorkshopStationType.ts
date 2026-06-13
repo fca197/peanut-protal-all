@@ -1,25 +1,24 @@
-import {request} from "@/http/axios.ts";
-import {Result, ResultPageInfo} from "@@/utils/common-js.ts"
+import {request} from '@/http/axios.ts';
+import {Result, ResultPageInfo} from '@@/utils/common-js.ts';
 
 export interface ApsWorkshopStation {
-  factoryId: string
-  sectionId: string
-  stationName: string
-  stationCode: string
-  stationType: string
-  stationStatus: string
-  id: string
+  factoryId: string;
+  sectionId: string;
+  stationName: string;
+  stationCode: string;
+  stationType: string;
+  stationStatus: string;
+  id: string;
 }
 
 export function queryStationList() {
   return request<Result<ResultPageInfo<ApsWorkshopStation>>>({
-    url: "/workshopStation/queryPageList",
-    method: "post",
+    url: '/workshopStation/queryPageList',
+    method: 'post',
     data: {
-      queryPage: false
-    }
+      queryPage: false,
+    },
   }).then((r) => {
-    return r.data.dataList
-  })
+    return r.data.dataList;
+  });
 }
-

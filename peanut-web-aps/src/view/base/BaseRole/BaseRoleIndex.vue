@@ -3,13 +3,25 @@
     <el-card class="search-wrapper" shadow="never">
       <el-form v-model="queryForm" inline>
         <el-form-item label="角色编码" prop="roleCode">
-          <el-input v-model="queryForm.roleCode" clearable placeholder="请输入角色编码"/>
+          <el-input
+            v-model="queryForm.roleCode"
+            clearable
+            placeholder="请输入角色编码"
+          />
         </el-form-item>
         <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="queryForm.roleName" clearable placeholder="请输入角色名称"/>
+          <el-input
+            v-model="queryForm.roleName"
+            clearable
+            placeholder="请输入角色名称"
+          />
         </el-form-item>
         <el-form-item label="角色组" prop="roleGroupId">
-          <el-input v-model="queryForm.roleGroupId" clearable placeholder="请输入角色组"/>
+          <el-input
+            v-model="queryForm.roleGroupId"
+            clearable
+            placeholder="请输入角色组"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="search" @click="getDataList">
@@ -29,16 +41,23 @@
         ref="tableBarRef"
         :data-batch-delete-url="dataBatchDeleteUrl"
       />
-      <ElTable ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
+      <ElTable
+        ref="dataTableRef"
+        :data="dataList"
+        stripe
+        @selection-change="handleSelectionChange"
+      >
         <ElTableColumn type="selection"/>
-        <ElTableColumn v-for="h in headerList" :key="h.fieldName" :label="h.showName" :prop="h.fieldName" :min-width="h.width"/>
+        <ElTableColumn
+          v-for="h in headerList"
+          :key="h.fieldName"
+          :label="h.showName"
+          :min-width="h.width"
+          :prop="h.fieldName"
+        />
         <ElTableColumn fixed="right" label="操作" width="250px">
           <template #default="scope">
-            <el-button
-              type="warning"
-              icon="edit"
-              @click="editData(scope.row)"
-            >
+            <el-button icon="edit" type="warning" @click="editData(scope.row)">
               编辑
             </el-button>
             <el-button
@@ -64,97 +83,97 @@
       </el-row>
     </el-card>
 
-    <el-dialog title="设置菜单" v-model="roleMenuSetting" :destroy-on-close="true" :width="400">
+    <el-dialog
+      v-model="roleMenuSetting"
+      :destroy-on-close="true"
+      :width="400"
+      title="设置菜单"
+    >
       <select-resource :close-fun="roleMenuSettingClose" :id="selectRoleId"/>
     </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import AddEditFormVue from "./BaseRoleAddEditForm.vue"
-import TableBar from "@/layouts/components/TableBar/index.vue"
-import { HeaderInfo, postResultInfo } from "@@/utils/common-js.ts"
-import SelectResource from "@v/base/BaseRole/SelectResource.vue";
-import { type BaseRole } from "./BaseRoleType.ts"
+import {ref} from 'vue';
+import AddEditFormVue from './BaseRoleAddEditForm.vue';
+import TableBar from '@/layouts/components/TableBar/index.vue';
+import {HeaderInfo, postResultInfo} from '@@/utils/common-js.ts';
+import SelectResource from '@v/base/BaseRole/SelectResource.vue';
+import {type BaseRole} from './BaseRoleType.ts';
 
-const dtoUrl = ref<string>("/baseRole")
-const documentTitle = ref<string>("角色")
-const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`)
+const dtoUrl = ref<string>('/baseRole');
+const documentTitle = ref<string>('角色');
+const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`);
 
 const queryForm = ref({
   roleCode: undefined,
   roleName: undefined,
   roleGroupId: undefined,
-  id: undefined
-})
+  id: undefined,
+});
 
-const multipleSelection = ref<(string | undefined) []>([])
+const multipleSelection = ref<(string | undefined)[]>([]);
 
-function handleSelectionChange(val: BaseRole []) {
-  multipleSelection.value = val.map(t => t.id)
-  console.info("multipleSelection ", multipleSelection)
+function handleSelectionChange(val: BaseRole[]) {
+  multipleSelection.value = val.map((t) => t.id);
+  console.info('multipleSelection ', multipleSelection);
 }
 
-const dataTableRef = ref({})
-const dataList = ref([])
-const tableBarRef = ref({})
+const dataTableRef = ref({});
+const dataList = ref([]);
+const tableBarRef = ref({});
 
-const currentPageNum = ref(1)
-const currentPageSize = ref(10)
-const tableTotal = ref(0)
-const headerList = ref<HeaderInfo[]>([])
+const currentPageNum = ref(1);
+const currentPageSize = ref(10);
+const tableTotal = ref(0);
+const headerList = ref<HeaderInfo[]>([]);
 
-const roleMenuSetting = ref<boolean>(false)
-const selectRoleId = ref<string>("")
+const roleMenuSetting = ref<boolean>(false);
+const selectRoleId = ref<string>('');
 const roleMenuSettingOpen = () => {
-  roleMenuSetting.value = true
-}
+  roleMenuSetting.value = true;
+};
 const roleMenuSettingClose = () => {
-  roleMenuSetting.value = false
-}
+  roleMenuSetting.value = false;
+};
 
 function getDataList() {
   const req = {
     pageSize: currentPageSize.value,
     pageNum: currentPageNum.value,
-    data: queryForm.value
-  }
-  console.info("getDataList {}", req)
-  postResultInfo(`${dtoUrl.value}/queryPageList`, req)
-    .then((t) => {
-      dataList.value = t.data.dataList
-      tableTotal.value = Number.parseInt(t.data.total)
-      headerList.value = t.data.headerList
-    })
+    data: queryForm.value,
+  };
+  console.info('getDataList {}', req);
+  postResultInfo(`${dtoUrl.value}/queryPageList`, req).then((t) => {
+    dataList.value = t.data.dataList;
+    tableTotal.value = Number.parseInt(t.data.total);
+    headerList.value = t.data.headerList;
+  });
 }
 
 onMounted(() => {
-  getDataList()
-})
+  getDataList();
+});
 
 function editData(data: BaseRole) {
   // console.info("data ", data)
-  tableBarRef.value?.showEditDialog(data.id)
+  tableBarRef.value?.showEditDialog(data.id);
 }
 function editRoleData(data: BaseRole) {
-  selectRoleId.value = data.id
+  selectRoleId.value = data.id;
   roleMenuSettingOpen();
 }
 
 function handleSizeChange(val: number) {
-  currentPageSize.value = val
-  getDataList()
+  currentPageSize.value = val;
+  getDataList();
 }
 
 function handleCurrentChange(val: number) {
-  currentPageNum.value = val
-  getDataList()
+  currentPageNum.value = val;
+  getDataList();
 }
-
 </script>
 
-<style scoped lang="scss">
-
-</style>
-
+<style lang="scss" scoped></style>

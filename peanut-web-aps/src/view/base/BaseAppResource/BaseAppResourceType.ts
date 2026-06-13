@@ -1,5 +1,5 @@
 export interface BaseAppResource {
-  appId: string
-  resourceId: string
-  id: string
+  appId: string;
+  resourceId: string;
+  id: string;
 }

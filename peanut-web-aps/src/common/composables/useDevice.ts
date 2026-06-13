@@ -1,12 +1,12 @@
-import { useAppStore } from "@/pinia/stores/app"
-import { DeviceEnum } from "@@/constants/app-key"
+import {useAppStore} from '@/pinia/stores/app';
+import {DeviceEnum} from '@@/constants/app-key';
 
-const appStore = useAppStore()
+const appStore = useAppStore();
 
-const isMobile = computed(() => appStore.device === DeviceEnum.Mobile)
-const isDesktop = computed(() => appStore.device === DeviceEnum.Desktop)
+const isMobile = computed(() => appStore.device === DeviceEnum.Mobile);
+const isDesktop = computed(() => appStore.device === DeviceEnum.Desktop);
 
 /** 设备类型 Composable */
 export function useDevice() {
-  return { isMobile, isDesktop }
+  return {isMobile, isDesktop};
 }

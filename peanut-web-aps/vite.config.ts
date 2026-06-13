@@ -1,13 +1,13 @@
 /// <reference types="vitest/config" />
 
-import { resolve } from "node:path"
+import {resolve} from "node:path"
 import vue from "@vitejs/plugin-vue"
 import vueJsx from "@vitejs/plugin-vue-jsx"
 import AutoImport from "unplugin-auto-import/vite"
 import SvgComponent from "unplugin-svg-component/vite"
-import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
+import {ElementPlusResolver} from "unplugin-vue-components/resolvers"
 import Components from "unplugin-vue-components/vite"
-import { defineConfig, loadEnv } from "vite"
+import {defineConfig, loadEnv} from "vite"
 import svgLoader from "vite-svg-loader"
 import viteCompression from "vite-plugin-compression";
 
@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         "@v": resolve(__dirname, "src/view"),
         // @@ 符号指向 src/common 通用目录
         "@@": resolve(__dirname, "src/common"),
+        "@c": resolve(__dirname, "src/common"),
         "global": "global/window" // 解决global未定义问题
       }
     },
@@ -40,8 +41,8 @@ export default defineConfig(({ mode }) => {
       // 反向代理
       proxy: {
         "/api/": {
-          // target: "https://aps.solveplan.cn",
-          target: "http://localhost",
+          target: "https://aps.solveplan.cn",
+          // target: "http://localhost",
           // 是否为 WebSocket
           ws: true,
           // 是否允许跨域

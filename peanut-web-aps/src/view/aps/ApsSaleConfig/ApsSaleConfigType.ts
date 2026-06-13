@@ -1,51 +1,51 @@
-import {Result, ResultPageInfo} from "@/common/utils/common-js";
-import {request} from "@/http/axios.ts";
+import {Result, ResultPageInfo} from '@/common/utils/common-js';
+import {request} from '@/http/axios.ts';
 
 export interface ApsSaleConfig {
-  saleCode: string | undefined
-  saleName: string | undefined
-  supplierStatus: string | undefined
-  isValue: number | undefined
-  parentId: string | undefined
-  id: string | undefined
-  children: ApsSaleConfig []
+  saleCode: string | undefined;
+  saleName: string | undefined;
+  supplierStatus: string | undefined;
+  isValue: number | undefined;
+  parentId: string | undefined;
+  id: string | undefined;
+  children: ApsSaleConfig[];
 }
 
 export function querySaleConfigList() {
   return request<Result<ResultPageInfo<ApsSaleConfig>>>({
-    url: "/apsSaleConfig/queryPageList",
-    method: "post",
+    url: '/apsSaleConfig/queryPageList',
+    method: 'post',
     data: {
-      queryPage: false
-    }
+      queryPage: false,
+    },
   }).then((r) => {
-    return r.data.dataList
-  })
+    return r.data.dataList;
+  });
 }
 
 export function querySaleGroupConfigList() {
   return request<Result<ResultPageInfo<ApsSaleConfig>>>({
-    url: "/apsSaleConfig/queryPageList",
-    method: "post",
+    url: '/apsSaleConfig/queryPageList',
+    method: 'post',
     data: {
       queryPage: false,
       data: {
-        isValue: 0
-      }
-    }
+        isValue: 0,
+      },
+    },
   }).then((r) => {
-    return r.data.dataList
-  })
+    return r.data.dataList;
+  });
 }
 
 export function querySaleConfigByIdList(idList: string[]) {
   return request<Result<ResultPageInfo<ApsSaleConfig>>>({
-    url: "/apsSaleConfig/queryByIdList",
-    method: "post",
+    url: '/apsSaleConfig/queryByIdList',
+    method: 'post',
     data: {
-      idList
-    }
+      idList,
+    },
   }).then((r) => {
-    return r.data.dataList
-  })
+    return r.data.dataList;
+  });
 }

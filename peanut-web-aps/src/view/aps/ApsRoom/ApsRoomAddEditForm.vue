@@ -51,7 +51,7 @@
         </el-col>
         <el-col :span="4">
           <el-button icon="delete" type="danger"
-                     @click="deleteConfig(addForm.configList, index)"></el-button>
+                     @click="deleteConfig(index)"></el-button>
         </el-col>
       </el-row>
     </el-form-item>
@@ -187,7 +187,7 @@ function addConfig() {
   })
 }
 
-function deleteConfig(index) {
+function deleteConfig(index: number) {
   addForm.value.configList.splice(index, 1)
 }
 </script>

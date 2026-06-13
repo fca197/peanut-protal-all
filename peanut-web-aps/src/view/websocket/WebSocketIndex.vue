@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-import {useWebSocket} from './websocket.ts'
-import {useUserStore} from "@/pinia/stores/user.ts";
+import {ref} from 'vue';
+import {useWebSocket} from './websocket.ts';
+import {useUserStore} from '@/pinia/stores/user.ts';
 
 // 使用 WebSocket 服务
 const {
@@ -11,13 +11,13 @@ const {
   webSocketConnect,
   disconnect,
   webSocketSubscribe,
-  webSocketSend
-} = useWebSocket()
+  webSocketSend,
+} = useWebSocket();
 
 // 消息内容
-const messageText = ref('')
+const messageText = ref('');
 // 用户名
-const username = ref('用户' + Math.floor(Math.random() * 1000))
+const username = ref('用户' + Math.floor(Math.random() * 1000));
 
 // 发送消息
 const sendMessage = () => {
@@ -25,23 +25,23 @@ const sendMessage = () => {
     const message = {
       sender: username.value,
       content: messageText.value,
-      timestamp: new Date().toISOString()
-    }
+      timestamp: new Date().toISOString(),
+    };
 
     if (webSocketSend('/app/message', message)) {
       // messageText.value = ''
     }
   }
-}
+};
 
 onMounted(() => {
-  webSocketSubscribe("/user/" + useUserStore().token + "/userMessage", (r) => {
+  webSocketSubscribe('/user/' + useUserStore().token + '/userMessage', (r) => {
     // console.log("webSocketSubscribe r ", r)
-  })
-  webSocketSubscribe("/topic/allMessage", (r) => {
+  });
+  webSocketSubscribe('/topic/allMessage', (r) => {
     // console.log("allMessage ", r)
-  })
-})
+  });
+});
 </script>
 
 <template>
@@ -51,10 +51,12 @@ onMounted(() => {
       <span
         class="inline-block w-3 h-3 rounded-full mr-2"
         :class="{
-              'bg-green-500': connectionState === 'CONNECTED',
-              'bg-yellow-500': connectionState === 'CONNECTING',
-              'bg-red-500': connectionState === 'DISCONNECTED' || connectionState === 'ERROR'
-            }"></span>
+          'bg-green-500': connectionState === 'CONNECTED',
+          'bg-yellow-500': connectionState === 'CONNECTING',
+          'bg-red-500':
+            connectionState === 'DISCONNECTED' || connectionState === 'ERROR',
+        }"
+      ></span>
       <span>
         {{ connectionText }}
       </span>
@@ -63,18 +65,18 @@ onMounted(() => {
       </span>
     </div>
 
-
-
     <!-- 输入区域 -->
     <div class="flex">
       <input
         v-model="messageText"
         class="flex-1 border rounded-l px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="输入消息...">
+        placeholder="输入消息..."
+      />
       <button
         @click="sendMessage"
         class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r transition-colors"
-        :disabled="connectionState !== 'CONNECTED'">
+        :disabled="connectionState !== 'CONNECTED'"
+      >
         发送
       </button>
     </div>
@@ -84,13 +86,17 @@ onMounted(() => {
       <el-button
         @click="webSocketConnect"
         class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition-colors"
-        :disabled="connectionState === 'CONNECTING' || connectionState === 'CONNECTED'">
+        :disabled="
+          connectionState === 'CONNECTING' || connectionState === 'CONNECTED'
+        "
+      >
         连接
       </el-button>
       <el-button
         @click="disconnect"
         class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition-colors"
-        :disabled="connectionState === 'DISCONNECTED'">
+        :disabled="connectionState === 'DISCONNECTED'"
+      >
         断开
       </el-button>
     </div>

@@ -3,7 +3,11 @@
     <el-card class="search-wrapper" shadow="never">
       <el-form v-model="queryForm" inline>
         <el-form-item label="报表ID" prop="reportConfigId">
-          <el-input v-model="queryForm.reportConfigId" clearable placeholder="请输入报表ID"/>
+          <el-input
+            v-model="queryForm.reportConfigId"
+            clearable
+            placeholder="请输入报表ID"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="search" @click="getDataList">
@@ -23,16 +27,23 @@
         ref="tableBarRef"
         :data-batch-delete-url="dataBatchDeleteUrl"
       />
-      <ElTable ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
+      <ElTable
+        ref="dataTableRef"
+        :data="dataList"
+        stripe
+        @selection-change="handleSelectionChange"
+      >
         <ElTableColumn type="selection"/>
-        <ElTableColumn v-for="h in headerList" :key="h.fieldName" :label="h.showName" :prop="h.fieldName" :min-width="h.width"/>
+        <ElTableColumn
+          v-for="h in headerList"
+          :key="h.fieldName"
+          :label="h.showName"
+          :min-width="h.width"
+          :prop="h.fieldName"
+        />
         <ElTableColumn fixed="right" label="操作" width="150px">
           <template #default="scope">
-            <el-button
-              type="warning"
-              icon="edit"
-              @click="editData(scope.row)"
-            >
+            <el-button icon="edit" type="warning" @click="editData(scope.row)">
               编辑
             </el-button>
           </template>
@@ -54,16 +65,16 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
-import AddEditFormVue from "./BaseReportConfigUserAddEditForm.vue"
-import TableBar from "@/layouts/components/TableBar/index.vue"
-import {ElTable} from "element-plus"
-import {HeaderInfo, postResultInfo} from "@@/utils/common-js.ts"
-import {type BaseReportConfigUser} from "./BaseReportConfigUserType.ts"
+import {onMounted, ref} from 'vue';
+import AddEditFormVue from './BaseReportConfigUserAddEditForm.vue';
+import TableBar from '@/layouts/components/TableBar/index.vue';
+import {ElTable} from 'element-plus';
+import {HeaderInfo, postResultInfo} from '@@/utils/common-js.ts';
+import {type BaseReportConfigUser} from './BaseReportConfigUserType.ts';
 
-const dtoUrl = ref<string>("/baseReportConfigUser")
-const documentTitle = ref<string>("报表配置用户配置")
-const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`)
+const dtoUrl = ref<string>('/baseReportConfigUser');
+const documentTitle = ref<string>('报表配置用户配置');
+const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`);
 
 // 查询表格
 const queryForm = ref<BaseReportConfigUser>({
@@ -73,89 +84,84 @@ const queryForm = ref<BaseReportConfigUser>({
   height: undefined,
   reportName: undefined,
   reportUrl: undefined,
-  id: undefined
-})
+  id: undefined,
+});
 
 // 表格选中的id
-const multipleSelection = ref<(string | undefined) []>([])
+const multipleSelection = ref<(string | undefined)[]>([]);
 
 // 表格
 // const dataTableRef = ref<InstanceType<typeof ElTable> | null>(null)
-const dataTableRef = ref({})
+const dataTableRef = ref({});
 // 表格操作头
-const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null)
+const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null);
 // 表格相关
-const dataList = ref<BaseReportConfigUser[]>([])
-const currentPageNum = ref<number>(1)
-const currentPageSize = ref<number>(10)
-const tableTotal = ref<number>(0)
+const dataList = ref<BaseReportConfigUser[]>([]);
+const currentPageNum = ref<number>(1);
+const currentPageSize = ref<number>(10);
+const tableTotal = ref<number>(0);
 const headerList = ref<HeaderInfo[]>([
   {
-    fieldName: "createUserName",
-    showName: "配置人"
+    fieldName: 'createUserName',
+    showName: '配置人',
   },
   {
-    fieldName: "reportConfigId",
-    showName: "报表Id"
+    fieldName: 'reportConfigId',
+    showName: '报表Id',
   },
   {
-    fieldName: "reportName",
-    showName: "报表名称"
-  }, {
-    fieldName: "reportUrl",
-    showName: "地址"
-  }
-])
-
+    fieldName: 'reportName',
+    showName: '报表名称',
+  },
+  {
+    fieldName: 'reportUrl',
+    showName: '地址',
+  },
+]);
 
 // 获取表格内数据
 function getDataList() {
   const req = {
     pageSize: currentPageSize.value,
     pageNum: currentPageNum.value,
-    data: queryForm.value
-  }
-  console.info("getDataList {}", req)
-  postResultInfo(`${dtoUrl.value}/queryPageList`, req)
-    .then((t) => {
-      dataList.value = t.data.dataList
-      tableTotal.value = Number.parseInt(t.data.total)
-      // headerList.value = t.data.headerList
-    })
+    data: queryForm.value,
+  };
+  console.info('getDataList {}', req);
+  postResultInfo(`${dtoUrl.value}/queryPageList`, req).then((t) => {
+    dataList.value = t.data.dataList;
+    tableTotal.value = Number.parseInt(t.data.total);
+    // headerList.value = t.data.headerList
+  });
 }
 
 // table点击事件
 function editData(data: any) {
   // console.info("data ", data)
-  tableBarRef.value?.showEditDialog(data.id)
+  tableBarRef.value?.showEditDialog(data.id);
 }
 
 // 页面条数变更事件
 function handleSizeChange(val: number) {
-  currentPageSize.value = val
-  getDataList()
+  currentPageSize.value = val;
+  getDataList();
 }
 
 // 页面变更事件
 function handleCurrentChange(val: number) {
-  currentPageNum.value = val
-  getDataList()
+  currentPageNum.value = val;
+  getDataList();
 }
 
 // 表格选中事件
 function handleSelectionChange(val: BaseReportConfigUser[]) {
-  multipleSelection.value = val.map(t => t.id)
-  console.info("multipleSelection ", multipleSelection)
+  multipleSelection.value = val.map((t) => t.id);
+  console.info('multipleSelection ', multipleSelection);
 }
 
 // 页面加载事件
 onMounted(() => {
-  getDataList()
-})
-
+  getDataList();
+});
 </script>
 
-<style scoped lang="scss">
-
-</style>
-
+<style lang="scss" scoped></style>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
-import AddEditFormVue from "./ApsSchedulingVersionAddEditForm.vue"
-import TableBar from "@/layouts/components/TableBar/index.vue"
-import {ElTable} from "element-plus";
-import {HeaderInfo, postResultInfo} from "@@/utils/common-js.ts"
-import {type ApsSchedulingVersion} from "./ApsSchedulingVersionType.ts"
+import {onMounted, ref} from 'vue';
+import AddEditFormVue from './ApsSchedulingVersionAddEditForm.vue';
+import TableBar from '@/layouts/components/TableBar/index.vue';
+import {ElTable} from 'element-plus';
+import {HeaderInfo, postResultInfo} from '@@/utils/common-js.ts';
+import {type ApsSchedulingVersion} from './ApsSchedulingVersionType.ts';
 
-const dtoUrl = ref<string>("/apsSchedulingVersion")
-const documentTitle = ref<string>("排产版本")
-const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`)
+const dtoUrl = ref<string>('/apsSchedulingVersion');
+const documentTitle = ref<string>('排产版本');
+const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`);
 
 // 查询表格
 const queryForm = ref<ApsSchedulingVersion>({
@@ -29,24 +29,24 @@ const queryForm = ref<ApsSchedulingVersion>({
   useProjectConfigMakeCapacity: undefined,
   factoryIdList: undefined,
   goodsIdList: undefined,
-  id: undefined
-})
+  id: undefined,
+});
 
 // 表格选中的id
-const multipleSelection = ref<(string | undefined)[]>([])
+const multipleSelection = ref<(string | undefined)[]>([]);
 
 // 表格
 // const dataTableRef = ref<InstanceType<typeof ElTable> | null>(null)
-const dataTableRef = ref({})
+const dataTableRef = ref({});
 // 表格操作头
-const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null)
+const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null);
 // 表格相关
-const dataList = ref<ApsSchedulingVersion[]>([])
-const currentPageNum = ref<number>(1)
-const currentPageSize = ref<number>(10)
-const tableTotal = ref<number>(0)
+const dataList = ref<ApsSchedulingVersion[]>([]);
+const currentPageNum = ref<number>(1);
+const currentPageSize = ref<number>(10);
+const tableTotal = ref<number>(0);
 const headerList = ref<HeaderInfo[]>([
-  {fieldName: "id", showName: "序号"},
+  {fieldName: 'id', showName: '序号'},
   // { fieldName: "schedulingVersionNo", showName: "" },
   // { fieldName: "schedulingVersionName", showName: "" },
   // { fieldName: "schedulingConstraintsId", showName: "" },
@@ -64,79 +64,77 @@ const headerList = ref<HeaderInfo[]>([
   // { fieldName: "useProjectConfigMakeCapacity", showName: "使用工程配置产能约束" },
   // { fieldName: "factoryIdList", showName: "工厂" },
   // { fieldName: "goodsIdList", showName: "商品" },
-])
+]);
 
-const router = useRouter()
+const router = useRouter();
 // 获取表格内数据
 const getDataList = () => {
   const req = {
     pageSize: currentPageSize.value,
     pageNum: currentPageNum.value,
-    data: queryForm.value
-  }
-  console.info("getDataList {}", req)
-  postResultInfo(`${dtoUrl.value}/queryPageList`, req)
-  .then((t) => {
-    dataList.value = t.data.dataList
-    dataList.value.forEach(tt => {
-      tt.isFinish = tt.versionStep === 100
-      tt.isNotFinish = tt.versionStep !== 100
-    })
-    tableTotal.value = Number.parseInt(t.data.total)
-    headerList.value = t.data.headerList
-  })
-}
+    data: queryForm.value,
+  };
+  console.info('getDataList {}', req);
+  postResultInfo(`${dtoUrl.value}/queryPageList`, req).then((t) => {
+    dataList.value = t.data.dataList;
+    dataList.value.forEach((tt) => {
+      tt.isFinish = tt.versionStep === 100;
+      tt.isNotFinish = tt.versionStep !== 100;
+    });
+    tableTotal.value = Number.parseInt(t.data.total);
+    headerList.value = t.data.headerList;
+  });
+};
 
 // table点击事件
 const editData = (data: any, step = 1) => {
   // console.info("data ", data)
   // tableBarRef.value?.showEditDialog(data.id)
-  router.push(`/aps/CreateScheduling/${data.id}/${data.isNotFinish ? '1' : '2'}/${step}`)
-}
+  router.push(
+    `/aps/CreateScheduling/${data.id}/${data.isNotFinish ? '1' : '2'}/${step}`
+  );
+};
 
 const settingKitting = (data: ApsSchedulingVersion) => {
-
-  router.push(`/aps/CreateScheduling/${data.id}/${data.isNotFinish ? '1' : '2'}/3`)
-}
+  router.push(
+    `/aps/CreateScheduling/${data.id}/${data.isNotFinish ? '1' : '2'}/3`
+  );
+};
 // 页面条数变更事件
 const handleSizeChange = (val: number) => {
-  currentPageSize.value = val
-  getDataList()
-}
+  currentPageSize.value = val;
+  getDataList();
+};
 // 页面变更事件
 const handleCurrentChange = (val: number) => {
-  currentPageNum.value = val
-  getDataList()
-}
+  currentPageNum.value = val;
+  getDataList();
+};
 // 表格选中事件
 const handleSelectionChange = (val: ApsSchedulingVersion[]) => {
-  multipleSelection.value = val.map(t => t.id)
-  console.info("multipleSelection ", multipleSelection)
-}
+  multipleSelection.value = val.map((t) => t.id);
+  console.info('multipleSelection ', multipleSelection);
+};
 
 const toCreatePage = (isUpdate: boolean) => {
   // const id = new Date().getTime() + "" + Math.floor(Math.random() * 1000000)
-  const id = "-1"
-  console.info("toCreatePage ", id, isUpdate)
-  router.push(`/aps/CreateScheduling/${id}/0/1`)
-}
+  const id = '-1';
+  console.info('toCreatePage ', id, isUpdate);
+  router.push(`/aps/CreateScheduling/${id}/0/1`);
+};
 
 const showKitting = (data: any) => {
-  router.push(`/aps/ApsOrderGoodsBomKittingVersion/${data.id}`)
-}
+  router.push(`/aps/ApsOrderGoodsBomKittingVersion/${data.id}`);
+};
 // 页面加载事件
 onMounted(() => {
-  getDataList()
-})
-
+  getDataList();
+});
 </script>
 
 <template>
   <div class="app-container">
-    <el-card
-      class="search-wrapper"
-      shadow="never"
-    />
+    <el-card class="search-wrapper" shadow="never"/>
     <el-card shadow="never">
       <TableBar
         :show-add-btn="false"
@@ -154,21 +152,33 @@ onMounted(() => {
           </el-button>
         </template>
       </TableBar>
-      <ElTable ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
+      <ElTable
+        ref="dataTableRef"
+        :data="dataList"
+        stripe
+        @selection-change="handleSelectionChange"
+      >
         <ElTableColumn type="selection"/>
         <ElTableColumn
-          v-for="h in headerList" :key="h.fieldName" :label="h.showName"
+          v-for="h in headerList"
+          :key="h.fieldName"
+          :label="h.showName"
           :prop="h.fieldName"
         />
         <ElTableColumn prop="createUserName" label="创建人" width="200"/>
         <ElTableColumn prop="createTime" label="创建时间" width="200"/>
-        <ElTableColumn fixed="right" label="操作" width="250px" style="float: right">
+        <ElTableColumn
+          fixed="right"
+          label="操作"
+          style="float: right"
+          width="250px"
+        >
           <template #default="scope">
             <el-button
               v-if="scope.row.isNotFinish"
               type="warning"
               icon="edit"
-              @click="editData(scope.row,1)"
+              @click="editData(scope.row, 1)"
             >
               编辑
             </el-button>
@@ -177,19 +187,34 @@ onMounted(() => {
               操作
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item @click="editData(scope.row , 2)" icon="Histogram">
+                  <el-dropdown-item
+                    icon="Histogram"
+                    @click="editData(scope.row, 2)"
+                  >
                     查看不加限数据
                   </el-dropdown-item>
-                  <el-dropdown-item @click="editData(scope.row , 3)" icon="Histogram">
+                  <el-dropdown-item
+                    icon="Histogram"
+                    @click="editData(scope.row, 3)"
+                  >
                     查看加限数据
                   </el-dropdown-item>
-                  <el-dropdown-item @click="settingKitting(scope.row)" icon="Setting">
+                  <el-dropdown-item
+                    icon="Setting"
+                    @click="settingKitting(scope.row)"
+                  >
                     齐套检查
                   </el-dropdown-item>
-                  <el-dropdown-item @click="showKitting(scope.row)" icon="DataLine">
+                  <el-dropdown-item
+                    icon="DataLine"
+                    @click="showKitting(scope.row)"
+                  >
                     齐套报告
                   </el-dropdown-item>
-                  <el-dropdown-item @click="settingKitting(scope.row)" icon="Share">
+                  <el-dropdown-item
+                    icon="Share"
+                    @click="settingKitting(scope.row)"
+                  >
                     订单下发
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -213,7 +238,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
-
+<style lang="scss" scoped></style>

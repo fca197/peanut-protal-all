@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import SvgDashboard from "../images/dashboard.svg?component" // vite-svg-loader 插件的功能
+import SvgDashboard from '../images/dashboard.svg?component'; // vite-svg-loader 插件的功能
 </script>
 
 <template>

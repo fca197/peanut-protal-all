@@ -58,11 +58,9 @@
   <parent/>
 
   <properties>
-    <java.version>25</java.version>
-    <maven.compiler.source>25</maven.compiler.source>
-    <maven.compiler.target>25</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <propertiesEncoding>utf-8</propertiesEncoding>
+
+
+  <propertiesEncoding>utf-8</propertiesEncoding>
 
     <spring.boot.version>3.4.0</spring.boot.version>
   </properties>

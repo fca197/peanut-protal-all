@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
-import AddEditFormVue from "./ApsSaleConfigAddEditForm.vue"
-import TableBar from "@/layouts/components/TableBar/index.vue"
-import {ElTable} from "element-plus"
-import {HeaderInfo, postResultInfo} from "@@/utils/common-js.ts"
-import {type ApsSaleConfig} from "./ApsSaleConfigType.ts"
+import {onMounted, ref} from 'vue';
+import AddEditFormVue from './ApsSaleConfigAddEditForm.vue';
+import TableBar from '@/layouts/components/TableBar/index.vue';
+import {ElTable} from 'element-plus';
+import {HeaderInfo, postResultInfo} from '@@/utils/common-js.ts';
+import {type ApsSaleConfig} from './ApsSaleConfigType.ts';
 
-const dtoUrl = ref<string>("/apsSaleConfig")
-const documentTitle = ref<string>("销售配置")
-const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`)
+const dtoUrl = ref<string>('/apsSaleConfig');
+const documentTitle = ref<string>('销售配置');
+const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`);
 
 // 查询表格
 const queryForm = ref<ApsSaleConfig>({
@@ -18,98 +18,96 @@ const queryForm = ref<ApsSaleConfig>({
   isValue: undefined,
   parentId: undefined,
   id: undefined,
-  children: []
-})
+  children: [],
+});
 
 // 表格选中的id
-const multipleSelection = ref<(string | undefined) []>([])
+const multipleSelection = ref<(string | undefined)[]>([]);
 
 // 表格
 // const dataTableRef = ref<InstanceType<typeof ElTable> | null>(null)
-const dataTableRef = ref({})
+const dataTableRef = ref({});
 // 表格操作头
-const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null)
+const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null);
 // 表格相关
-const dataList = ref<ApsSaleConfig[]>([])
-const currentPageNum = ref<number>(1)
-const currentPageSize = ref<number>(10)
-const tableTotal = ref<number>(0)
+const dataList = ref<ApsSaleConfig[]>([]);
+const currentPageNum = ref<number>(1);
+const currentPageSize = ref<number>(10);
+const tableTotal = ref<number>(0);
 const headerList = ref<HeaderInfo[]>([
-  { fieldName: "parentSaleCode", showName: "销售组编码" },
-  { fieldName: "parentSaleName", showName: "销售组名称" },
-  { fieldName: "saleCode", showName: "销售编码" },
-  { fieldName: "saleName", showName: "销售名称"}
-])
+  {fieldName: 'parentSaleCode', showName: '销售组编码'},
+  {fieldName: 'parentSaleName', showName: '销售组名称'},
+  {fieldName: 'saleCode', showName: '销售编码'},
+  {fieldName: 'saleName', showName: '销售名称'},
+]);
 
 // 获取表格内数据
 function getDataList() {
   const req = {
     pageSize: currentPageSize.value,
     pageNum: currentPageNum.value,
-    data: queryForm.value
-  }
-  console.info("getDataList {}", req)
-  postResultInfo(`${dtoUrl.value}/queryPageList`, req)
-    .then((t) => {
-      tableTotal.value = Number.parseInt(t.data.total)
-      // headerList.value = t.data.headerList
-      t.data.dataList.forEach((tt) => {
-        tt["parentSaleCode"] = tt.saleCode
-        tt["parentSaleName"] = tt.saleName
-        tt["saleCode"] = ""
-        tt["saleName"] = ""
-        dataList.value.push(tt)
-        tt.children.forEach((ttt) => {
-          dataList.value.push(ttt)
-        })
-      })
-    })
+    data: queryForm.value,
+  };
+  console.info('getDataList {}', req);
+  postResultInfo(`${dtoUrl.value}/queryPageList`, req).then((t) => {
+    tableTotal.value = Number.parseInt(t.data.total);
+    // headerList.value = t.data.headerList
+    t.data.dataList.forEach((tt) => {
+      tt['parentSaleCode'] = tt.saleCode;
+      tt['parentSaleName'] = tt.saleName;
+      tt['saleCode'] = '';
+      tt['saleName'] = '';
+      dataList.value.push(tt);
+      tt.children.forEach((ttt) => {
+        dataList.value.push(ttt);
+      });
+    });
+  });
 }
 
 // table点击事件
 function editData(data: any) {
   // console.info("data ", data)
-  tableBarRef.value?.showEditDialog(data.id)
+  tableBarRef.value?.showEditDialog(data.id);
 }
 
 // 页面条数变更事件
 function handleSizeChange(val: number) {
-  currentPageSize.value = val
-  getDataList()
+  currentPageSize.value = val;
+  getDataList();
 }
 
 // 页面变更事件
 function handleCurrentChange(val: number) {
-  currentPageNum.value = val
-  getDataList()
+  currentPageNum.value = val;
+  getDataList();
 }
 
 // 表格选中事件
 function handleSelectionChange(val: ApsSaleConfig[]) {
-  multipleSelection.value = val.map(t => t.id)
-  console.info("multipleSelection ", multipleSelection)
+  multipleSelection.value = val.map((t) => t.id);
+  console.info('multipleSelection ', multipleSelection);
 }
 
-const addSaleConfigDialog = ref<boolean>(false)
-const isValue = ref<number>(0)
-const parentId = ref<string | undefined>(undefined)
+const addSaleConfigDialog = ref<boolean>(false);
+const isValue = ref<number>(0);
+const parentId = ref<string | undefined>(undefined);
 
 function addSaleConfigFun(type: number, parentIdValue: string | undefined) {
-  isValue.value = type
-  parentId.value = parentIdValue
-  addSaleConfigDialog.value = true
+  isValue.value = type;
+  parentId.value = parentIdValue;
+  addSaleConfigDialog.value = true;
 }
 
 function closeAddSaleConfigFun() {
-  getDataList()
-  addSaleConfigDialog.value = false
-
+  getDataList();
+  addSaleConfigDialog.value = false;
 }
 
 // 页面加载事件
 onMounted(() => {
-  getDataList()
-})
+  getDataList();
+});
 </script>
 
 <template>
@@ -126,40 +124,55 @@ onMounted(() => {
         :data-batch-delete-url="dataBatchDeleteUrl"
       >
         <template #otherBtn>
-          <el-button type="primary" icon="Plus" @click="addSaleConfigFun(0,undefined)">
+          <el-button
+            icon="Plus"
+            type="primary"
+            @click="addSaleConfigFun(0, undefined)"
+          >
             添加
           </el-button>
         </template>
       </TableBar>
       <ElTable
-        ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
+        ref="dataTableRef"
+        :data="dataList"
+        stripe
+        @selection-change="handleSelectionChange"
+      >
         <ElTableColumn type="selection"/>
         <ElTableColumn prop="id" label="ID"/>
-        <ElTableColumn v-for="h in headerList" :key="h.fieldName" :label="h.showName" :prop="h.fieldName" :min-width="h.width"/>
+        <ElTableColumn
+          v-for="h in headerList"
+          :key="h.fieldName"
+          :label="h.showName"
+          :min-width="h.width"
+          :prop="h.fieldName"
+        />
         <ElTableColumn fixed="right" label="操作" width="250px">
           <template #default="scope">
-            <el-button v-if="scope.row.isValue===0" type="primary" icon="Plus"
-                       @click="addSaleConfigFun(1, scope.row.parentId)">
+            <el-button
+              v-if="scope.row.isValue === 0"
+              icon="Plus"
+              type="primary"
+              @click="addSaleConfigFun(1, scope.row.parentId)"
+            >
               添加
             </el-button>
-            <el-button
-              type="warning"
-              icon="edit"
-              @click="editData(scope.row)"
-            >
+            <el-button icon="edit" type="warning" @click="editData(scope.row)">
               编辑
             </el-button>
           </template>
         </ElTableColumn>
       </ElTable>
-
     </el-card>
     <el-dialog v-model="addSaleConfigDialog" title="销售配置" destroy-on-close>
-      <add-edit-form-vue :is-value="1" :save-fun="closeAddSaleConfigFun" :parent-id="parentId"/>
+      <add-edit-form-vue
+        :is-value="1"
+        :parent-id="parentId"
+        :save-fun="closeAddSaleConfigFun"
+      />
     </el-dialog>
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style lang="scss" scoped></style>

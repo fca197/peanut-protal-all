@@ -60,6 +60,7 @@
     "happy-dom": "17.4.4",
     "husky": "9.1.7",
     "lint-staged": "15.5.0",
+    "prettier": "3.8.3",
     "sass": "1.78.0",
     "typescript": "5.8.2",
     "unplugin-auto-import": "19.1.2",

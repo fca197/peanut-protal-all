@@ -1,5 +1,5 @@
 export interface BaseApp {
-  appCode: string
-  appName: string
-  id: string
+  appCode: string;
+  appName: string;
+  id: string;
 }

@@ -3,16 +3,35 @@
     <el-card class="search-wrapper" shadow="never">
       <el-form v-model="queryForm" inline>
         <el-form-item label="业务KEY" prop="bizKey">
-          <el-input v-model="queryForm.bizKey" clearable placeholder="请输入业务KEY"/>
+          <el-input
+            v-model="queryForm.bizKey"
+            clearable
+            placeholder="请输入业务KEY"
+          />
         </el-form-item>
         <el-form-item label="字段名称" prop="fieldName">
-          <el-input v-model="queryForm.fieldName" clearable placeholder="请输入"/>
+          <el-input
+            v-model="queryForm.fieldName"
+            clearable
+            placeholder="请输入"
+          />
         </el-form-item>
         <el-form-item label="显示名称" prop="showName">
-          <el-input v-model="queryForm.showName" clearable placeholder="请输入"/>
+          <el-input
+            v-model="queryForm.showName"
+            clearable
+            placeholder="请输入"
+          />
         </el-form-item>
         <el-form-item label="排序" prop="sortIndex">
-          <el-input-number :step="1" v-model="queryForm.sortIndex" clearable placeholder="请输入排序" :min="1" :max="100"/>
+          <el-input-number
+            v-model="queryForm.sortIndex"
+            :max="100"
+            :min="1"
+            :step="1"
+            clearable
+            placeholder="请输入排序"
+          />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="search" @click="getDataList">
@@ -32,16 +51,23 @@
         ref="tableBarRef"
         :data-batch-delete-url="dataBatchDeleteUrl"
       />
-      <ElTable ref="dataTableRef" :data="dataList" stripe @selection-change="handleSelectionChange">
+      <ElTable
+        ref="dataTableRef"
+        :data="dataList"
+        stripe
+        @selection-change="handleSelectionChange"
+      >
         <ElTableColumn type="selection"/>
-        <ElTableColumn v-for="h in headerList" :key="h.fieldName" :label="h.showName" :prop="h.fieldName" :min-width="h.width"/>
+        <ElTableColumn
+          v-for="h in headerList"
+          :key="h.fieldName"
+          :label="h.showName"
+          :min-width="h.width"
+          :prop="h.fieldName"
+        />
         <ElTableColumn fixed="right" label="操作" width="150px">
           <template #default="scope">
-            <el-button
-              type="warning"
-              icon="edit"
-              @click="editData(scope.row)"
-            >
+            <el-button icon="edit" type="warning" @click="editData(scope.row)">
               编辑
             </el-button>
           </template>
@@ -63,16 +89,16 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue"
-import AddEditFormVue from "./BaseTableHeaderAddEditForm.vue"
-import TableBar from "@/layouts/components/TableBar/index.vue"
-import {ElTable} from "element-plus"
-import {HeaderInfo, postResultInfo} from "@@/utils/common-js.ts"
-import {type BaseTableHeader} from "./BaseTableHeaderType.ts"
+import {ref} from 'vue';
+import AddEditFormVue from './BaseTableHeaderAddEditForm.vue';
+import TableBar from '@/layouts/components/TableBar/index.vue';
+import {ElTable} from 'element-plus';
+import {HeaderInfo, postResultInfo} from '@@/utils/common-js.ts';
+import {type BaseTableHeader} from './BaseTableHeaderType.ts';
 
-const dtoUrl = ref<string>("/baseTableHeader")
-const documentTitle = ref<string>("表头配置")
-const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`)
+const dtoUrl = ref<string>('/baseTableHeader');
+const documentTitle = ref<string>('表头配置');
+const dataBatchDeleteUrl = ref<string>(`${dtoUrl.value}/deleteByIdList`);
 
 // 查询表格
 const queryForm = ref<BaseTableHeader>({
@@ -83,73 +109,67 @@ const queryForm = ref<BaseTableHeader>({
   sortIndex: undefined,
   isPicture: undefined,
   planStatus: undefined,
-  id: undefined
-})
+  id: undefined,
+});
 
 // 表格选中的id
-const multipleSelection = ref<(string | undefined) []>([])
+const multipleSelection = ref<(string | undefined)[]>([]);
 
 // 表格
 // const dataTableRef = ref<InstanceType<typeof ElTable> | null>(null)
-const dataTableRef = ref({})
+const dataTableRef = ref({});
 // 表格操作头
-const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null)
+const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null);
 // 表格相关
-const dataList = ref<BaseTableHeader[]>([])
-const currentPageNum = ref<number>(1)
-const currentPageSize = ref<number>(10)
-const tableTotal = ref<number>(0)
-const headerList = ref<HeaderInfo[]>([])
-
+const dataList = ref<BaseTableHeader[]>([]);
+const currentPageNum = ref<number>(1);
+const currentPageSize = ref<number>(10);
+const tableTotal = ref<number>(0);
+const headerList = ref<HeaderInfo[]>([]);
 
 // 获取表格内数据
 function getDataList() {
   const req = {
     pageSize: currentPageSize.value,
     pageNum: currentPageNum.value,
-    data: queryForm.value
-  }
-  console.info("getDataList {}", req)
-  postResultInfo(`${dtoUrl.value}/queryPageList`, req)
-    .then((t) => {
-      dataList.value = t.data.dataList
-      tableTotal.value = Number.parseInt(t.data.total)
-      headerList.value = t.data.headerList
-    })
+    data: queryForm.value,
+  };
+  console.info('getDataList {}', req);
+  postResultInfo(`${dtoUrl.value}/queryPageList`, req).then((t) => {
+    dataList.value = t.data.dataList;
+    tableTotal.value = Number.parseInt(t.data.total);
+    headerList.value = t.data.headerList;
+  });
 }
 
 // 页面加载事件
 onMounted(() => {
-  getDataList()
-})
+  getDataList();
+});
 
 // table点击事件
 function editData(data: any) {
   // console.info("data ", data)
-  tableBarRef.value?.showEditDialog(data.id)
+  tableBarRef.value?.showEditDialog(data.id);
 }
 
 // 页面条数变更事件
 function handleSizeChange(val: number) {
-  currentPageSize.value = val
-  getDataList()
+  currentPageSize.value = val;
+  getDataList();
 }
 
 // 页面变更事件
 function handleCurrentChange(val: number) {
-  currentPageNum.value = val
-  getDataList()
+  currentPageNum.value = val;
+  getDataList();
 }
 
 // 表格选中事件
 function handleSelectionChange(val: BaseTableHeader[]) {
-  multipleSelection.value = val.map(t => t.id)
-  console.info("multipleSelection ", multipleSelection)
+  multipleSelection.value = val.map((t) => t.id);
+  console.info('multipleSelection ', multipleSelection);
 }
-
 </script>
 
-<style scoped lang="scss">
-
-</style>
-
+<style lang="scss" scoped></style>

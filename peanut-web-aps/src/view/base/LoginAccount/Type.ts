@@ -1,5 +1,5 @@
 export interface LoginAccount {
-  userName: string
-  loginPhone: string
-  id: string
+  userName: string;
+  loginPhone: string;
+  id: string;
 }
