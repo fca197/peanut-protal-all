@@ -1,5 +1,5 @@
 export JAVA_HOME=/Users/wangbao/Library/Java/JavaVirtualMachines/openjdk-26.0.1/Contents/Home
 
- /Users/wangbao/soft/maven-mvnd-2.0.0-rc-3-darwin-aarch64/bin/mvnd   -Dsmartbuilder.profiling=true -e  \
+/usr/local/apache-maven-3.9.1/bin/mvn   -Dsmartbuilder.profiling=true -e  \
  -Djava.home=$JAVA_HOME -DskipTests  -T 8  clean \
   -U  install

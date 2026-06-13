@@ -6,12 +6,14 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 销售特征比例预测系统
  * <p>
  * 提供多种算法预测未来销售特征比例，增强算法差异性和鲁棒性
  */
+@Slf4j
 public class SalesFeaturePredictor {
 
   // 精度控制：保留2位小数
@@ -53,21 +55,21 @@ public class SalesFeaturePredictor {
     }
 
     // 2. 打印历史数据
-    System.out.println("===== 历史销售特征数据 =====");
+    log.info("===== 历史销售特征数据 =====");
     printHistoricalData(predictor, "颜色", 6);
     printHistoricalData(predictor, "天窗", 6);
 
     // 3. 预测未来6个月数据
     int futureMonths = 16;
-    System.out.println("\n===== 未来" + futureMonths + "个月预测数据 =====");
+    log.info("\n===== 未来" + futureMonths + "个月预测数据 =====");
     for (PredictionAlgorithm algorithm : PredictionAlgorithm.values()) {
-      System.out.println("\n使用算法: " + algorithm);
-      System.out.println("--- 颜色特征 ---");
+      log.info("\n使用算法: " + algorithm);
+      log.info("--- 颜色特征 ---");
       List<FeatureData> colorPredictions = predictor.predictFeatureProportionsForNextNMonths("颜色",
           futureMonths, algorithm);
       printPredictions(colorPredictions);
 
-      System.out.println("--- 天窗特征 ---");
+      log.info("--- 天窗特征 ---");
       List<FeatureData> sunroofPredictions = predictor.predictFeatureProportionsForNextNMonths(
           "天窗", futureMonths, algorithm);
       printPredictions(sunroofPredictions);
@@ -137,7 +139,7 @@ public class SalesFeaturePredictor {
    */
   private static void printPredictions(List<FeatureData> predictions) {
     if (predictions.isEmpty()) {
-      System.out.println("无预测数据");
+      log.info("无预测数据");
       return;
     }
 
@@ -164,7 +166,7 @@ public class SalesFeaturePredictor {
         sb.append(String.format("%-" + maxWidths.get(k) + "s  ", formatted));
       });
 
-      System.out.println(sb);
+      log.info(sb.toString());
     }
   }
 
@@ -173,10 +175,10 @@ public class SalesFeaturePredictor {
    */
   private static void printHistoricalData(SalesFeaturePredictor predictor, String featureName,
       int monthsToPrint) {
-    System.out.println("\n" + featureName + "特征最近" + monthsToPrint + "个月历史数据:");
+    log.info("\n" + featureName + "特征最近" + monthsToPrint + "个月历史数据:");
     List<FeatureData> history = predictor.getFeatureHistory(featureName);
     if (history.isEmpty()) {
-      System.out.println("无历史数据");
+      log.info("无历史数据");
       return;
     }
 

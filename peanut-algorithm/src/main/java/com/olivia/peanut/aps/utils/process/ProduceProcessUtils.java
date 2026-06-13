@@ -81,7 +81,7 @@ public class ProduceProcessUtils {
     }
     if (status == CpSolverStatus.OPTIMAL || status == CpSolverStatus.FEASIBLE) {
       res.setMaxUseSecond((long) solver.objectiveValue());
-      System.out.println("Solution:");
+      log.info("Solution:");
       // Create one list of assigned tasks per machine.
       Map<Long, List<ProduceAssignedTask>> assignedJobs = new HashMap<>();
       for (int jobID = 0; jobID < produceOrderList.size(); ++jobID) {

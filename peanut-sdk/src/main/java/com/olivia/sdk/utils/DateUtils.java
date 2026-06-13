@@ -1,7 +1,6 @@
 package com.olivia.sdk.utils;
 
 import com.olivia.sdk.utils.model.*;
-import com.olivia.sdk.utils.model.YearMonth;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.IsoFields;
@@ -357,7 +356,7 @@ public final class DateUtils {
 
     List<YearMonth> monthList = new ArrayList<>();
     while (!current.isAfter(end)) {
-      monthList.add(new YearMonth(current.getYear(), current.getMonthValue()));
+      monthList.add(YearMonth.of(current.getYear(), current.getMonthValue()));
       current = current.plusMonths(1);
     }
 

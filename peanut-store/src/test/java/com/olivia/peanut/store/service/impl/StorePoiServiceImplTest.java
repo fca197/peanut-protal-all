@@ -53,7 +53,7 @@ public class StorePoiServiceImplTest extends TestCase {
     saveList.forEach(t -> {
       t.setId(IdWorker.getId());
       //select id, poi_parent_code,poi_code, poi_name, poi_level, poi_path, tenant_id, is_delete, create_time, create_by, update_time, update_by, trace_id, version_num, create_user_name, update_user_name from store_poi
-      System.out.println(t.getId() + "," + t.getPoiParentCode() + "," + t.getPoiCode() + "," + t.getPoiName() + "," + t.getPoiLevel());
+      log.info("{},{},{},{},{}", t.getId(), t.getPoiParentCode(), t.getPoiCode(), t.getPoiName(), t.getPoiLevel());
     });
 
   }

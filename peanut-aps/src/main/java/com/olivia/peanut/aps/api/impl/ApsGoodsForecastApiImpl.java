@@ -8,7 +8,7 @@ import com.olivia.peanut.aps.api.impl.listener.ApsGoodsForecastImportListenerAbs
 import com.olivia.peanut.aps.model.ApsGoodsForecast;
 import com.olivia.peanut.aps.service.ApsGoodsForecastService;
 import com.olivia.sdk.utils.*;
-import com.olivia.sdk.utils.model.YearMonth;
+import java.time.YearMonth;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
