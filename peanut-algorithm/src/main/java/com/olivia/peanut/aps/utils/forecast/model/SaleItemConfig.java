@@ -1,7 +1,7 @@
 package com.olivia.peanut.aps.utils.forecast.model;
 
 
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -24,6 +24,6 @@ public class SaleItemConfig {
 
   @Override
   public String toString() {
-    return JSON.toJSONString(this);
+    return JSONUtils.toJSONString(this);
   }
 }

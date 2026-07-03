@@ -118,7 +118,7 @@ public class CalendarServiceImpl extends MPJBaseServiceImpl<CalendarMapper, Cale
         });
       });
     });
-    log.info("getWeekList factoryId:{} {} {} {}", factoryId, beginDate, endDate, JSON.toJSONString(weekList));
+    log.info("getWeekList factoryId:{} {} {} {}", factoryId, beginDate, endDate, JSONUtils.toJSONString(weekList));
     return weekList;
   }
 }

@@ -1,6 +1,6 @@
 package com.olivia.peanut.aps.utils.capacity.model;
 
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -87,7 +87,7 @@ public class Limit {
 
   @Override
   public String toString() {
-    return JSON.toJSONString(this);
+    return JSONUtils.toJSONString(this);
   }
 
   @Getter

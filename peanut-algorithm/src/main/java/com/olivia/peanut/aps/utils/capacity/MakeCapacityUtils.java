@@ -1,14 +1,12 @@
 package com.olivia.peanut.aps.utils.capacity;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ReflectUtil;
 import com.olivia.peanut.aps.utils.capacity.model.Limit;
 import com.olivia.peanut.aps.utils.capacity.model.LimitMatchResult;
 import com.olivia.peanut.aps.utils.capacity.model.MakeCapacityResult;
 import com.olivia.peanut.aps.utils.capacity.model.MakeCapacityResult.Info;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import com.olivia.sdk.utils.ValueUtils;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
@@ -53,7 +51,7 @@ public class MakeCapacityUtils {
       errrorList.clear();
       List<Limit> dayLimitList = dateLimitMap.get(date);
       if (log.isDebugEnabled()) {
-        log.debug("date limit {} {}", date, JSON.toJSONString(dayLimitList));
+        log.debug("date limit {} {}", date, JSONUtils.toJSONString(dayLimitList));
       }
       if (CollUtil.isEmpty(dayLimitList)) {
         if (log.isDebugEnabled()) {
@@ -69,7 +67,7 @@ public class MakeCapacityUtils {
         boolean hasMin = dayLimitList.stream().anyMatch(t -> t.getCurrentCount() < t.getMin());
         if (!hasMin) {
           if (log.isDebugEnabled()) {
-            log.debug("limitListByDate dayLimitList:{}", JSON.toJSONString(dayLimitList));
+            log.debug("limitListByDate dayLimitList:{}", JSONUtils.toJSONString(dayLimitList));
           }
           break;
         }

@@ -4,7 +4,6 @@ import static java.lang.Boolean.TRUE;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -80,7 +79,7 @@ public class LoginAccountApiImpl implements LoginAccountApi {
     $.requireNonNullCanIgnoreException(loginAccount, "用户名密码错误");
     loginAccount.setUserPwd(null);
     String token = String.join("_", IdWorker.get32UUID().toUpperCase());
-    String str = JSON.toJSONString(loginAccount);
+    String str = JSONUtils.toJSONString(loginAccount);
     String key = peanutProperties.getRedisKey().getUserToken() + token;
     log.info("login Phone Pwd ,loginPhone: {} token: {} loginAccount: {}", req.getLoginPhone(), key, str);
     long seconds = LocalDateTimeUtil.between(
@@ -101,7 +100,7 @@ public class LoginAccountApiImpl implements LoginAccountApi {
     String key = peanutProperties.getRedisKey().getUserToken() + token;
     String str = stringRedisTemplate.opsForValue().get(key);
     $.requireNonNullCanIgnoreException(str, "登录已过期");
-    return JSON.readValue(str, GetUserInfoRes.class);
+    return JSONUtils.readValue(str, GetUserInfoRes.class);
   }
 
   @Override

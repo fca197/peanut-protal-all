@@ -1,7 +1,7 @@
 package com.olivia.sdk.config;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import jakarta.annotation.PostConstruct;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -113,7 +113,7 @@ public class MockResourceLoad {
 
       if (method != null) {
         // 解析JSON内容为方法返回类型的对象
-        Object mockValue = JSON.readValue(content, method.getReturnType());
+        Object mockValue = JSONUtils.readValue(content, method.getReturnType());
         MOCK_RESOURCE_MAP.put(classMethod, mockValue);
         log.debug("已加载模拟配置: {} -> {}", classMethod, content);
       } else {

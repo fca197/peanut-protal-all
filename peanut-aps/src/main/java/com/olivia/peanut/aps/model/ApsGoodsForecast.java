@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.mybatis.type.impl.ListLongTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,7 +36,7 @@ public class ApsGoodsForecast extends BaseEntity<ApsGoodsForecast> {
 
 
   public List<String> getMonthList() {
-    return JSON.readList(this.getMonths(), String.class);
+    return JSONUtils.readList(this.getMonths(), String.class);
   }
 }
 

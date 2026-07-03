@@ -4,7 +4,7 @@ package com.olivia.peanut.aps.api.impl.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessImportReq;
 import com.olivia.sdk.listener.AbstractImportListener;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ public class ApsProduceProcessImportListener extends AbstractImportListener<ApsP
   @Override
   public void invoke(ApsProduceProcessImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("ApsProduceProcessImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("ApsProduceProcessImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
 
   }

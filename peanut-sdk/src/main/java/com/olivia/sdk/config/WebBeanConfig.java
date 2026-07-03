@@ -2,7 +2,7 @@ package com.olivia.sdk.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.olivia.sdk.filter.WebHandlerInterceptor;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Web MVC 配置类 配置拦截器、消息转换器、内容协商等Web相关组件
@@ -21,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.*;
 public class WebBeanConfig implements WebMvcConfigurer {
 
   private final WebHandlerInterceptor webHandlerInterceptor;
-  private final PeanutProperties peanutProperties;
 
   /**
    * 配置拦截器 注册WebHandlerInterceptor并设置拦截路径和排除路径
@@ -31,7 +32,7 @@ public class WebBeanConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     // 创建拦截器注册器并配置路径
-    InterceptorRegistration interceptorRegistration = registry.addInterceptor(webHandlerInterceptor).addPathPatterns("/**");  // 拦截所有路径
+//    InterceptorRegistration interceptorRegistration = registry.addInterceptor(webHandlerInterceptor).addPathPatterns("/**");  // 拦截所有路径
 
     // 配置排除路径（白名单）
 //    List<String> whiteList = peanutProperties.getUrlWhiteList();
@@ -51,6 +52,7 @@ public class WebBeanConfig implements WebMvcConfigurer {
   @Override
   public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
     configurer.defaultContentType(MediaType.APPLICATION_JSON).ignoreAcceptHeader(false);  // 不忽略Accept头，支持内容协商
+
     log.debug("已配置默认响应媒体类型为: {}", MediaType.APPLICATION_JSON);
   }
 
@@ -62,7 +64,7 @@ public class WebBeanConfig implements WebMvcConfigurer {
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
     // 获取自定义的ObjectMapper（已配置好的）
-    ObjectMapper customMapper = JSON.getMapper();
+    ObjectMapper customMapper = JSONUtils.getMapper();
 
     // 创建并配置Jackson消息转换器
     MappingJackson2HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter(customMapper);

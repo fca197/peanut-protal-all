@@ -205,12 +205,12 @@ public class ApsSchedulingGoodsBomTotalServiceImpl extends MPJBaseServiceImpl<Ap
         BigDecimal lastInv = inv.subtract(v.getBomUsage());
         Map<String, Object> map = Map.of("need_use", v.getBomUsage(), "buy_inv", lastInv, "bom_inv", inv, "lack", lastInv.compareTo(ZERO) < 0);
         ReflectUtil.setFieldValue(planItem, getField(ApsGoodsBomBuyPlanItem.class, ApsGoodsBomBuyPlanItem.fieldName + v.getBomUseDate().getDayOfYear()),
-            JSON.toJSONString(map));
+            JSONUtils.toJSONString(map));
       });
       apsGoodsBomBuyPlanItemList.add(planItem);
     });
 
-    String dateList = JSON.toJSONString(
+    String dateList = JSONUtils.toJSONString(
         bomTotalList.stream().map(ApsSchedulingGoodsBomTotal::getBomUseDate).distinct().sorted().map(t -> Map.of("date", t, "day", t.getDayOfYear())).toList());
     ApsGoodsBomBuyPlan apsGoodsBomBuyPlan = new ApsGoodsBomBuyPlan().setPlanName(apsSchedulingVersion.getSchedulingVersionName() + "排产零件购买")
         .setPlanRemark("基于排产结果生成零件购买计划").setPlanSource("scheduling").setBuyPlanType(ApsGoodsBomBuyPlanTypeEnum.SCHEDULING);

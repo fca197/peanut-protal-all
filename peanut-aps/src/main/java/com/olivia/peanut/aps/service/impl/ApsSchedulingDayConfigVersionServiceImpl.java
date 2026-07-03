@@ -3,7 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import static com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType.MAKE;
 import static com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType.PROCESS;
 import static com.olivia.sdk.utils.FieldUtils.getFieldValue;
-import static com.olivia.sdk.utils.JSON.toJSONString;
+import static com.olivia.sdk.utils.JSONUtils.toJSONString;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
@@ -32,7 +32,6 @@ import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.base.service.ShiftService;
-import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.model.MapSub;
@@ -531,7 +530,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     List<Header> headerList = new ArrayList<>();
     if (StringUtils.isNoneBlank(headerListStr)) {
 
-      List<List<Long>> roomDtoList = JSON.readValue(headerListStr, new TypeReference<>() {
+      List<List<Long>> roomDtoList = JSONUtils.readValue(headerListStr, new TypeReference<>() {
       });
 
       Map<Long, String> statusNameMap = this.apsStatusService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));

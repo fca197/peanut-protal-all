@@ -111,7 +111,7 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
       goodsDataMap.put(key, goodsData);
 
     });
-    log.info("goodsDataMap {}", JSON.toJSONString(goodsDataMap));
+    log.info("goodsDataMap {}", JSONUtils.toJSONString(goodsDataMap));
     IntStream.rangeClosed(2, sheet.getLastRowNum()).forEach(t -> {
       IntStream.range(startInclusive, monthList.size() + startInclusive).forEach(i -> {
         BigDecimal bigDecimal = BigDecimal.valueOf(sheet.getRow(t).getCell(i).getNumericCellValue());
@@ -457,8 +457,8 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
 
         DivisionRes divisionRes = ApsForecastUtils.division(value, groupList, List.of());
         RunUtils.asyncRun("计算结果 " + req.getId(), () -> {
-          log.info("req compute count {} groupList:{}", value, JSON.toJSONString(groupList));
-          log.info("ret compute divisionRes {}", JSON.toJSONString(divisionRes));
+          log.info("req compute count {} groupList:{}", value, JSONUtils.toJSONString(groupList));
+          log.info("ret compute divisionRes {}", JSONUtils.toJSONString(divisionRes));
         });
 
         //  forecastUserSaleDataMap.get(year)

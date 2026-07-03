@@ -1,6 +1,7 @@
 package com.olivia.sdk.service;
 
 import com.olivia.sdk.service.pojo.ConsumerReq;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 消费者通用接口 定义消息/任务消费的标准接口，所有具体消费者实现类需遵循此规范
@@ -12,6 +13,7 @@ public interface ConsumerService {
    *
    * @return 业务标识字符串，不能为null或空字符串
    */
+  @NotNull
   String bizKey();
 
   /**

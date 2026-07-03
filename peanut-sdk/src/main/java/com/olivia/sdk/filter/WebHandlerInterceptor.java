@@ -42,7 +42,7 @@ public class WebHandlerInterceptor implements HandlerInterceptor {
     // 使用try-with-resources确保PrintWriter自动关闭
     try (PrintWriter writer = response.getWriter()) {
       Result<Object> errorResult = Result.fail(msg).setCode(code);
-      writer.write(JSON.toJSONString(errorResult));
+      writer.write(JSONUtils.toJSONString(errorResult));
       writer.flush();
     } catch (Exception e) {
       log.error("写入错误响应失败: {}", e.getMessage(), e);
@@ -137,7 +137,7 @@ public class WebHandlerInterceptor implements HandlerInterceptor {
 
     // 解析用户信息并设置上下文
     try {
-      LoginUser loginUser = JSON.readValue(userInfoJson, LoginUser.class);
+      LoginUser loginUser = JSONUtils.readValue(userInfoJson, LoginUser.class);
       loginUser.setIpAddress(clientIp).setDeviceId(deviceId).setToken(token);
 
       // 将用户信息存入线程上下文

@@ -110,7 +110,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements ApsOrder
     String nextVersionNo = getNextVersionNo();
     apsOrderGoodsBomKittingVersion.setKittingVersionNo("scheduling-" + nextVersionNo).setKittingVersionName("排产[" + req.getSchedulingVersionId() + "]齐套")
         .setCreateDate(LocalDate.now());
-    apsOrderGoodsBomKittingVersion.setBizId(req.getSchedulingVersionId()).setVersionCreateParam(JSON.toJSONString(req)).setKittingVersionSource("排产");
+    apsOrderGoodsBomKittingVersion.setBizId(req.getSchedulingVersionId()).setVersionCreateParam(JSONUtils.toJSONString(req)).setKittingVersionSource("排产");
 
     // 遍历订单 扣除库存
     Map<Long, Map<Long, List<ApsGoodsBom>>> apsBomListMap = this.apsGoodsBomService.list(new LambdaQueryWrapper<ApsGoodsBom>().in(ApsGoodsBom::getGoodsId, goodIsList))

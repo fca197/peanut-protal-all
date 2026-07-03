@@ -1,6 +1,6 @@
 package com.olivia.sdk.mybatis.type;
 
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.sql.*;
 import java.util.Objects;
 import org.apache.ibatis.type.BaseTypeHandler;
@@ -33,7 +33,7 @@ public abstract class ListMyBaseTypeHandler<T> extends BaseTypeHandler<T> {
     if (Objects.isNull(obj)) {
       return "[]";
     }
-    return JSON.toJSONString(obj);
+    return JSONUtils.toJSONString(obj);
   }
 
   /**

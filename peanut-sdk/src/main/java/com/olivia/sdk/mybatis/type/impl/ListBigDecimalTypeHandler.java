@@ -1,7 +1,7 @@
 package com.olivia.sdk.mybatis.type.impl;
 
 import com.olivia.sdk.mybatis.type.ListMyBaseTypeHandler;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class ListBigDecimalTypeHandler extends ListMyBaseTypeHandler<List<BigDec
     if (StringUtils.isBlank(val)) {
       return List.of();
     }
-    return JSON.readList(val, BigDecimal.class);
+    return JSONUtils.readList(val, BigDecimal.class);
   }
 
 

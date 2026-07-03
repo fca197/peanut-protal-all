@@ -1,7 +1,7 @@
 package com.olivia.sdk.mybatis.type.impl;
 
 import com.olivia.sdk.mybatis.type.ListMyBaseTypeHandler;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +19,7 @@ public class ListStringTypeHandler extends ListMyBaseTypeHandler<List<String>> {
     if (StringUtils.isBlank(val)) {
       return List.of();
     }
-    return JSON.readList(val, String.class);
+    return JSONUtils.readList(val, String.class);
   }
 
 

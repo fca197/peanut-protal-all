@@ -1,6 +1,6 @@
 package com.olivia.sdk.utils.model;
 
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +23,6 @@ public class WeekInfo {
 
   @Override
   public String toString() {
-    return JSON.toJSONString(this);
+    return JSONUtils.toJSONString(this);
   }
 }

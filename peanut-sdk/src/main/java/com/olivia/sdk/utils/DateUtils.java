@@ -152,7 +152,7 @@ public final class DateUtils {
     }).sorted(Comparator.comparing(ShiftItem::getBeginTime)).toList();
 
     if (log.isDebugEnabled()) {
-      log.debug("处理后的班次列表: {}", JSON.toJSONString(shiftItemList));
+      log.debug("处理后的班次列表: {}", JSONUtils.toJSONString(shiftItemList));
     }
 
     // 构建日期与是否工作日的映射
@@ -205,7 +205,7 @@ public final class DateUtils {
     noWorkDayTimeInfoList.forEach(NoWorkDayTimeInfo::buildTime);
 
     if (log.isDebugEnabled()) {
-      log.debug("非工作时间信息列表: {}", JSON.toJSONString(noWorkDayTimeInfoList));
+      log.debug("非工作时间信息列表: {}", JSONUtils.toJSONString(noWorkDayTimeInfoList));
     }
 
     return noWorkDayTimeInfoList;
@@ -307,7 +307,7 @@ public final class DateUtils {
     });
 
     if (log.isDebugEnabled()) {
-      log.debug("工作日时间信息列表: {}", JSON.toJSONString(dayTimeInfoList));
+      log.debug("工作日时间信息列表: {}", JSONUtils.toJSONString(dayTimeInfoList));
     }
 
     return dayTimeInfoList;

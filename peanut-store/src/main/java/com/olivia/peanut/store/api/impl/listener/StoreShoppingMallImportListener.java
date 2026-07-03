@@ -1,20 +1,10 @@
 package com.olivia.peanut.store.api.impl.listener;
 
 
-import com.olivia.peanut.store.model.StoreShoppingMall;
-import org.apache.ibatis.annotations.Mapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.olivia.peanut.store.api.entity.storeShoppingMall.*;
 import com.alibaba.excel.context.AnalysisContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import lombok.Getter;
-import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
+import com.olivia.peanut.store.api.entity.storeShoppingMall.StoreShoppingMallImportReq;
 import com.olivia.sdk.listener.AbstractImportListener;
-
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,7 +19,7 @@ public class StoreShoppingMallImportListener extends AbstractImportListener<Stor
   @Override
   public void invoke(StoreShoppingMallImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("StoreShoppingMallImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("StoreShoppingMallImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
 
   }

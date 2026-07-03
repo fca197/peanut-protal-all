@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.olivia.sdk.listener.BaseExportDataPoiListener;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -154,7 +154,7 @@ public abstract class BaseExportDataPoiController<T, L extends BaseExportDataPoi
     if (requestBody == null || requestBody.trim().isEmpty()) {
       return new HashMap<>(0);
     }
-    return JSON.readValue(requestBody, new TypeReference<Map<String, Object>>() {
+    return JSONUtils.readValue(requestBody, new TypeReference<Map<String, Object>>() {
     });
   }
 

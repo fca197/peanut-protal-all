@@ -110,6 +110,6 @@ public class BaseEntity<T extends BaseEntity<T>> extends Model<T> {
    */
   @Override
   public String toString() {
-    return JSON.toJSONString(this);
+    return JSONUtils.toJSONString(this);
   }
 }

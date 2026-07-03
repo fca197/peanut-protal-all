@@ -4,7 +4,7 @@ package com.olivia.peanut.aps.api.impl.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalImportReq;
 import com.olivia.sdk.listener.AbstractImportListener;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ public class ApsSchedulingGoodsBomTotalImportListener extends AbstractImportList
   @Override
   public void invoke(ApsSchedulingGoodsBomTotalImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("ApsSchedulingGoodsBomTotalImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("ApsSchedulingGoodsBomTotalImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
 
   }

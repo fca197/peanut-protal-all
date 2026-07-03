@@ -35,7 +35,7 @@ public class HttpClientUtils {
           log.debug("getBodyHandler class : {} , Received a string body of {}", clazz, stringBody);
         }
         // 将 JSON 字符串反序列化为 User 对象
-        return JSON.readValue(stringBody, clazz);
+        return JSONUtils.readValue(stringBody, clazz);
       } catch (Exception e) {
         log.error("JSON 反序列化失败 className:{} stringBody:{}", clazz, stringBody, e);
         return null;

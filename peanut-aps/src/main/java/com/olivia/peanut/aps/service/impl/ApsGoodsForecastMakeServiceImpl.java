@@ -40,7 +40,6 @@ import com.olivia.peanut.base.model.ShiftItem;
 import com.olivia.peanut.base.service.CalendarService;
 import com.olivia.peanut.base.service.ShiftItemService;
 import com.olivia.peanut.base.service.ShiftService;
-import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.config.PeanutProperties;
@@ -224,7 +223,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
         .filter(t -> TRUE.equals(t.getIsWorkDay()))
         .sorted(Comparator.comparing(WeekInfo::getCurrentDay).reversed()).toList();
 
-    log.info("weekList : {}", JSON.toJSONString(weekList));
+    log.info("weekList : {}", JSONUtils.toJSONString(weekList));
 
     Map<LocalDate, ApsProcessPathInfo> apsProcessPathInfoMap = new HashMap<>();
 

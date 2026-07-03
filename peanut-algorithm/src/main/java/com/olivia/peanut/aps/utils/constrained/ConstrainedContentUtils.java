@@ -5,7 +5,7 @@ import com.olivia.peanut.aps.utils.constrained.model.ConstrainedResult;
 import com.olivia.peanut.aps.utils.constrained.model.sub.*;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage.Header;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -126,9 +126,9 @@ public class ConstrainedContentUtils {
       }
       List<ConstrainedContent> children = constrainedContent.getChildren();
       if (log.isDebugEnabled()) {
-        log.debug("useConstraints,constrainedContent.id {} \n successList:{}", JSON.toJSONString(
+        log.debug("useConstraints,constrainedContent.id {} \n successList:{}", JSONUtils.toJSONString(
                 $.copy(constrainedContent, ConstrainedContent.class).setChildren(null)),
-            JSON.toJSONString(successList));
+            JSONUtils.toJSONString(successList));
       }
       useConstraints(resList, successList, children);
 

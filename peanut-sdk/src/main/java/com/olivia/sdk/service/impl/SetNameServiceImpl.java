@@ -11,7 +11,7 @@ import com.google.common.cache.CacheBuilder;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.service.pojo.NameConfig;
 import com.olivia.sdk.service.pojo.SetNamePojo;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import com.olivia.sdk.utils.RunUtils;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -87,7 +87,7 @@ public class SetNameServiceImpl implements SetNameService {
       setNamesToObjects(list, nameConfigs, idNameMap);
 
     } catch (Exception e) {
-      log.error("处理名称设置失败，配置: {}", JSON.toJSONString(namePojo), e);
+      log.error("处理名称设置失败，配置: {}", JSONUtils.toJSONString(namePojo), e);
     }
   }
 

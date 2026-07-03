@@ -35,7 +35,7 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    *
    */
   public @Override ApsGoodsForecastInsertRes insert(ApsGoodsForecastInsertReq req) {
-    String ms = JSON.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
+    String ms = JSONUtils.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
     req.setMonths(ms);
     this.apsGoodsForecastService.save($.copy(req, ApsGoodsForecast.class).setForecastStatus(ForecastStatusEnum.TO_UPLOAD.getCode()));
     return new ApsGoodsForecastInsertRes().setCount(1);
@@ -64,7 +64,7 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    */
   public @Override ApsGoodsForecastUpdateByIdRes updateById(ApsGoodsForecastUpdateByIdReq req) {
 
-    String ms = JSON.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
+    String ms = JSONUtils.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
     req.setMonths(ms);
     ApsGoodsForecast forecast = $.copy(req, ApsGoodsForecast.class);
     apsGoodsForecastService.updateById(forecast);

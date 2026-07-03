@@ -3,8 +3,10 @@ package com.olivia.peanut.aps.utils.process;
 import static com.olivia.peanut.aps.utils.process.WeekUtils.getWeekInfo;
 
 import cn.hutool.core.collection.CollUtil;
-import com.olivia.peanut.aps.utils.process.entity.*;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.peanut.aps.utils.process.entity.ApsProduceProcessItemPojo;
+import com.olivia.peanut.aps.utils.process.entity.ComputeStatusReq;
+import com.olivia.peanut.aps.utils.process.entity.ComputeStatusRes;
+import com.olivia.sdk.utils.JSONUtils;
 import com.olivia.sdk.utils.model.WeekInfo;
 import java.time.LocalDate;
 import java.util.List;
@@ -52,7 +54,7 @@ public final class ProduceStatusUtils {
       adjustProcessItems(processItems, req.getCurrentGoodsStatusId());
     }
 
-    log.info("处理后的生产流程项列表: {}", JSON.toJSONString(processItems));
+    log.info("处理后的生产流程项列表: {}", JSONUtils.toJSONString(processItems));
 
     // 计算执行时间并设置状态日期
     AtomicLong totalExecutionTime = new AtomicLong();

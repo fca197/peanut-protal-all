@@ -122,7 +122,7 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
                 .ge(BaseEntity::getCreateTime, beginDate).le(BaseEntity::getCreateTime, endDate).groupBy(ApsOrderGoodsSaleConfig::getConfigId)) //
             .stream().map(ApsOrderGoodsSaleHistoryCount::new).toList());
         if (log.isDebugEnabled()) {
-          log.debug("apsOrderGoodsSaleConfigList {}", JSON.toJSONString(apsOrderGoodsSaleConfigList));
+          log.debug("apsOrderGoodsSaleConfigList {}", JSONUtils.toJSONString(apsOrderGoodsSaleConfigList));
         }
       });
       AtomicLong goodsCount = new AtomicLong();
@@ -132,7 +132,7 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
             .gt(BaseEntity::getCreateTime, beginDate).le(BaseEntity::getCreateTime, endDate));
         goodsCount.set(count);
         if (log.isDebugEnabled()) {
-          log.debug("goodsCount {}", JSON.toJSONString(count));
+          log.debug("goodsCount {}", JSONUtils.toJSONString(count));
         }
       });
       // 查询已生成的订单历史销售配置
@@ -144,7 +144,7 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
             .groupBy(ApsOrderGoodsSaleHistory::getFactoryId, ApsOrderGoodsSaleHistory::getGoodsId, ApsOrderGoodsSaleHistory::getSaleConfigId));
 //        log.info("listGoodsSaleMaps {}", JSON.toJSONString(listGoodsSaleMaps));
         if (log.isDebugEnabled()) {
-          log.debug("listGoodsSaleMaps {}", JSON.toJSONString(listGoodsSaleMaps));
+          log.debug("listGoodsSaleMaps {}", JSONUtils.toJSONString(listGoodsSaleMaps));
         }
       });
 
@@ -156,7 +156,7 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
             .stream().collect(Collectors.toMap(ApsOrderGoodsSaleHistory::getSaleConfigId, BaseEntity::getId));
         saleHistoryIdMap.putAll(tMap);
         if (log.isDebugEnabled()) {
-          log.debug("tMap {}", JSON.toJSONString(tMap));
+          log.debug("tMap {}", JSONUtils.toJSONString(tMap));
         }
       });
       // 查询商品销售配置
@@ -171,7 +171,7 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
 //                list -> list.stream().sorted(Comparator.comparing(ApsSaleConfig::getSaleCode)).toList())));
 //        saleParentMap.putAll(saleParentMapTmp);
         if (log.isDebugEnabled()) {
-          log.debug("saleParentMapTmp {}", JSON.toJSONString(saleParentMapTmp));
+          log.debug("saleParentMapTmp {}", JSONUtils.toJSONString(saleParentMapTmp));
         }
         Set<Long> idSet = saleParentMapTmp.values().stream().map(ApsSaleConfig::getParentId).collect(Collectors.toSet());
         saleAllMap.putAll(saleParentMapTmp);

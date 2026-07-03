@@ -22,7 +22,7 @@ public class ValueUtils {
       case "LocalDate" -> ((LocalDate) v).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
       case "LocalDateTime" -> ((LocalDateTime) v).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
       case "Date" -> DateUtil.format((Date) v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-      case "List" -> JSON.toJSONString(v);
+      case "List" -> JSONUtils.toJSONString(v);
       default -> throw new IllegalStateException("Unexpected value: " + v.getClass().getSimpleName());
     };
   }

@@ -55,7 +55,7 @@
             <argument>-cp</argument>
             <argument>${project.build.outputDirectory}</argument>
             <!-- 替换为你的主类路径 -->
-            <argument>com.example.StringTemplateDemo</argument>
+            <!--            <argument>com.example.StringTemplateDemo</argument>-->
           </arguments>
         </configuration>
       </plugin>
@@ -327,6 +327,7 @@
     <ortools.version>9.15.6755</ortools.version>
     <protobuf.version>4.35.1</protobuf.version>
     <uber.h3.version>4.4.0</uber.h3.version>
+
   </properties>
 
 </project>

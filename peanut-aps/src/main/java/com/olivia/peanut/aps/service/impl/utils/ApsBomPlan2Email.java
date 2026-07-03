@@ -18,7 +18,7 @@ import com.olivia.peanut.base.service.entity.SendMailReq;
 import com.olivia.sdk.filter.LoginUserContext;
 import com.olivia.sdk.utils.DateUtils;
 import com.olivia.sdk.utils.FieldUtils;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -58,7 +58,7 @@ public class ApsBomPlan2Email {
         if (Objects.isNull(fieldValue)) {
           return;
         }
-        Map<String, Object> jsonObject = JSON.readValue(String.valueOf(fieldValue),
+        Map<String, Object> jsonObject = JSONUtils.readValue(String.valueOf(fieldValue),
             new TypeReference<Map<String, Object>>() {
             });
         if (TRUE.equals(jsonObject.get("lack"))) {
@@ -67,7 +67,7 @@ public class ApsBomPlan2Email {
         }
       });
     });
-    log.info("apsBomEmailList {}", JSON.toJSONString(apsBomEmailList));
+    log.info("apsBomEmailList {}", JSONUtils.toJSONString(apsBomEmailList));
     StringBuilder content = new StringBuilder();
     List<LocalDate> localDateBetweenEmail = DateUtils.getLocalDateBetween(
         req.getBeginDate().minusDays(maxDay.get()), req.getEndDate());

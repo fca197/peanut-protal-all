@@ -4,7 +4,7 @@ package com.olivia.peanut.aps.api.impl.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigImportReq;
 import com.olivia.sdk.listener.AbstractImportListener;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ public class ApsSaleConfigImportListener extends AbstractImportListener<ApsSaleC
   @Override
   public void invoke(ApsSaleConfigImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("ApsSaleConfigImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("ApsSaleConfigImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
 
   }

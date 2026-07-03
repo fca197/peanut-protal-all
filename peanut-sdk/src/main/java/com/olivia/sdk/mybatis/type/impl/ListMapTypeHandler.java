@@ -3,7 +3,7 @@ package com.olivia.sdk.mybatis.type.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.olivia.sdk.mybatis.type.ListMyBaseTypeHandler;
 import com.olivia.sdk.mybatis.type.model.MapSub;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ public class ListMapTypeHandler extends ListMyBaseTypeHandler<List<MapSub>> {
     if (StringUtils.isBlank(val)) {
       return List.of();
     }
-    return JSON.readValue(val, new TypeReference<List<MapSub>>() {
+    return JSONUtils.readValue(val, new TypeReference<List<MapSub>>() {
     });
   }
 

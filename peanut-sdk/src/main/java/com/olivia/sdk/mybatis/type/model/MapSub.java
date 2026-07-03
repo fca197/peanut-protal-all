@@ -3,7 +3,7 @@ package com.olivia.sdk.mybatis.type.model;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.BooleanUtil;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -128,7 +128,7 @@ public class MapSub extends HashMap<String, Object> {
     }
     // 通过JSON序列化/反序列化进行转换
     try {
-      return JSON.readList(JSON.toJSONString(value), targetType);
+      return JSONUtils.readList(JSONUtils.toJSONString(value), targetType);
     } catch (Exception e) {
       log.error("列表类型转换失败 - 源值: {}, 目标元素类型: {}", value, targetType.getName(), e);
       return null;

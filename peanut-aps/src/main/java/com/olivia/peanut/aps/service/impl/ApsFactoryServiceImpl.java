@@ -22,7 +22,7 @@ import com.olivia.peanut.base.service.CalendarService;
 import com.olivia.peanut.base.service.ShiftItemService;
 import com.olivia.peanut.base.service.ShiftService;
 import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import com.olivia.sdk.utils.RunUtils;
 import com.olivia.sdk.utils.model.WeekInfo;
 import jakarta.annotation.Resource;
@@ -64,7 +64,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
   @Override
   public FactoryConfigRes getFactoryConfig(FactoryConfigReq req) {
     if (log.isDebugEnabled()) {
-      log.debug("getFactoryConfig req :{}", JSON.toJSONString(req));
+      log.debug("getFactoryConfig req :{}", JSONUtils.toJSONString(req));
     }
 //    LoginUser loginUser = LoginUserContext.getLoginUser();
     List<Runnable> runnableList = new ArrayList<>();

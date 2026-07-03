@@ -10,7 +10,7 @@ import com.olivia.peanut.base.service.entity.GdDistrictBoundary;
 import com.olivia.peanut.base.service.entity.GdDistrictBoundary.DistrictsDTO;
 import com.olivia.sdk.config.PeanutProperties;
 import com.olivia.sdk.utils.HttpClientUtils;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import jakarta.annotation.Resource;
 import java.io.File;
 import java.util.*;
@@ -64,8 +64,7 @@ public class GdQueryDistrictBoundaryServiceImpl implements QueryDistrictBoundary
     Map<String, Object> beanToMap = BeanUtil.beanToMap(ret);
     beanToMap.put("polyline", Arrays.stream(polyline.split("[;]")).map(t -> t.split(",")).toList());
 
-
-    FileUtil.writeUtf8String(JSON.toJSONString(beanToMap),
+    FileUtil.writeUtf8String(JSONUtils.toJSONString(beanToMap),
         new File(peanutProperties.getLocalFileUploadPath()+"/districtBoundary/" + areaCode + ".json"));
     return ret;
   }

@@ -110,7 +110,7 @@ public class OplogAspect {
         String paramName = oplog.paramName();
 
         // 处理请求和响应数据
-        String requestBody = JSON.toJSONString(ReqResUtils.filterReqArgs(joinPoint.getArgs()));
+        String requestBody = JSONUtils.toJSONString(ReqResUtils.filterReqArgs(joinPoint.getArgs()));
         String resultStr = buildResultString(result, errorMsg);
 
         // 获取用户信息
@@ -178,7 +178,7 @@ public class OplogAspect {
    */
   private String buildResultString(Object result, String errorMsg) {
     if (Objects.nonNull(result)) {
-      return JSON.toJSONString(result);
+      return JSONUtils.toJSONString(result);
     }
     return StringUtils.isNotBlank(errorMsg) ? "errorMsg: " + errorMsg : "no result";
   }

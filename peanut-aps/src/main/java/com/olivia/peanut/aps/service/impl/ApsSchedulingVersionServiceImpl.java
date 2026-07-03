@@ -3,7 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import static com.olivia.peanut.aps.con.ApsStr.GOODS_STATUS_ID;
 import static com.olivia.peanut.aps.utils.capacity.model.Limit.LimitTypeEnum.SALE_CONFIG_LIMIT;
 import static com.olivia.sdk.utils.FieldUtils.getField;
-import static com.olivia.sdk.utils.JSON.toJSONString;
+import static com.olivia.sdk.utils.JSONUtils.toJSONString;
 import static com.olivia.sdk.utils.ValueUtils.value2Str;
 import static java.lang.Boolean.FALSE;
 
@@ -46,7 +46,6 @@ import com.olivia.peanut.base.model.CalendarDay;
 import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.CalendarDayService;
 import com.olivia.peanut.base.service.FactoryService;
-import com.olivia.sdk.utils.SetNamePojoUtils;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
@@ -232,7 +231,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     $.requireNonNullCanIgnoreException(schedulingVersion, "排产版本为空");
     try {
       ApsSchedulingConstraints schedulingConstraints = this.apsSchedulingConstraintsService.getById(schedulingVersion.getSchedulingConstraintsId());
-      List<ConstrainedContent> constrainedList = JSON.readList(schedulingConstraints.getConstraintsContext(), ConstrainedContent.class);
+      List<ConstrainedContent> constrainedList = JSONUtils.readList(schedulingConstraints.getConstraintsContext(), ConstrainedContent.class);
 
       // 获取数据
       List<ApsOrder> orderList = apsOrderService.list(
@@ -719,7 +718,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     headerList.add(new Header().setFieldName("numberIndex").setShowName("预排序号").setWidth(80));
     headerList.add(new Header("goodsName", "商品名称", 100, ""));
     headerList.add(new Header("userName", "用户名", 100, ""));
-    List<Header> headerListTmp = JSON.readList(headerStr, Header.class);
+    List<Header> headerListTmp = JSONUtils.readList(headerStr, Header.class);
     IntStream.range(0, Math.min(20, CollUtil.isEmpty(headerListTmp) ? 0 : headerListTmp.size())).forEach(i -> {
       Header header = new Header("field" + i, headerListTmp.get(i).getShowName(), 160, "");
       headerList.add(header);
@@ -735,7 +734,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     headerList.add(new Header().setFieldName("numberIndex").setShowName("产能序号").setWidth(80));
     headerList.add(new Header("goodsName", "商品名称", 100, ""));
     headerList.add(new Header("userName", "用户名", 100, ""));
-    List<Header> headerListTmp = JSON.readList(headerStr, Header.class);
+    List<Header> headerListTmp = JSONUtils.readList(headerStr, Header.class);
     IntStream.range(0, Math.min(20, CollUtil.isEmpty(headerListTmp) ? 0 : headerListTmp.size())).forEach(i -> {
       Header header = new Header("field" + i, headerListTmp.get(i).getShowName(), 160, "");
       headerList.add(header);

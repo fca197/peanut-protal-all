@@ -2,7 +2,7 @@ package com.olivia.sdk.mybatis.type.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.olivia.sdk.mybatis.type.model.MapSub;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.sql.*;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class MapTypeHandler extends BaseTypeHandler<MapSub> {
     if (CollUtil.isNotEmpty(parameter)) {
       ps.setString(i, "{}");
     } else {
-      ps.setString(i, JSON.toJSONString(parameter));
+      ps.setString(i, JSONUtils.toJSONString(parameter));
     }
   }
 
@@ -28,7 +28,7 @@ public class MapTypeHandler extends BaseTypeHandler<MapSub> {
     if (val == null) {
       return new MapSub();
     }
-    return JSON.readValue(val, MapSub.class);
+    return JSONUtils.readValue(val, MapSub.class);
   }
 
   @Override

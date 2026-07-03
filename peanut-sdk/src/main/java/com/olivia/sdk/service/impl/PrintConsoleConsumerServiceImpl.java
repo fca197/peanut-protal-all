@@ -2,7 +2,7 @@ package com.olivia.sdk.service.impl;
 
 import com.olivia.sdk.service.ConsumerService;
 import com.olivia.sdk.service.pojo.ConsumerReq;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class PrintConsoleConsumerServiceImpl implements ConsumerService {
 
     // 根据日志级别输出不同详细程度的信息
     if (log.isDebugEnabled()) {
-      log.debug("控制台打印消费者 - 消费消息: {}", JSON.toJSONString(req));
+      log.debug("控制台打印消费者 - 消费消息: {}", JSONUtils.toJSONString(req));
     }
 
   }

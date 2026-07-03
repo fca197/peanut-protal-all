@@ -2,7 +2,7 @@ package com.olivia.peanut.aps.converter;
 
 
 import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.time.LocalDate;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +20,6 @@ public class ApsSchedulingVersionCapacityConverterTest {
     capacity.setGoodsId(-3L);
     capacity.setOrderNo("orderNo");
     Map<String, Object> stringObjectMap = ApsSchedulingVersionCapacityConverter.INSTANCE.entity2Map(        capacity);
-    log.debug("map: {}", JSON.toJSONString(stringObjectMap));
+    log.debug("map: {}", JSONUtils.toJSONString(stringObjectMap));
   }
 }

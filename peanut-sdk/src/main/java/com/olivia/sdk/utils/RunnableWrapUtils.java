@@ -7,9 +7,12 @@ import com.olivia.sdk.filter.LoginUser;
 import com.olivia.sdk.filter.LoginUserContext;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.context.request.RequestAttributes;
@@ -66,6 +69,20 @@ public final class RunnableWrapUtils {
         throw new RuntimeException("Runnable execution failed for key: " + key, e);
       }
     };
+  }
+
+  @SneakyThrows
+  public static Future<?> wrap2Future(String key, final Runnable runnable) {
+    ContextResult result = getContextResult();
+
+    return CompletableFuture.runAsync(() -> {
+      try (ThreadContextScope ignored = new ThreadContextScope(key, result)) {
+        runnable.run(); // 执行原始任务
+      } catch (Exception e) {
+        log.error("Wrapped runnable execution failed, key: {}", key, e);
+        throw new RuntimeException("Runnable execution failed for key: " + key, e);
+      }
+    });
   }
 
   /**
@@ -152,7 +169,7 @@ public final class RunnableWrapUtils {
 
       // 日志调试：确认上下文已清理（仅在DEBUG级别生效）
       if (log.isDebugEnabled()) {
-        log.debug("Thread context cleared - threadId: {} name : {}", Thread.currentThread().threadId(),Thread.currentThread().getName());
+        log.debug("Thread context cleared - threadId: {} name : {}", Thread.currentThread().threadId(), Thread.currentThread().getName());
       }
       // 清理MDC上下文
       MDC.clear();

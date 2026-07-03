@@ -13,7 +13,7 @@ import com.olivia.sdk.dto.ExcelErrorMsg;
 import com.olivia.sdk.exception.RunException;
 import com.olivia.sdk.listener.AbstractImportListener;
 import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class ApsBomImportListener extends AbstractImportListener<ApsBomImportReq
   @Override
   public void invoke(ApsBomImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("ApsBomImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("ApsBomImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
     reqList.add(data);
   }

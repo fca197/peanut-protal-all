@@ -15,5 +15,7 @@ public class StoreBusinessDistrictServiceImplTest extends TestCase {
       log.info(s);
     }
 
+    //   StringSubstitutor.replace()
+
   }
 }

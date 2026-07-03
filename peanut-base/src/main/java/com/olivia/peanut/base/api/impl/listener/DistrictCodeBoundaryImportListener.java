@@ -1,20 +1,10 @@
 package com.olivia.peanut.base.api.impl.listener;
 
 
-import com.olivia.peanut.base.model.DistrictCodeBoundary;
-import org.apache.ibatis.annotations.Mapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.olivia.peanut.base.api.entity.districtCodeBoundary.*;
 import com.alibaba.excel.context.AnalysisContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import lombok.Getter;
-import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
+import com.olivia.peanut.base.api.entity.districtCodeBoundary.DistrictCodeBoundaryImportReq;
 import com.olivia.sdk.listener.AbstractImportListener;
-
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,7 +19,7 @@ public class DistrictCodeBoundaryImportListener extends AbstractImportListener<D
   @Override
   public void invoke(DistrictCodeBoundaryImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("DistrictCodeBoundaryImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("DistrictCodeBoundaryImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
 
   }

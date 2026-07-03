@@ -4,7 +4,7 @@ package com.olivia.peanut.base.api.impl.listener;
 import com.alibaba.excel.context.AnalysisContext;
 import com.olivia.peanut.base.api.entity.baseReportConfig.BaseReportConfigImportReq;
 import com.olivia.sdk.listener.AbstractImportListener;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,7 +19,7 @@ public class BaseReportConfigImportListener extends AbstractImportListener<BaseR
   @Override
   public void invoke(BaseReportConfigImportReq data, AnalysisContext analysisContext) {
     //  文件校验
-    log.info("BaseReportConfigImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("BaseReportConfigImportListener invoke data:{}", JSONUtils.toJSONString(data));
     checkData(data, analysisContext);
 
   }

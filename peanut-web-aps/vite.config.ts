@@ -41,8 +41,8 @@ export default defineConfig(({ mode }) => {
       // 反向代理
       proxy: {
         "/api/": {
-          target: "https://aps.solveplan.cn",
-          // target: "http://localhost",
+          // target: "https://aps.solveplan.cn",
+          target: "http://localhost",
           // 是否为 WebSocket
           ws: true,
           // 是否允许跨域

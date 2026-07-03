@@ -20,7 +20,7 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.JSONUtils;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
@@ -109,7 +109,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
   @Override
   @SneakyThrows(value = {ExecutionException.class})
   public ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(ApsGoodsSaleProjectConfigSale2ProjectReq req) {
-    String reqJson = JSON.toJSONString(req);
+    String reqJson = JSONUtils.toJSONString(req);
     log.info("Sale2Project req {}", reqJson);
     Map<String, ApsSaleConfig> apsSaleConfigMap = saleConfigSaleCodeCache.get("",
         () -> this.apsSaleConfigService.list().stream()
@@ -183,7 +183,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
     List<Info> list = result.keySet().stream().sorted()
         .map(t -> new Info().setProjectCode(t).setConvertCount(result.get(t))).toList();
     res.setDataList(list).setBizKey(req.getBizKey()).setId(req.getId());
-    log.info("sale2project  req {} res {}", reqJson, JSON.toJSONString(res));
+    log.info("sale2project  req {} res {}", reqJson, JSONUtils.toJSONString(res));
     return res;
   }
 // 以下为私有对象封装

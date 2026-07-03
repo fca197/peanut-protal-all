@@ -47,48 +47,59 @@
     </el-card>
 
     <el-card shadow="never">
-      <TableBar
-        :document-title="documentTitle"
-        :add-component="AddEditFormVue"
-        :refresh-list="getDataList"
-        :data-table-ref="dataTableRef"
-        :multiple-selection="multipleSelection"
-        ref="tableBarRef"
-        :data-batch-delete-url="dataBatchDeleteUrl"
-      />
-      <ElTable
-        ref="dataTableRef"
-        :data="dataList"
-        stripe
-        @selection-change="handleSelectionChange"
-      >
-        <ElTableColumn type="selection"/>
-        <ElTableColumn
-          v-for="h in headerList"
-          :key="h.fieldName"
-          :label="h.showName"
-          :min-width="h.width"
-          :prop="h.fieldName"
-        />
-        <ElTableColumn fixed="right" label="操作" width="150px">
-          <template #default="scope">
-            <el-button icon="edit" type="warning" @click="editData(scope.row)">
-              编辑
-            </el-button>
-          </template>
-        </ElTableColumn>
-      </ElTable>
-      <el-row class="paginationDiv">
-        <el-pagination
-          background
-          v-model:current-page="currentPageNum"
-          v-model:page-size="currentPageSize"
-          layout="total, sizes, prev, pager, next"
-          :total="tableTotal"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
-      </el-row>
+      <el-tabs class="demo-tabs"
+               type="card">
+
+        <el-tab-pane label="表格">
+          <TableBar
+            ref="tableBarRef"
+            :add-component="AddEditFormVue"
+            :data-batch-delete-url="dataBatchDeleteUrl"
+            :data-table-ref="dataTableRef"
+            :document-title="documentTitle"
+            :multiple-selection="multipleSelection"
+            :refresh-list="getDataList"
+          />
+          <ElTable
+            ref="dataTableRef"
+            :data="dataList"
+            stripe
+            @selection-change="handleSelectionChange"
+          >
+            <ElTableColumn type="selection"/>
+            <ElTableColumn
+              v-for="h in headerList"
+              :key="h.fieldName"
+              :label="h.showName"
+              :min-width="h.width"
+              :prop="h.fieldName"
+            />
+            <ElTableColumn fixed="right" label="操作" width="150px">
+              <template #default="scope">
+                <el-button icon="edit" type="warning" @click="editData(scope.row)">
+                  编辑
+                </el-button>
+              </template>
+            </ElTableColumn>
+          </ElTable>
+          <el-row class="paginationDiv">
+            <el-pagination
+              v-model:current-page="currentPageNum"
+              v-model:page-size="currentPageSize"
+              :total="tableTotal"
+              background
+              layout="total, sizes, prev, pager, next"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
+          </el-row>
+        </el-tab-pane>
+
+        <el-tab-pane label="树结构">
+
+        </el-tab-pane>
+      </el-tabs>
+
     </el-card>
   </div>
 </template>
@@ -127,16 +138,17 @@ const tableBarRef = ref<InstanceType<typeof TableBar> | null>(null);
 const dataList = ref<DistrictCode[]>([]);
 const currentPageNum = ref<number>(1);
 const currentPageSize = ref<number>(10);
-const tableTotal = ref<number>(0);
+const tableTotal = ref<String>(0);
 const headerList = ref<HeaderInfo[]>([
   {fieldName: 'code', showName: '编码'},
-  {fieldName: 'name', showName: '名称'},
-  {fieldName: 'parentCode', showName: '上级编码'},
+  {fieldName: "name", showName: '名称'},
+  {fieldName: "parentCode", showName: '上级编码'},
 ]);
 
 // 获取表格内数据
 function getDataList() {
   const req = {
+    // queryPage: false,
     pageSize: currentPageSize.value,
     pageNum: currentPageNum.value,
     data: queryForm.value,
@@ -144,7 +156,8 @@ function getDataList() {
   console.info('getDataList {}', req);
   postResultInfo(`${dtoUrl.value}/queryPageList`, req).then((t) => {
     dataList.value = t.data.dataList;
-    tableTotal.value = Number.parseInt(t.data.total);
+    // tableTotal.value = Number.parseInt(t.data.total);
+    tableTotal.value = (t.data.total);
     // headerList.value = t.data.headerList
   });
 }
@@ -179,4 +192,12 @@ function handleSelectionChange(val: DistrictCode[]) {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+</style>
