@@ -20,17 +20,8 @@ peanut:
     driver:
       enable: true
   url-white-list:
-    - /loginAccount/login/phone/pwd
-    #    - /h2-console
-    #    - /fileUpload/getFileByte/
+    - /loginAccount/login/pwd
     - /actuator
-    #    - /apsGoodsSaleProjectConfig/sale2project
-    #    - /districtCode
-    #    - /test/flow
-    #    - /camunda
-    #    - /basePreview/info
-  #    - /
-  #    - /uber/h3/geoToH3Address
   redis-key:
     user-token: ut_
     login-lock: ll_
@@ -67,7 +58,11 @@ db:
   data-source-type: com.zaxxer.hikari.HikariDataSource
 
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 spring:
   mail:
     # 参考 https://baijiahao.baidu.com/s?id=1695308391844521693&wfr=spider&for=pc
@@ -99,7 +94,7 @@ spring:
   datasource:
 
     hikari:
-#      threadFactory: com.olivia.sdk.factory.VirtualThreadFactory
+      #      threadFactory: com.olivia.sdk.factory.VirtualThreadFactory
       #      data-source-properties:
       #        cachePrepStmts: true
       #        prepStmtCacheSize: 250
@@ -169,12 +164,22 @@ spring:
 
 
 mybatis-plus:
+
   mapper-locations: classpath:/mapper/*.xml,classpath:/mapper/*/*.xml  # 指定 MyBatis Mapper XML 文件的位置
   type-aliases-package: com.olivia.peanut.*.model  # 指定实体类所在包名
   configuration:
     call-setters-on-nulls: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: input
+      logic-delete-field: is_delete
+      logic-not-delete-value: 0
+      logic-delete-value: 'UNIX_TIMESTAMP()'
+      update-strategy: not_null
+      column-format: '%s'
+      insert-strategy: always
 
 
 

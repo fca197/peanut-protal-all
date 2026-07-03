@@ -82,13 +82,12 @@ public class BaseEntity<T extends BaseEntity<T>> extends Model<T> {
   @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER, value = "tenant_id")
   private Long tenantId;
 
-
-  /**
-   * 乐观锁版本号，用于并发控制 默认为1，更新时自动递增
-   */
-  @Version
-  @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER, value = "version_num")
-  private Integer versionNum;
+//  /**
+//   * 乐观锁版本号，用于并发控制 默认为1，更新时自动递增
+//   */
+//  @Version
+//  @TableField(fill = FieldFill.INSERT, updateStrategy = FieldStrategy.NEVER, value = "version_num")
+//  private Integer versionNum;
 
   /**
    * 行总计，非数据库字段

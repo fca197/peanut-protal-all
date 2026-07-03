@@ -1,6 +1,7 @@
 package com.olivia.sdk.utils;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import java.util.Objects;
 import org.slf4j.MDC;
 
@@ -76,7 +77,12 @@ public final class MDCUtils {
    * @return 当前spanId，如果不存在则返回null
    */
   public static String getSpanId() {
-    return MDC.get(MDC_KEY_SPAN_ID);
+    String spanId = MDC.get(MDC_KEY_SPAN_ID);
+    if (StringUtils.isEmpty(spanId)) {
+      spanId = IdWorker.getIdStr();
+      MDC.put(MDC_KEY_SPAN_ID, spanId);
+    }
+    return spanId;
   }
 
   /**

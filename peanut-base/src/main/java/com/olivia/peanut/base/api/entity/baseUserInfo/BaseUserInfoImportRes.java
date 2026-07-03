@@ -1,0 +1,28 @@
+package com.olivia.peanut.base.api.entity.baseUserInfo;
+
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+/**
+ * 用户信息(BaseUserInfo)保存返回
+ *
+ * @author admin
+ * @since 2026-07-04 01:25:44
+ */
+@Accessors(chain = true)
+@Getter
+@Setter
+public class BaseUserInfoImportRes {
+
+  /****
+   * 写入行数
+   */
+  private int count;
+  /**
+   * 错误信息
+   */
+  private List<String> errorMsg;
+}
+

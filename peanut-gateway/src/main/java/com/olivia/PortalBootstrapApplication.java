@@ -4,13 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.stereotype.Indexed;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /***
  *
  */
+@Indexed
 @Slf4j
 //@EnableCaching
 //@EnableAspectJAutoProxy
@@ -23,7 +25,10 @@ public class PortalBootstrapApplication {
 
   public static void main(String[] args) {
     try {
-      SpringApplication.run(PortalBootstrapApplication.class, args);
+      SpringApplication app = new SpringApplication(PortalBootstrapApplication.class);
+      app.setApplicationStartup(new BufferingApplicationStartup(2048));
+      app.run(args);
+//      SpringApplication.run(PortalBootstrapApplication.class, args);
       log.info(">>>>>>>  PortalBootstrapApplication  start success >>>>>>>");
     } catch (Exception e) {
       log.info(">>>>>>>  PortalBootstrapApplication  start fail >>>>>>> {}", e.getMessage(), e);

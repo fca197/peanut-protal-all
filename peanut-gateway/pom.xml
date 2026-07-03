@@ -12,12 +12,14 @@
   <dependencies>
     <dependency>
       <groupId>com.olivia</groupId>
-      <artifactId>peanut-aps</artifactId>
+      <artifactId>peanut-sdk</artifactId>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.olivia</groupId>-->
-<!--      <artifactId>peanut-base</artifactId>-->
-<!--    </dependency>-->
+
+
+    <dependency>
+      <artifactId>peanut-base</artifactId>
+      <groupId>com.olivia</groupId>
+    </dependency>
 
   </dependencies>
   <properties>
