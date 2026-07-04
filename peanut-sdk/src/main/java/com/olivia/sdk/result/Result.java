@@ -168,7 +168,7 @@ public class Result<T> {
     return retTime;
   }
 
-  public  String getThreadName(){
+  public String getThreadName() {
     return Thread.currentThread().getName();
   }
 }

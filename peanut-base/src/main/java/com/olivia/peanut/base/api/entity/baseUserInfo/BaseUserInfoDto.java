@@ -11,7 +11,7 @@ import lombok.Setter;
  * 用户信息(BaseUserInfo)查询对象返回
  *
  * @author admin
- * @since 2026-07-04 01:25:45
+ * @since 2026-07-05 00:27:57
  */
 //@Accessors(chain=true)
 @Getter
@@ -19,26 +19,32 @@ import lombok.Setter;
 //@SuppressWarnings("serial")
 public class BaseUserInfoDto extends BaseEntityDto {
 
-  /***
-   *  登录名
+
+  /**
+   * 登录名
    */
-  @NotBlank(message = "登录名不能为空", groups = {InsertCheck.class, UpdateCheck.class, LoginCheck.class})
+  @NotBlank(message = "登录名不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private String loginName;
-  /***
-   *  登录密码
+  /**
+   * 登录密码
    */
-  @NotBlank(message = "登录密码不能为空", groups = {InsertCheck.class, UpdateCheck.class, LoginCheck.class})
+  @NotBlank(message = "登录密码不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private String loginPwd;
-  /***
-   *  用户名
+  /**
+   * 用户名
    */
   @NotBlank(message = "用户名不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private String realName;
-  /***
-   *  手机号
+  /**
+   * 手机号
    */
   @NotBlank(message = "手机号不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private String phoneNumber;
+
+  /**
+   * token
+   */
+  private String userToken;
 
 }
 

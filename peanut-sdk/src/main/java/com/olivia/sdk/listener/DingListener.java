@@ -30,7 +30,7 @@
 //import org.springframework.stereotype.Component;
 //import org.springframework.util.CollectionUtils;
 //
-///**
+/// **
 // * 钉钉消息监听器 负责初始化钉钉事件监听客户端，注册事件处理器，并处理接收到的钉钉事件
 // */
 //@Slf4j

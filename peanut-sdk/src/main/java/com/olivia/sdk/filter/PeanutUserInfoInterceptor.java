@@ -70,8 +70,8 @@
 //        }
 //        String userInfo = stringRedisTemplate.opsForValue().get(peanutProperties.getRedisKey().getUserToken()+token);
 /// /        if (StringUtils.isBlank(userInfo)) { /            exchange.getResponse().setStatusCode(HttpStatus.NOT_ACCEPTABLE); /            return
-/// exchange.getResponse().writeWith(Mono.fromSupplier(() -> { /                DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory(); /
-/// return bufferFactory.wrap(Result.fail("登陆态失效,请重新登陆").toString().getBytes()); /            })); /        }
+/// exchange.getResponse().writeWith(Mono.fromSupplier(() -> { /                DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory(); / return
+/// bufferFactory.wrap(Result.fail("登陆态失效,请重新登陆").toString().getBytes()); /            })); /        }
 //        LoginUser loginUser = JSON.readValue(userInfo, LoginUser.class);
 //        LoginUserContext.setContextThreadLocal(loginUser);
 //        return chain.filter(exchange.mutate().build());

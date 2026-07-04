@@ -5,7 +5,7 @@ import java.util.function.BinaryOperator;
 public class BiFunctionImpl {
 
   public static <T> BinaryOperator<T> getFist() {
-    return  BiFunctionImpl.getFist();
+    return BiFunctionImpl.getFist();
   }
 
   public static <T> BinaryOperator<T> getNew() {

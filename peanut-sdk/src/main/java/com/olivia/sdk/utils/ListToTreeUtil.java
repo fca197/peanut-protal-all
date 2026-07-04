@@ -36,6 +36,14 @@ public final class ListToTreeUtil<T, ID> {
   }
 
   /**
+   * 创建Builder
+   */
+  public static <T, ID> ListToTreeUtil<T, ID> builder(Function<T, ID> idGetter, Function<T, ID> parentIdGetter, Function<T, List<T>> childrenGetter,
+      BiConsumer<T, List<T>> childrenSetter, ID rootParentId) {
+    return new ListToTreeUtil<>(new Builder<>(idGetter, parentIdGetter, childrenGetter, childrenSetter, rootParentId));
+  }
+
+  /**
    * 将列表转换为树形结构
    *
    * @param list 扁平结构的列表
@@ -87,14 +95,6 @@ public final class ListToTreeUtil<T, ID> {
   private boolean isRootNode(ID parentId) {
     // 使用Objects.equals处理可能的null值比较
     return parentId == null || Objects.equals(rootParentId, parentId);
-  }
-
-  /**
-   * 创建Builder
-   */
-  public static <T, ID> ListToTreeUtil<T, ID> builder(Function<T, ID> idGetter, Function<T, ID> parentIdGetter, Function<T, List<T>> childrenGetter,
-      BiConsumer<T, List<T>> childrenSetter, ID rootParentId) {
-    return new ListToTreeUtil<>(new Builder<>(idGetter, parentIdGetter, childrenGetter, childrenSetter, rootParentId));
   }
 
   /**

@@ -9,7 +9,7 @@
 //import org.springframework.stereotype.Component;
 //
 //@Slf4j
-////@Component
+/// /@Component
 //public class WebSocketSendMsgUtils {
 //
 //  private static SimpMessagingTemplate simpMessagingTemplate;

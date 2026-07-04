@@ -5,8 +5,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
- * 钉钉配置实体类
- * 用于存储钉钉集成相关的配置信息，包括客户端凭证、机器人配置等
+ * 钉钉配置实体类 用于存储钉钉集成相关的配置信息，包括客户端凭证、机器人配置等
  */
 @Setter
 @Getter

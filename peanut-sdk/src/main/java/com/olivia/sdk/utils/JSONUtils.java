@@ -28,12 +28,9 @@ import lombok.SneakyThrows;
 public class JSONUtils {
 
   /**
-   * Jackson ObjectMapper 实例，用于 JSON 序列化和反序列化
-   * -- GETTER --
-   *  获取 ObjectMapper 实例
+   * Jackson ObjectMapper 实例，用于 JSON 序列化和反序列化 -- GETTER -- 获取 ObjectMapper 实例
    *
    * @return ObjectMapper 实例
-
    */
   @Getter
   private static final ObjectMapper mapper = new ObjectMapper();

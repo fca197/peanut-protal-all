@@ -61,7 +61,7 @@
 /// /              if (log.isDebugEnabled()) log.debug("{} init", clazz);
 //      BelongDb belongDb = clazz.getAnnotation(BelongDb.class);
 //      if (Objects.isNull(belongDb)) {
-////                if (log.isDebugEnabled()) log.debug("{} belongDb not has", clazz);
+/// /                if (log.isDebugEnabled()) log.debug("{} belongDb not has", clazz);
 //        return;
 //      }
 //      Field[] declaredFields = clazz.getSuperclass().getDeclaredFields();

@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Setter
 public class BaseUserInfoDeleteByIdListReq {
 
-  /***
+  /**
    * 要删除的ID
    */
   @NotEmpty(message = "请选择删除对象")

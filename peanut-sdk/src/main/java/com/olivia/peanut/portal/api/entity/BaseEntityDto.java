@@ -2,15 +2,13 @@ package com.olivia.peanut.portal.api.entity;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
-
 /**
- * 基础实体 DTO 类
- * 包含通用的实体字段，如 id、租户信息、创建和更新信息等
+ * 基础实体 DTO 类 包含通用的实体字段，如 id、租户信息、创建和更新信息等
  */
 @Setter
 @Getter
@@ -77,7 +75,6 @@ public class BaseEntityDto {
    */
   @ExcelProperty("更新人")
   private String updateUserName;
-
 
 
   /**

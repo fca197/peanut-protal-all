@@ -9,18 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * 自定义的 Long 类型反序列化器
- * 用于将 JSON 中的字符串值转换为 Long 类型，支持大数字转换
+ * 自定义的 Long 类型反序列化器 用于将 JSON 中的字符串值转换为 Long 类型，支持大数字转换
  */
 @Slf4j
 public class CustomLongDeserializer extends JsonDeserializer<Long> {
 
   /**
    * 反序列化 JSON 字符串为 Long
-   * @param p JSON 解析器
+   *
+   * @param p    JSON 解析器
    * @param ctxt 反序列化上下文
    * @return 反序列化后的 Long 值
-   * @throws IOException  IO 异常
+   * @throws IOException IO 异常
    */
   @Override
   public Long deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {

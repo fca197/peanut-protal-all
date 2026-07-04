@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * JavaScript Long 类型序列化器
- * 用于处理 Long 类型在 JavaScript 中的安全表示
- * 当 Long 值超出 JavaScript 安全整数范围时，将其序列化为字符串
+ * JavaScript Long 类型序列化器 用于处理 Long 类型在 JavaScript 中的安全表示 当 Long 值超出 JavaScript 安全整数范围时，将其序列化为字符串
  */
 public class JSLongSerializer extends JsonSerializer<Long> {
 
@@ -19,8 +17,7 @@ public class JSLongSerializer extends JsonSerializer<Long> {
   public static JSLongSerializer instance = new JSLongSerializer();
 
   /**
-   * JavaScript 安全整数最大值
-   * JavaScript 中 Number 类型的安全整数范围是 -2^53 到 2^53，即 -9007199254740991 到 9007199254740991
+   * JavaScript 安全整数最大值 JavaScript 中 Number 类型的安全整数范围是 -2^53 到 2^53，即 -9007199254740991 到 9007199254740991
    */
   private final Long MAX = 9007199254740991L;
 
@@ -31,8 +28,9 @@ public class JSLongSerializer extends JsonSerializer<Long> {
 
   /**
    * 序列化 Long 值为 JSON
-   * @param value 要序列化的 Long 值
-   * @param jsonGenerator JSON 生成器
+   *
+   * @param value              要序列化的 Long 值
+   * @param jsonGenerator      JSON 生成器
    * @param serializerProvider 序列化提供者
    * @throws IOException IO 异常
    */

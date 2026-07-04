@@ -22,6 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 public interface BaseUserInfoApi {
 
 
+  /**
+   * 登录
+   *
+   * @param req
+   * @return
+   */
   @PostMapping("/loginAccount/login/pwd")
   BaseUserInfoDto loginPwd(@RequestBody @Validated(LoginCheck.class) BaseUserInfoDto req);
 

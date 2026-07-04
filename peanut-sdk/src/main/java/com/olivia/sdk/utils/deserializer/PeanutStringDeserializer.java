@@ -40,7 +40,7 @@ public class PeanutStringDeserializer extends StringDeserializer {
       }
     } catch (Exception e) {
       String trimToEmpty = trimToEmpty(originalValue);
-      log.warn("json 生成对象错误 trimToEmpty: {}, class: {} ,fieldName: {}",trimToEmpty,
+      log.warn("json 生成对象错误 trimToEmpty: {}, class: {} ,fieldName: {}", trimToEmpty,
           Optional.ofNullable(ctxt.getParser()).map(JsonParser::currentValue).map(Object::getClass).map(String::valueOf).orElse("类空"), fieldName);
       return trimToEmpty;
     }

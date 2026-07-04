@@ -1,5 +1,7 @@
 package com.olivia.peanut.base.service.impl;
 
+import static com.olivia.peanut.base.converter.BaseUserInfoConverter.INSTANCE;
+
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -86,6 +88,15 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
     baseUserInfo.setLoginPwd(null);
     return BaseUserInfoConverter.INSTANCE.entity2Dto(baseUserInfo);
   }
+
+  @Override
+  public void save(BaseUserInfoInsertReq req) {
+    BaseUserInfo baseUserInfo = INSTANCE.insertReq(req);
+    baseUserInfo.setId(null);
+    baseUserInfo.setLoginPwd(SecureHashV2Util.hashHex(baseUserInfo.getLoginPwd()));
+    this.save(baseUserInfo);
+  }
+
   // 以下为私有对象封装
 
   public @Override void setName(List<? extends BaseUserInfoDto> list) {

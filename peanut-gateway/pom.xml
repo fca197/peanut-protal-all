@@ -1,32 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-
   <artifactId>peanut-gateway</artifactId>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.olivia</groupId>
-      <artifactId>peanut-sdk</artifactId>
-    </dependency>
-
-
-    <dependency>
-      <artifactId>peanut-base</artifactId>
-      <groupId>com.olivia</groupId>
-    </dependency>
-
-  </dependencies>
-  <properties>
-
-
-  </properties>
-
   <build>
     <finalName>app</finalName>
     <plugins>
@@ -41,4 +17,28 @@
       </plugin>
     </plugins>
   </build>
+
+  <dependencies>
+    <dependency>
+      <artifactId>peanut-sdk</artifactId>
+      <groupId>com.olivia</groupId>
+    </dependency>
+
+
+    <dependency>
+      <artifactId>peanut-base</artifactId>
+      <groupId>com.olivia</groupId>
+    </dependency>
+
+  </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <properties>
+
+
+  </properties>
 </project>

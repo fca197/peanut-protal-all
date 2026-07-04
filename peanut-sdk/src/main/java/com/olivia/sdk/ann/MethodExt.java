@@ -76,8 +76,7 @@ public @interface MethodExt {
     DOCX("docx");
 
     /**
-     * -- GETTER -- 获取文件后缀的字符串表示。
-     * 文件后缀的字符串表示
+     * -- GETTER -- 获取文件后缀的字符串表示。 文件后缀的字符串表示
      */
     private final String code;
 

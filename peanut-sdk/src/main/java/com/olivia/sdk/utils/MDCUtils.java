@@ -51,7 +51,10 @@ public final class MDCUtils {
     if (Objects.requireNonNullElse(clear, true)) {
       MDC.clear();
     }
-    MDC.put(MDC_KEY_TRACE_ID, IdWorker.getIdStr());
+    String traceId = getTraceId();
+    if (StringUtils.isEmpty(traceId)) {
+      MDC.put(MDC_KEY_TRACE_ID, IdWorker.getIdStr());
+    }
     nextSpanId();
   }
 

@@ -1,15 +1,12 @@
 package com.olivia.peanut.ann;
 
 import com.olivia.peanut.enums.CheckEnums;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckObjectFieldValueAnn {
+
   /**
    * 如果使用 则校验 ImportCheck 类行验证
    *

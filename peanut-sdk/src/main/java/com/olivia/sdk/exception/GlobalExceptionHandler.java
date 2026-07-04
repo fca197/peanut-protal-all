@@ -36,7 +36,19 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   public Result<Object> handleGeneralException(Exception e) {
     log.error("未捕获异常: {}", e.getMessage(), e);
-    return Result.fail("系统异常，请联系管理员");
+    Throwable throwable = getThrowable(e);
+    return Result.fail(throwable.getMessage());
+  }
+
+  private Throwable getThrowable(Throwable e) {
+    Throwable cause = e.getCause();
+    return Objects.isNull(cause) ? e : getThrowable(cause);
+  }
+
+  @ExceptionHandler(NotenantException.class)
+  public Result<Object> handleGeneralException(NotenantException e) {
+    log.error("未捕获异常: {}", e.getMessage(), e);
+    return Result.fail("当钱用户租户信息错误");
   }
 
   /**
@@ -46,7 +58,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-  public Result<Object> handleHttpRequestMethodNotSupportedException(@NonNull HttpRequestMethodNotSupportedException e) {
+  public Result<Object> handleGeneralException(@NonNull HttpRequestMethodNotSupportedException e) {
     assert e.getSupportedMethods() != null;
     String supportedMethods = String.join(",", e.getSupportedMethods());
     String message = String.format("不支持的请求方式 %s，支持的方式为: %s", e.getMethod(), supportedMethods);
@@ -61,7 +73,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(DataIntegrityViolationException.class)
-  public Result<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+  public Result<Object> handleGeneralException(DataIntegrityViolationException e) {
     Throwable cause = e.getCause();
 
     // 如果是SQL异常，直接使用SQL异常处理器
@@ -80,7 +92,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(MaxUploadSizeExceededException.class)
-  public Result<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e) {
+  public Result<Object> handleGeneralException(MaxUploadSizeExceededException e) {
     // 格式化文件大小显示
     String maxSize;
     if (e.getMaxUploadSize() > 1024 * 1024) {
@@ -103,7 +115,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public Result<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+  public Result<Object> handleGeneralException(MethodArgumentNotValidException e) {
     // 收集所有验证错误信息
     String errorMessage = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).filter(msg -> !Strings.isNullOrEmpty(msg))
         .collect(Collectors.joining("，"));
@@ -119,7 +131,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(CanIgnoreException.class)
-  public Result<Object> handleCanIgnoreException(CanIgnoreException e) {
+  public Result<Object> handleGeneralException(CanIgnoreException e) {
     log.warn("可忽略异常: {}", e.getMessage());
     return Result.fail(e.getMessage());
   }
@@ -131,7 +143,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息和错误代码的标准化响应
    */
   @ExceptionHandler(RunException.class)
-  public Result<Object> handleRunException(RunException e) {
+  public Result<Object> handleGeneralException(RunException e) {
     log.warn("业务异常: {}", e.getMessage());
 
     // 如果包含错误代码，使用指定的错误代码
@@ -149,8 +161,8 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
-  public Result<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-    log.warn("请求参数解析失败: {}", e.getMessage(),e);
+  public Result<Object> handleGeneralException(HttpMessageNotReadableException e) {
+    log.warn("请求参数解析失败: {}", e.getMessage(), e);
     return Result.fail("请求参数格式错误，请检查请求体").setErrorData(e.getMostSpecificCause().getMessage());
   }
 
@@ -161,7 +173,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(NoResourceFoundException.class)
-  public Result<Object> handleNoResourceFoundException(NoResourceFoundException e) {
+  public Result<Object> handleGeneralException(NoResourceFoundException e) {
     String requestURI = ReqResUtils.getRequest().getRequestURI();
     log.warn("资源未找到: {}", requestURI);
     return Result.fail("请求的资源不存在: " + requestURI);
@@ -174,7 +186,7 @@ public class GlobalExceptionHandler {
    * @return 包含错误信息的标准化响应
    */
   @ExceptionHandler(BadSqlGrammarException.class)
-  public Result<Object> handleBadSqlGrammarException(BadSqlGrammarException e) {
+  public Result<Object> handleSQLException(BadSqlGrammarException e) {
     SQLException sqlException = e.getSQLException();
     assert sqlException != null;
     String errorMsg = SQLErrorMsg.getErrMsg(sqlException.getErrorCode());

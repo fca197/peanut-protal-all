@@ -6,13 +6,12 @@ import com.olivia.sdk.utils.JSONUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * Web MVC 配置类 配置拦截器、消息转换器、内容协商等Web相关组件
@@ -24,6 +23,9 @@ public class WebBeanConfig implements WebMvcConfigurer {
 
   private final WebHandlerInterceptor webHandlerInterceptor;
 
+  @Autowired
+  PeanutProperties peanutProperties;
+
   /**
    * 配置拦截器 注册WebHandlerInterceptor并设置拦截路径和排除路径
    *
@@ -32,14 +34,14 @@ public class WebBeanConfig implements WebMvcConfigurer {
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     // 创建拦截器注册器并配置路径
-//    InterceptorRegistration interceptorRegistration = registry.addInterceptor(webHandlerInterceptor).addPathPatterns("/**");  // 拦截所有路径
+    InterceptorRegistration interceptorRegistration = registry.addInterceptor(webHandlerInterceptor).addPathPatterns("/**");  // 拦截所有路径
 
-    // 配置排除路径（白名单）
-//    List<String> whiteList = peanutProperties.getUrlWhiteList();
-//    if (!whiteList.isEmpty()) {
-//      interceptorRegistration.excludePathPatterns(whiteList.toArray(new String[0]));
-//      log.info("已配置拦截器排除路径，共 {} 条 whiteList: {}", whiteList.size(), whiteList);
-//    }
+//     配置排除路径（白名单）
+    List<String> whiteList = peanutProperties.getUrlWhiteList();
+    if (!whiteList.isEmpty()) {
+      interceptorRegistration.excludePathPatterns(whiteList.toArray(new String[0]));
+      log.info("已配置拦截器排除路径，共 {} 条 whiteList: {}", whiteList.size(), whiteList);
+    }
 
     log.info("WebHandlerInterceptor 已注册，拦截路径: /**");
   }

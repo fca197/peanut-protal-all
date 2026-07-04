@@ -8,8 +8,7 @@
 //import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 //import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
 //
-////@Configuration
-////@EnableWebSocketMessageBroker
+/// /@Configuration /@EnableWebSocketMessageBroker
 //public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 //
 //  @Override

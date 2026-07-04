@@ -15,7 +15,6 @@ import lombok.experimental.Accessors;
 @Setter
 public class BaseUserInfoInsertReq extends BaseUserInfoDto {
 
-  public void checkParam() {
-  }
+
 }
 

@@ -63,7 +63,7 @@ public class WebLogAspect {
    * @throws Throwable 目标方法可能抛出的异常
    */
   private Object logRequestAndResponse(ProceedingJoinPoint joinPoint) throws Throwable {
-    MDCUtils.initMdc();
+    MDCUtils.initMdc(false);
     // 获取请求信息
     HttpServletRequest request = ReqResUtils.getRequest();
     MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -87,7 +87,6 @@ public class WebLogAspect {
         log.debug("响应日志 - 耗时: {} ms, 结果: {}", (System.currentTimeMillis() - startTime), JSONUtils.toJSONString(result));
       }
     }
-    MDCUtils.clear();
     return result;
   }
 }

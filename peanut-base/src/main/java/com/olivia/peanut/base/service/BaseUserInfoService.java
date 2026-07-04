@@ -21,5 +21,7 @@ public interface BaseUserInfoService extends MPJBaseService<BaseUserInfo> {
   void setName(List<? extends BaseUserInfoDto> baseUserInfoDtoList);
 
   BaseUserInfoDto loginPwd(BaseUserInfoDto req);
+
+  void save(BaseUserInfoInsertReq req);
 }
 

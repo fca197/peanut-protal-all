@@ -11,18 +11,18 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 自定义的 Long 列表反序列化器
- * 用于将 JSON 数组反序列化为 List<Long>，支持大数字转换
+ * 自定义的 Long 列表反序列化器 用于将 JSON 数组反序列化为 List<Long>，支持大数字转换
  */
 @Slf4j
 public class CustomListLongDeserializer extends JsonDeserializer<List<Long>> {
 
   /**
    * 反序列化 JSON 数组为 List<Long>
-   * @param p JSON 解析器
+   *
+   * @param p    JSON 解析器
    * @param ctxt 反序列化上下文
    * @return 反序列化后的 Long 列表
-   * @throws IOException  IO 异常
+   * @throws IOException IO 异常
    */
   @Override
   public List<Long> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {

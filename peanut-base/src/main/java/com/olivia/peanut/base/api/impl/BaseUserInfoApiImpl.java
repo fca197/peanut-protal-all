@@ -31,8 +31,8 @@ public class BaseUserInfoApiImpl implements BaseUserInfoApi {
    *
    */
   public @Override BaseUserInfoInsertRes insert(BaseUserInfoInsertReq req) {
-    BaseUserInfo baseUserInfo = INSTANCE.insertReq(req);
-    this.baseUserInfoService.save(baseUserInfo);
+
+    this.baseUserInfoService.save(req);
     return new BaseUserInfoInsertRes().setCount(1);
   }
 

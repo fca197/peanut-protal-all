@@ -13,7 +13,7 @@
 //import org.springframework.beans.factory.InitializingBean;
 //import org.springframework.stereotype.Component;
 //
-///**
+/// **
 // * 服务通知管理器 负责处理服务生命周期事件（启动、停止）的通知，以及发送自定义消息到钉钉
 // */
 //@Slf4j

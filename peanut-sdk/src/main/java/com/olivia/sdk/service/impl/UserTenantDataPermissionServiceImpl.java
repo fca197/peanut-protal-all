@@ -5,6 +5,7 @@ import static com.olivia.sdk.utils.Str.tenantId;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.olivia.sdk.enums.DataPermissionRetType;
+import com.olivia.sdk.exception.NotenantException;
 import com.olivia.sdk.exception.RunException;
 import com.olivia.sdk.filter.LoginUser;
 import com.olivia.sdk.filter.LoginUserContext;
@@ -61,7 +62,7 @@ public class UserTenantDataPermissionServiceImpl implements DataPermissionServic
     Object tenantIdValue = ReflectUtil.getFieldValue(loginUser, tenantIdField);
     if (Objects.isNull(tenantIdValue)) {
       log.error("登录用户的租户ID为空，用户信息: {}", loginUser);
-      throw new RunException("租户ID获取异常，租户ID为空");
+      throw new NotenantException("租户ID获取异常，租户ID为空");
     }
 
     // 验证租户ID类型

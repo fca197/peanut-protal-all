@@ -1,7 +1,6 @@
 package com.olivia.sdk.exception.entity;
 
 import com.google.common.collect.ImmutableMap;
-import com.olivia.sdk.utils.$;
 import java.util.Map;
 
 /**
@@ -93,8 +92,6 @@ public final class SQLErrorMsg {
    * @return 错误描述信息，如果没有匹配的错误码则返回默认信息
    */
   public static String getErrMsg(Integer errCode) {
-    // 使用Google Guava的Strings工具类处理空值，确保返回非空字符串
-    String msg = SQL_ERROR_MSG_MAP.getOrDefault(errCode, null);
-    return $.firstNotNull(msg, "数据库执行失败,请联系管理员");
+    return SQL_ERROR_MSG_MAP.getOrDefault(errCode, "数据库执行失败,请联系管理员");
   }
 }
