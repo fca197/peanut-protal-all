@@ -33,6 +33,10 @@ public final class IdUtils {
     return IdWorker.getId();
   }
 
+  public static String getIdStr() {
+    return IdWorker.getIdStr();
+  }
+
   /**
    * 生成基于59进制的唯一字符串ID 由分布式ID转换而来，长度更短，适合URL等场景
    *

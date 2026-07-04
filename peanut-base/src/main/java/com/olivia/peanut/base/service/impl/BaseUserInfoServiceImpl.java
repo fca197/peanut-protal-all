@@ -17,9 +17,13 @@ import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
+import java.time.Duration;
 import java.util.List;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,10 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
 
   @Resource
   SetNameService setNameService;
+
+  @Resource
+//  RedisTemplate<String, BaseUserInfoDto> userInfoDtoRedisTemplate;
+  StringRedisTemplate userInfoDtoRedisTemplate;
 
   @PostConstruct
   public void init() {
@@ -79,14 +87,17 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
   @Override
   public BaseUserInfoDto loginPwd(BaseUserInfoDto req) {
     LoginUserContext.ignoreTenantId();
-
     String loginPwd = req.getLoginPwd();
     String md5Pwd = MD5.create().digestHex(loginPwd);
     BaseUserInfo baseUserInfo = this.getOne(new LambdaQueryWrapper<BaseUserInfo>().eq(BaseUserInfo::getLoginName, req.getLoginName())
         .eq(BaseUserInfo::getLoginPwd, md5Pwd));
     $.requireNonNullCanIgnoreException(baseUserInfo, "用户名密码错误");
     baseUserInfo.setLoginPwd(null);
-    return BaseUserInfoConverter.INSTANCE.entity2Dto(baseUserInfo);
+    BaseUserInfoDto baseUserInfoDto = INSTANCE.entity2Dto(baseUserInfo);
+    String uuid = StringUtils.replace(UUID.randomUUID().toString(), "-", "").toUpperCase() + ":" + IdUtils.getIdStr();
+    baseUserInfoDto.setUserToken(uuid);
+    this.userInfoDtoRedisTemplate.opsForValue().set("user:token:" + uuid, JSONUtils.toJSONString(baseUserInfoDto), Duration.ofDays(7));
+    return baseUserInfoDto;
   }
 
   @Override

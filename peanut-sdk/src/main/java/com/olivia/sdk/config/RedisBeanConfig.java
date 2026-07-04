@@ -2,6 +2,7 @@ package com.olivia.sdk.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.olivia.sdk.config.entity.LoggingRedisTemplate;
 import lombok.NonNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +27,7 @@ public class RedisBeanConfig {
   @Bean
   public RedisTemplate<String, Object> redisTemplate(@NonNull RedisConnectionFactory redisConnectionFactory) {
     // 创建 RedisTemplate 实例
-    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    RedisTemplate<String, Object> redisTemplate = new LoggingRedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory);
 
     // 配置 key 序列化器 - 使用 String 序列化
@@ -44,6 +45,7 @@ public class RedisBeanConfig {
 
     return redisTemplate;
   }
+
 
   /**
    * 创建 JSON 序列化器 配置支持 Java 8 日期时间类型（LocalDateTime 等）的序列化和反序列化

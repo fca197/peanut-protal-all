@@ -67,6 +67,7 @@ public class JSONUtils {
 
     // 禁用空对象序列化失败
     mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+
   }
 
   /**
