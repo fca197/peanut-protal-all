@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PortalBootstrapApplication {
 
-  public static void main(String[] args) {
+  static void main(String[] args) {
     try {
       SpringApplication app = new SpringApplication(PortalBootstrapApplication.class);
       app.setApplicationStartup(new BufferingApplicationStartup(2048));

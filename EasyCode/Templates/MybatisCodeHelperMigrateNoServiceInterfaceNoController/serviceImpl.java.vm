@@ -52,7 +52,6 @@ public class $!{ServiceImplName} {
      */
     public $!{entityName} insert($!{entityName} $!tool.firstLowerCase($!{entityName})) {
       this.$!{tool.firstLowerCase($daoName)}.insert($!tool.firstLowerCase($!{entityName}));
-      return $!tool.firstLowerCase($!{entityName});
     }
 
     /**

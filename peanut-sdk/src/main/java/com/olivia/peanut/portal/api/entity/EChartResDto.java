@@ -79,7 +79,7 @@ public class EChartResDto {
     /**
      * 轴类型，默认为 'value'（值轴）
      */
-    private String type = "value";
+    private final String type = "value";
   }
 
   /**

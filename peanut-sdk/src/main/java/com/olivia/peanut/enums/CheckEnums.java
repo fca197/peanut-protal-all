@@ -15,5 +15,5 @@ public enum CheckEnums {
   /**
    * 字符串类型检查
    */
-  Str;
+  Str
 }
