@@ -23,12 +23,12 @@ public class BaseUserInfoDto extends BaseEntityDto {
   /**
    * 登录名
    */
-  @NotBlank(message = "登录名不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotBlank(message = "登录名不能为空", groups = {InsertCheck.class, UpdateCheck.class, LoginCheck.class})
   private String loginName;
   /**
    * 登录密码
    */
-  @NotBlank(message = "登录密码不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotBlank(message = "登录密码不能为空", groups = {InsertCheck.class, UpdateCheck.class, LoginCheck.class})
   private String loginPwd;
   /**
    * 用户名

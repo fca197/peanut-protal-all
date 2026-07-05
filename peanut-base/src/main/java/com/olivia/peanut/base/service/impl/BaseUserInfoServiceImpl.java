@@ -2,7 +2,6 @@ package com.olivia.peanut.base.service.impl;
 
 import static com.olivia.peanut.base.converter.BaseUserInfoConverter.INSTANCE;
 
-import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
@@ -18,10 +17,12 @@ import com.olivia.sdk.utils.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jspecify.annotations.Nullable;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,10 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
 //  RedisTemplate<String, BaseUserInfoDto> userInfoDtoRedisTemplate;
   StringRedisTemplate userInfoDtoRedisTemplate;
 
+  private static @Nullable String pwd2Db(String loginPwd) {
+    return SecureHashV2Util.hashHex(loginPwd);
+  }
+
   @PostConstruct
   public void init() {
     log.info("init");
@@ -61,7 +66,6 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
     ((BaseUserInfoService) AopContext.currentProxy()).setName(dataList);
     return new BaseUserInfoQueryListRes().setDataList(dataList);
   }
-
 
   public @Override DynamicsPage<BaseUserInfoExportQueryPageListInfoRes> queryPageList(BaseUserInfoExportQueryPageListReq req) {
 
@@ -78,7 +82,7 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
       records = BaseUserInfoConverter.INSTANCE.queryPageListRes(this.list(q));
     }
 
-    // 类型转换，  更换枚举 等操作 
+    // 类型转换，  更换枚举 等操作
 
     ((BaseUserInfoService) AopContext.currentProxy()).setName(records);
     return DynamicsPage.init(page, records);
@@ -88,7 +92,7 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
   public BaseUserInfoDto loginPwd(BaseUserInfoDto req) {
     LoginUserContext.ignoreTenantId();
     String loginPwd = req.getLoginPwd();
-    String md5Pwd = MD5.create().digestHex(loginPwd);
+    String md5Pwd = pwd2Db(loginPwd);
     BaseUserInfo baseUserInfo = this.getOne(new LambdaQueryWrapper<BaseUserInfo>().eq(BaseUserInfo::getLoginName, req.getLoginName())
         .eq(BaseUserInfo::getLoginPwd, md5Pwd));
     $.requireNonNullCanIgnoreException(baseUserInfo, "用户名密码错误");
@@ -96,7 +100,7 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
     BaseUserInfoDto baseUserInfoDto = INSTANCE.entity2Dto(baseUserInfo);
     String uuid = StringUtils.replace(UUID.randomUUID().toString(), "-", "").toUpperCase() + ":" + IdUtils.getIdStr();
     baseUserInfoDto.setUserToken(uuid);
-    this.userInfoDtoRedisTemplate.opsForValue().set("user:token:" + uuid, JSONUtils.toJSONString(baseUserInfoDto), Duration.ofDays(7));
+    this.userInfoDtoRedisTemplate.opsForValue().set("user:token:" + uuid, JSONUtils.toJSONString(baseUserInfoDto), Duration.ofDays(3));
     return baseUserInfoDto;
   }
 
@@ -104,7 +108,8 @@ public class BaseUserInfoServiceImpl extends MPJBaseServiceImpl<BaseUserInfoMapp
   public void save(BaseUserInfoInsertReq req) {
     BaseUserInfo baseUserInfo = INSTANCE.insertReq(req);
     baseUserInfo.setId(null);
-    baseUserInfo.setLoginPwd(SecureHashV2Util.hashHex(baseUserInfo.getLoginPwd()));
+    String loginPwd = baseUserInfo.getLoginPwd();
+    baseUserInfo.setLoginPwd(pwd2Db(loginPwd));
     this.save(baseUserInfo);
   }
 
